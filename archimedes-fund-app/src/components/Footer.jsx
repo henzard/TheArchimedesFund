@@ -67,8 +67,16 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} The Archimedes Fund. All rights reserved.</p>
-          <p>Money. Tech. Mastery.</p>
+          <div className="footer-bottom-content">
+            <p>&copy; {new Date().getFullYear()} The Archimedes Fund. All rights reserved.</p>
+            <p className="footer-tagline">Money. Tech. Mastery.</p>
+          </div>
+          <div className="footer-acknowledgment">
+            <p>
+              Built by people who acknowledge their advantages and choose to redistribute opportunity. 
+              Because privilege works better when you share the leverage.
+            </p>
+          </div>
         </div>
       </div>
     </footer>

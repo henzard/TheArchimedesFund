@@ -60,8 +60,33 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-.footer-bottom p {
+.footer-bottom-content {
+  margin-bottom: 1.5rem;
+}
+
+.footer-bottom-content p {
   margin: 0.5rem 0;
+}
+
+.footer-tagline {
+  font-weight: 600;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+}
+
+.footer-acknowledgment {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(201, 169, 97, 0.1);
+}
+
+.footer-acknowledgment p {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {
