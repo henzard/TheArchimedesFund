@@ -1,0 +1,35 @@
+.card {
+  background: var(--text-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card-padding-default {
+  padding: 2rem;
+}
+
+.card-padding-large {
+  padding: 3rem;
+}
+
+.card-padding-small {
+  padding: 1rem;
+}
+
+.card-padding-none {
+  padding: 0;
+}
+
+.card-dark {
+  background: rgba(30, 58, 95, 0.3);
+  border: 2px solid rgba(201, 169, 97, 0.2);
+  color: var(--text-light);
+}
+
+.card-featured {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #2d5a8f 100%);
+  border: 2px solid var(--secondary-color);
+  color: var(--text-light);
+}
+
