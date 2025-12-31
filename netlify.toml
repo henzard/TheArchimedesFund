@@ -1,6 +1,6 @@
 [build]
   base = "archimedes-fund-app"
-  command = "npm run build"
+  command = "cd .. && npm install && cd archimedes-fund-app && npm run build"
   publish = "dist"
 
 [functions]
