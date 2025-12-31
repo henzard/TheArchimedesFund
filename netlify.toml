@@ -1,19 +1,14 @@
-{
-  "functions": {
-    "directory": "netlify/functions",
-    "node_bundler": "esbuild"
-  },
-  "build": {
-    "base": "archimedes-fund-app",
-    "command": "npm run build",
-    "publish": "dist"
-  },
-  "redirects": [
-    {
-      "from": "/*",
-      "to": "/index.html",
-      "status": 200
-    }
-  ]
-}
+[build]
+  base = "archimedes-fund-app"
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
