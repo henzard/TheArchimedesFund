@@ -154,6 +154,7 @@ const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
+              style={{ maxWidth: '100%' }}
             >
               <p className="quote-text">
                 "Give me a place to stand, and I shall move the world."
@@ -174,21 +175,6 @@ const About = () => {
                 code contributions (Pull Shark), and taking risks (YOLO). The Archimedes Fund is my platform 
                 for combining professional development work with my passion for teaching.
               </p>
-            </motion.div>
-
-            <motion.div
-              className="story-images"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="story-image">
-                <img src={studentImage} alt="Student Success" />
-              </div>
-              <div className="story-image">
-                <img src={investorImage} alt="Building the Future" />
-              </div>
             </motion.div>
           </div>
         </div>
