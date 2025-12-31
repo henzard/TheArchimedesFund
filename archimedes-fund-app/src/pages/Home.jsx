@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import fulcrumImage from '../assets/images/Gemini_Generated_Image_ibwplbibwplbibwp.png';
+import logo from '../assets/images/Gemini_Generated_Image_viq1aaviq1aaviq1.png';
 import './Home.css';
 
 const Home = () => {
@@ -152,7 +153,15 @@ const Home = () => {
           >
             <h2 className="section-title">The Three Pillars</h2>
             <p className="section-subtitle">Code, Books, and Teaching</p>
-            <div className="section-divider"></div>
+            <motion.div 
+              className="logo-divider"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <img src={logo} alt="The Archimedes Fund" />
+            </motion.div>
           </motion.div>
 
           <div className="pillars-grid">

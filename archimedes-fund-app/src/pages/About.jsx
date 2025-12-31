@@ -3,6 +3,7 @@ import { Users, Target, Code, BookOpen } from 'lucide-react';
 import Card from '../components/Card';
 import profileImage from '../assets/images/Gemini_Generated_Image_q6d921q6d921q6d9.png';
 import eurekaImage from '../assets/images/Gemini_Generated_Image_7f001a7f001a7f00.png';
+import logo from '../assets/images/Gemini_Generated_Image_viq1aaviq1aaviq1.png';
 import './About.css';
 
 const About = () => {
@@ -64,10 +65,19 @@ const About = () => {
             className="about-hero-content"
           >
             <motion.div
+              className="logo-badge"
+              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+              <img src={logo} alt="The Archimedes Fund Logo" className="hero-logo" />
+            </motion.div>
+            
+            <motion.div
               className="profile-image-container"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
               <img src={profileImage} alt="Henzard Kruger" className="profile-image" />
             </motion.div>

@@ -16,6 +16,24 @@
   margin: 0 auto;
 }
 
+/* Logo Badge */
+.logo-badge {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.hero-logo {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(201, 169, 97, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.hero-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
 /* Profile Image */
 .profile-image-container {
   display: flex;

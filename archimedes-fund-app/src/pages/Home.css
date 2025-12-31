@@ -175,6 +175,24 @@
   margin: 1.5rem auto;
 }
 
+/* Logo Divider */
+.logo-divider {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.logo-divider img {
+  width: 100px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(201, 169, 97, 0.3));
+  transition: transform 0.4s ease;
+}
+
+.logo-divider img:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
 .mission-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
