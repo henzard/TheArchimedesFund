@@ -3,6 +3,7 @@ import { ArrowRight, Target, TrendingUp, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Card from '../components/Card';
+import fulcrumImage from '../assets/images/Gemini_Generated_Image_ibwplbibwplbibwp.png';
 import './Home.css';
 
 const Home = () => {
@@ -43,6 +44,14 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-overlay"></div>
+        <motion.div 
+          className="hero-visual"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+        >
+          <img src={fulcrumImage} alt="The Modern Fulcrum - Leverage for Innovation" className="hero-bg-image" />
+        </motion.div>
         <div className="container">
           <motion.div
             className="hero-content"

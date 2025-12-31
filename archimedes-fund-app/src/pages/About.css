@@ -139,6 +139,31 @@
   background: var(--text-light);
 }
 
+.story-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.eureka-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.eureka-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.eureka-image:hover {
+  transform: scale(1.05);
+}
+
 /* Leadership Section */
 .leadership {
   background: var(--light-bg);

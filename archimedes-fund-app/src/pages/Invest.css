@@ -5,8 +5,38 @@
 
 /* Hero */
 .invest-hero {
-  background: var(--light-bg);
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
   padding: 6rem 0;
+  overflow: hidden;
+}
+
+.vision-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.vision-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.9) 100%);
+  z-index: 1;
 }
 
 .hero-content-grid {

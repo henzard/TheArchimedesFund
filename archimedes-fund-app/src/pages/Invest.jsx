@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Users, Target, DollarSign, Briefcase, Heart, Mail } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import visionImage from '../assets/images/Gemini_Generated_Image_xspd33xspd33xspd.png';
 import './Invest.css';
 
 const Invest = () => {
@@ -94,13 +95,22 @@ const Invest = () => {
     <div className="invest-page">
       {/* Hero */}
       <section className="invest-hero">
+        <motion.div 
+          className="vision-background"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <img src={visionImage} alt="The Future of Innovation" className="vision-bg-image" />
+        </motion.div>
+        <div className="hero-overlay"></div>
         <div className="container">
           <motion.div
             className="hero-text"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 2 }}
           >
             <h1>Support My Work</h1>
             <p className="hero-lead">

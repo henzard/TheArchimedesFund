@@ -3,6 +3,7 @@ import { Code, DollarSign, Brain, Calendar, CheckCircle, Users, BookOpen, Trophy
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import Button from '../components/Button';
+import processImage from '../assets/images/Gemini_Generated_Image_lpxj0elpxj0elpxj.png';
 import './Program.css';
 
 const Program = () => {
@@ -166,6 +167,16 @@ const Program = () => {
               My apprenticeship program is built on three core areas—each designed to make 
               you a more capable, thoughtful developer.
             </p>
+          </motion.div>
+          
+          <motion.div
+            className="process-visual"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <img src={processImage} alt="The Development Process - Spark, Build, Scale" className="process-image" />
           </motion.div>
         </div>
       </section>

@@ -47,6 +47,26 @@
 .program-overview {
   background: var(--light-bg);
   padding: 4rem 0 2rem;
+  text-align: center;
+}
+
+.process-visual {
+  margin-top: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.process-image {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.process-image:hover {
+  transform: translateY(-8px);
 }
 
 .section-description {

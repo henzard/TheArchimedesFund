@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Users, Target, Code, BookOpen } from 'lucide-react';
 import Card from '../components/Card';
 import profileImage from '../assets/images/Gemini_Generated_Image_q6d921q6d921q6d9.png';
+import eurekaImage from '../assets/images/Gemini_Generated_Image_7f001a7f001a7f00.png';
 import './About.css';
 
 const About = () => {
@@ -159,6 +160,16 @@ const About = () => {
           </motion.div>
 
           <div className="story-content">
+            <motion.div
+              className="eureka-visual"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <img src={eurekaImage} alt="Eureka Moment - Archimedes" className="eureka-image" />
+            </motion.div>
+            
             <motion.div
               className="story-text"
               initial={{ opacity: 0, y: 30 }}
