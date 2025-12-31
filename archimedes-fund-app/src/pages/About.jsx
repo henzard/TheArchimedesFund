@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Users, Target, Code, BookOpen } from 'lucide-react';
 import Card from '../components/Card';
+import profileImage from '../assets/images/Gemini_Generated_Image_q6d921q6d921q6d9.png';
 import './About.css';
 
 const About = () => {
@@ -59,7 +60,17 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="about-hero-content"
           >
+            <motion.div
+              className="profile-image-container"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <img src={profileImage} alt="Henzard Kruger" className="profile-image" />
+            </motion.div>
+            
             <h1>About Henzard Kruger</h1>
             <p className="about-lead">
               Full-stack developer from Bloemfontein, South Africa. Building software with C#/.NET, 
