@@ -61,9 +61,9 @@ CREATE INDEX idx_application_status ON application_submissions(status);
 CREATE INDEX idx_application_created ON application_submissions(created_at DESC);
 
 -- Insert your admin user (password will be hashed in the application)
--- Password: Alicia07
+-- Password: password
 -- This is a placeholder - we'll handle hashing in the backend
 INSERT INTO users (email, password_hash) 
-VALUES ('henzardkruger@gmail.com', '$2b$10$placeholder')
+VALUES ('myemail@hotmail.co.le', '$2b$10$placeholder')
 ON CONFLICT (email) DO NOTHING;
 

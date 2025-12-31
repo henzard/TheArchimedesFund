@@ -56,8 +56,8 @@ NETLIFY_DATABASE_URL_UNPOOLED=your_neon_unpooled_connection_string_here
 JWT_SECRET=your_random_jwt_secret_here
 
 # Your admin credentials
-ADMIN_EMAIL=henzardkruger@gmail.com
-ADMIN_PASSWORD=Alicia07
+ADMIN_EMAIL=myemail@hotmail.co.le
+ADMIN_PASSWORD=password
 ```
 
 ### B. For Netlify Deployment
@@ -72,8 +72,8 @@ When you deploy to Netlify, add these environment variables:
 NETLIFY_DATABASE_URL = (from Neon dashboard)
 NETLIFY_DATABASE_URL_UNPOOLED = (from Neon dashboard - unpooled connection)
 JWT_SECRET = (generate a random secure string)
-ADMIN_EMAIL = henzardkruger@gmail.com
-ADMIN_PASSWORD = Alicia07
+ADMIN_EMAIL = myemail@hotmail.co.le
+ADMIN_PASSWORD = password
 ```
 
 **To get your Neon connection strings:**
@@ -137,8 +137,8 @@ git push
 
 1. **Visit**: `https://your-site.netlify.app/admin/login`
 2. **Login with**:
-   - Email: `henzardkruger@gmail.com`
-   - Password: `Alicia07`
+   - Email: `myemail@hotmail.co.le`
+   - Password: `password`
 3. **Access Dashboard**: You'll be redirected to `/admin/dashboard`
 
 ### What You Can Do:

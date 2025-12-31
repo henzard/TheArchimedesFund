@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'henzardkruger@gmail.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Alicia07';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'myemail@hotmail.co.le';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'password';
 
 export const generateToken = (email) => {
   return jwt.sign({ email }, JWT_SECRET, { expiresIn: '7d' });
