@@ -9,58 +9,58 @@ const Program = () => {
   const pillars = [
     {
       icon: <Code size={50} />,
-      title: 'The Lever: Technology',
-      description: 'The tool that multiplies force.',
+      title: 'Technical Skills',
+      description: 'Master modern development practices through real projects.',
       modules: [
         {
-          name: 'Programming Fundamentals',
-          topics: ['Python Basics', 'JavaScript & Web Dev', 'Data Structures & Algorithms'],
+          name: 'Full-Stack Development',
+          topics: ['React & Modern JavaScript', 'Node.js & APIs', 'Database Design'],
         },
         {
-          name: 'Advanced Development',
-          topics: ['Full-Stack Development', 'API Design & Integration', 'Database Management'],
+          name: 'Best Practices',
+          topics: ['Clean Code Principles', 'Testing & Debugging', 'Git & Version Control'],
         },
         {
-          name: 'Emerging Technologies',
-          topics: ['AI & Machine Learning Basics', 'Cloud Computing (AWS/Azure)', 'Cybersecurity Essentials'],
+          name: 'Advanced Topics',
+          topics: ['Cloud Deployment', 'API Integration', 'Performance Optimization'],
         },
       ],
     },
     {
-      icon: <DollarSign size={50} />,
-      title: 'The Fulcrum: Capital',
-      description: 'The stability that allows the lever to work.',
+      icon: <BookOpen size={50} />,
+      title: 'Problem Solving',
+      description: 'Learn to think critically about code and its impact.',
       modules: [
         {
-          name: 'Personal Finance',
-          topics: ['Budgeting & Cash Flow', 'Credit & Debt Management', 'Emergency Funds & Savings'],
+          name: 'Software Architecture',
+          topics: ['System Design', 'Design Patterns', 'Scalability Considerations'],
         },
         {
-          name: 'Investment Strategies',
-          topics: ['Stock Market Fundamentals', 'Real Estate Investing', 'Retirement Accounts (401k/IRA)'],
+          name: 'Code Quality',
+          topics: ['Readability & Maintainability', 'Documentation', 'Code Reviews'],
         },
         {
-          name: 'Wealth Building',
-          topics: ['Entrepreneurship Basics', 'Tax Optimization', 'Asset Allocation'],
+          name: 'Critical Thinking',
+          topics: ['Requirements Analysis', 'Technical Decision Making', 'Trade-off Evaluation'],
         },
       ],
     },
     {
       icon: <Brain size={50} />,
-      title: 'The Force: Discipline',
-      description: 'The energy applied to move the weight.',
+      title: 'Professional Growth',
+      description: 'Develop the mindset and habits of a successful developer.',
       modules: [
         {
-          name: 'Mindset & Philosophy',
-          topics: ['Stoic Principles', 'Growth Mindset', 'Responsibility & Ownership'],
+          name: 'Career Development',
+          topics: ['Portfolio Building', 'Technical Interviews', 'Networking'],
         },
         {
-          name: 'Goal Setting & Execution',
-          topics: ['SMART Goals', 'Time Management', 'Habit Formation'],
+          name: 'Continuous Learning',
+          topics: ['Learning Strategies', 'Staying Current', 'Finding Resources'],
         },
         {
-          name: 'Leadership Development',
-          topics: ['Communication Skills', 'Team Collaboration', 'Decision Making'],
+          name: 'Communication',
+          topics: ['Technical Writing', 'Explaining Concepts', 'Collaboration Skills'],
         },
       ],
     },
@@ -68,61 +68,61 @@ const Program = () => {
 
   const timeline = [
     {
-      week: 'Weeks 1-4',
+      week: 'Month 1',
       phase: 'Foundation',
-      focus: 'Building Your Base',
-      description: 'Master the fundamentals of personal finance and programming. Learn budgeting, credit management, Python basics, and web development fundamentals.',
-      deliverables: ['Personal budget created', 'First Python program', 'Financial health assessment', 'Goal-setting framework'],
+      focus: 'Getting Started',
+      description: 'We start with the basics—understanding your current skill level, setting clear goals, and beginning work on your first real project together.',
+      deliverables: ['Skills assessment', 'Learning roadmap', 'First project milestone', 'Code review sessions'],
     },
     {
-      week: 'Weeks 5-8',
-      phase: 'Acceleration',
-      focus: 'Deep Dive',
-      description: 'Advanced development skills and investment strategies. Build full applications, understand stock markets, and develop your investment thesis.',
-      deliverables: ['Full-stack web app', 'Investment portfolio plan', 'Technical blog posts', 'Mock interviews'],
+      week: 'Months 2-3',
+      phase: 'Development',
+      focus: 'Building Skills',
+      description: 'Dive deeper into full-stack development, best practices, and problem-solving. Work on increasingly complex features and learn through doing.',
+      deliverables: ['Multiple projects completed', 'Portfolio development', 'Regular code reviews', 'Technical writing practice'],
     },
     {
-      week: 'Weeks 9-12',
+      week: 'Months 4+',
       phase: 'Mastery',
-      focus: 'Launch & Execute',
-      description: 'Complete capstone projects, optimize your finances, and secure job placement. Demonstrate mastery across all three pillars.',
-      deliverables: ['Capstone project', 'Job offers secured', 'Wealth-building plan', 'Alumni network integration'],
+      focus: 'Independence',
+      description: 'Take on larger projects with less guidance. Focus on advanced topics, career development, and preparing for professional opportunities.',
+      deliverables: ['Capstone project', 'Polished portfolio', 'Interview preparation', 'Continued mentorship'],
     },
   ];
 
   const benefits = [
-    { icon: <CheckCircle />, text: 'Full scholarship opportunities available' },
-    { icon: <Users />, text: 'Mentorship from industry leaders' },
-    { icon: <Trophy />, text: 'Guaranteed job placement support' },
-    { icon: <BookOpen />, text: 'Lifetime access to course materials' },
-    { icon: <Users />, text: 'Exclusive alumni network' },
-    { icon: <Calendar />, text: 'Flexible schedule options' },
+    { icon: <CheckCircle />, text: 'Flexible scheduling to fit your life' },
+    { icon: <Users />, text: '1-on-1 personalized mentorship' },
+    { icon: <Trophy />, text: 'Work on real, portfolio-worthy projects' },
+    { icon: <BookOpen />, text: 'Access to curated learning resources' },
+    { icon: <Users />, text: 'Code reviews and feedback' },
+    { icon: <Calendar />, text: 'Ongoing support even after completion' },
   ];
 
   const faqs = [
     {
       question: 'Do I need prior programming experience?',
-      answer: 'No! We welcome students of all levels. Our curriculum is designed to take you from beginner to job-ready in 12 weeks, regardless of your starting point.',
+      answer: 'Some basic programming knowledge is helpful, but not strictly required. The apprenticeship is tailored to your current skill level. Whether you\'re a beginner looking to solidify fundamentals or an intermediate developer wanting to level up, we can work together.',
     },
     {
-      question: 'How much does the program cost?',
-      answer: 'We offer multiple payment options including scholarships, income share agreements (ISA), and upfront payment. Scholarships are awarded based on merit and need. Contact us to discuss your options.',
+      question: 'How much does it cost?',
+      answer: 'Pricing varies based on the length and intensity of the apprenticeship. I offer flexible options including hourly rates, monthly packages, and project-based arrangements. Contact me to discuss what works for your situation and budget.',
     },
     {
-      question: 'What kind of jobs can I get after graduation?',
-      answer: 'Our graduates secure roles as software developers, data analysts, financial analysts, and entrepreneurs. The average starting salary is $65,000+, with many earning significantly more.',
+      question: 'What will I build during the apprenticeship?',
+      answer: 'You\'ll work on real projects—either your own ideas, contributions to open source, or practical applications I provide. Projects range from full-stack web apps to automation tools, always focused on building your portfolio and practical skills.',
     },
     {
-      question: 'Is this program online or in-person?',
-      answer: 'We offer both hybrid and fully online options. Our in-person cohorts are held at our main campus, while online students receive the same curriculum and support remotely.',
+      question: 'Is this remote or in-person?',
+      answer: 'Apprenticeships are primarily remote, conducted via video calls, screen sharing, and collaborative coding sessions. This allows flexibility and makes the program accessible regardless of location.',
     },
     {
       question: 'What is the time commitment?',
-      answer: 'The program is intensive, requiring 40-60 hours per week. This includes live lectures, project work, mentorship sessions, and self-study. You should be prepared to commit fully for 12 weeks.',
+      answer: 'It\'s flexible! Some apprentices work with me for a few hours per week, others dedicate more time. We\'ll establish a schedule that works for both of us, typically starting with 4-8 hours per week for regular mentorship sessions and project work.',
     },
     {
-      question: 'What happens after I graduate?',
-      answer: 'You gain lifetime access to our alumni network, continued career support, advanced learning resources, and opportunities to give back as a mentor to future cohorts.',
+      question: 'What happens after the apprenticeship ends?',
+      answer: 'You\'ll have a solid portfolio, improved skills, and a clearer career direction. I also provide ongoing support—you can reach out with questions, get feedback on future projects, or just stay connected as you grow in your career.',
     },
   ];
 
@@ -136,15 +136,15 @@ const Program = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1>The 12-Week Program</h1>
+            <h1>Apprenticeships</h1>
             <p className="program-lead">
-              An intensive bootcamp designed to transform you into a financially literate, 
-              technically skilled builder ready to make an impact.
+              Hands-on mentorship for developers who want to level up their skills through 
+              real projects, code reviews, and practical guidance.
             </p>
             <div className="program-stats">
-              <div className="stat"><strong>12</strong> Weeks</div>
-              <div className="stat"><strong>3</strong> Pillars</div>
-              <div className="stat"><strong>100%</strong> Placement</div>
+              <div className="stat"><strong>1-on-1</strong> Mentorship</div>
+              <div className="stat"><strong>Real</strong> Projects</div>
+              <div className="stat"><strong>Flexible</strong> Schedule</div>
             </div>
           </motion.div>
         </div>
@@ -160,11 +160,11 @@ const Program = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Program Overview</h2>
+            <h2 className="section-title">How It Works</h2>
             <div className="section-divider"></div>
             <p className="section-description">
-              Our curriculum is built on three pillars that work together to create 
-              leverage—the ability to multiply your impact and move the world.
+              My apprenticeship program is built on three core areas—each designed to make 
+              you a more capable, thoughtful developer.
             </p>
           </motion.div>
         </div>
@@ -326,8 +326,8 @@ const Program = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2>Ready to Transform Your Life?</h2>
-            <p>Join the next cohort and start building your future today.</p>
+            <h2>Ready to Start Learning?</h2>
+            <p>Apply for an apprenticeship and let's build something great together.</p>
             <Link to="/apply">
               <Button variant="primary" size="large">
                 Apply Now

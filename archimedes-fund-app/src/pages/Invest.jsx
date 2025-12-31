@@ -9,85 +9,85 @@ const Invest = () => {
   const whyInvest = [
     {
       icon: <Target size={40} />,
-      title: 'Mission-Driven Impact',
-      description: 'Invest in a fund that transforms lives by providing economic opportunity and technical skills to the next generation.',
+      title: 'Open Source Projects',
+      description: 'Support the development of tools and libraries that help developers build better software, freely available to everyone.',
     },
     {
       icon: <TrendingUp size={40} />,
-      title: 'Proven Model',
-      description: '100% job placement rate, average starting salary of $65,000+, and strong return on investment for our students and backers.',
+      title: 'Knowledge Sharing',
+      description: 'Help create educational content, tutorials, and documentation that make programming more accessible to learners.',
     },
     {
       icon: <Users size={40} />,
-      title: 'Building the Future',
-      description: 'Help create a network of financially literate, technically skilled men who will build companies, solve problems, and advance civilization.',
+      title: 'Apprenticeships',
+      description: 'Enable me to offer more affordable (or free) apprenticeships to talented developers who might not otherwise have access to mentorship.',
     },
   ];
 
   const investmentTiers = [
     {
       name: 'Supporter',
-      amount: '$5,000 - $24,999',
+      amount: '$50 - $249/month',
       benefits: [
-        'Recognition on our website',
-        'Quarterly impact reports',
-        'Invitation to annual showcase',
-        'Access to alumni network events',
+        'Recognition on the website',
+        'Early access to new projects',
+        'Monthly progress updates',
+        'Direct email support',
       ],
     },
     {
-      name: 'Partner',
-      amount: '$25,000 - $99,999',
+      name: 'Contributor',
+      amount: '$250 - $999/month',
       benefits: [
         'All Supporter benefits',
-        'Named scholarship opportunity',
-        'Quarterly meetings with leadership',
-        'Early access to hiring pipeline',
-        'Advisory board consideration',
+        'Influence on project priorities',
+        'Access to premium content',
+        'Quarterly video calls',
+        'Priority apprenticeship consideration',
       ],
       featured: true,
     },
     {
-      name: 'Founder',
-      amount: '$100,000+',
+      name: 'Partner',
+      amount: '$1,000+/month',
       benefits: [
-        'All Partner benefits',
-        'Seat on advisory board',
-        'Named cohort sponsorship',
-        'Strategic partnership opportunities',
-        'Direct mentorship involvement',
-        'Co-branding opportunities',
+        'All Contributor benefits',
+        'Collaboration on specific projects',
+        'Consulting hours included',
+        'Co-creation opportunities',
+        'Direct ongoing mentorship',
+        'Strategic partnership discussions',
       ],
     },
   ];
 
   const impact = [
-    { number: '100+', label: 'Lives Transformed' },
-    { number: '$6.5M+', label: 'Annual Earning Power Created' },
-    { number: '95%', label: 'Student Satisfaction' },
-    { number: '50+', label: 'Hiring Partners' },
+    { number: '50+', label: 'Projects Built' },
+    { number: '1000+', label: 'Books Read' },
+    { number: '10+', label: 'Apprentices Mentored' },
+    { number: '∞', label: 'Ideas Explored' },
   ];
 
   const useOfFunds = [
     {
-      category: 'Scholarships & Financial Aid',
-      percentage: 50,
-      description: 'Direct student support including tuition, materials, and living stipends.',
+      category: 'Open Source Development',
+      percentage: 40,
+      description: 'Building and maintaining open-source projects, tools, and libraries.',
     },
     {
-      category: 'Curriculum & Instruction',
-      percentage: 25,
-      description: 'Expert instructors, course development, and learning resources.',
+      category: 'Apprenticeship Program',
+      percentage: 30,
+      description: 'Subsidizing apprenticeships, creating learning materials, and mentorship time.',
     },
     {
-      category: 'Career Services & Placement',
-      percentage: 15,
-      description: 'Job placement support, employer partnerships, and career coaching.',
+      category: 'Learning & Research',
+      percentage: 20,
+      description: 'Books, courses, conferences, and exploring new technologies.',
     },
     {
-      category: 'Operations & Growth',
+      category: 'Infrastructure & Operations',
       percentage: 10,
-      description: 'Administrative costs, marketing, and program expansion.',
+      description: 'Hosting, tools, software licenses, and platform maintenance.',
     },
   ];
 
@@ -103,14 +103,15 @@ const Invest = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1>Invest in the Builders</h1>
+              <h1>Support My Work</h1>
               <p className="hero-lead">
-                Partner with us to empower the next generation of financially literate, 
-                technically skilled men who will build the future.
+                Help fund my ongoing projects, learning, and apprenticeship program through 
+                direct support or collaboration opportunities.
               </p>
               <p>
-                Your investment creates opportunities for men to develop the skills, capital 
-                knowledge, and discipline needed to transform their lives and contribute to society.
+                Your support allows me to dedicate more time to building open-source projects, 
+                creating educational content, offering affordable apprenticeships, and exploring 
+                new technologies that benefit the broader developer community.
               </p>
               <div className="hero-cta">
                 <a href="#contact">
@@ -143,7 +144,7 @@ const Invest = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Why Invest in The Archimedes Fund?</h2>
+            <h2 className="section-title">Why Support This Work?</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -177,7 +178,7 @@ const Invest = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Our Impact</h2>
+            <h2 className="section-title">What I'm Working On</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -209,10 +210,11 @@ const Invest = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Investment Opportunities</h2>
+            <h2 className="section-title">Support Options</h2>
             <div className="section-divider"></div>
             <p className="section-description">
-              Choose the level of investment that aligns with your goals and capacity to make an impact.
+              Choose a support level that works for you—every contribution helps me dedicate 
+              more time to building, learning, and teaching.
             </p>
           </motion.div>
 
@@ -254,7 +256,7 @@ const Invest = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">How Your Investment is Used</h2>
+            <h2 className="section-title">How Support is Used</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -299,22 +301,22 @@ const Invest = () => {
             viewport={{ once: true }}
           >
             <Briefcase size={60} />
-            <h2>Ready to Make an Impact?</h2>
+            <h2>Want to Support or Collaborate?</h2>
             <p>
-              Let's discuss how your investment can transform lives and build the future. 
-              Contact us today to learn more about partnership opportunities.
+              Whether you'd like to become a regular supporter, sponsor a specific project, 
+              or explore collaboration opportunities, I'd love to hear from you.
             </p>
             <div className="contact-info">
               <div className="contact-item">
                 <Mail size={24} />
                 <div>
                   <strong>Email</strong>
-                  <a href="mailto:invest@archimedesfund.org">invest@archimedesfund.org</a>
+                  <a href="mailto:henzardkruger@gmail.com">henzardkruger@gmail.com</a>
                 </div>
               </div>
             </div>
             <Button variant="primary" size="large">
-              Schedule a Meeting
+              Schedule a Call
             </Button>
           </motion.div>
         </div>

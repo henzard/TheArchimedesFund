@@ -8,34 +8,34 @@ import './Home.css';
 
 const Home = () => {
   const stats = [
-    { number: '12', label: 'Week Intensive Program' },
-    { number: '100%', label: 'Placement Rate' },
-    { number: '3', label: 'Core Pillars' },
-    { number: '∞', label: 'Potential Unlocked' },
+    { number: '1000+', label: 'Books Read' },
+    { number: '50+', label: 'Projects Built' },
+    { number: '3', label: 'Core Passions' },
+    { number: '∞', label: 'Ideas Explored' },
   ];
 
   const pillars = [
     {
       icon: <Zap size={40} />,
       title: 'The Lever',
-      subtitle: 'Technology',
-      description: 'Hard technical skills that multiply your force in the digital economy.',
-      points: ['Python, JavaScript, Rust', 'Data Science & AI', 'Cybersecurity'],
+      subtitle: 'Code',
+      description: 'Building software that solves real problems and creates value.',
+      points: ['Python & JavaScript', 'Full-Stack Development', 'AI & Automation'],
     },
     {
       icon: <Target size={40} />,
       title: 'The Fulcrum',
-      subtitle: 'Capital',
-      description: 'Deep financial literacy providing the foundation for growth.',
-      points: ['Personal Finance', 'Investment Strategies', 'Wealth Building'],
+      subtitle: 'Books',
+      description: 'Continuous learning through reading across multiple disciplines.',
+      points: ['Philosophy & Stoicism', 'Technology & Science', 'Biography & History'],
       featured: true,
     },
     {
       icon: <TrendingUp size={40} />,
       title: 'The Force',
-      subtitle: 'Discipline',
-      description: 'The mindset and drive to apply your skills effectively.',
-      points: ['Stoic Philosophy', 'Goal Execution', 'Leadership'],
+      subtitle: 'Teaching',
+      description: 'Sharing knowledge and helping others grow through apprenticeships.',
+      points: ['Mentorship', 'Skill Development', 'Career Growth'],
     },
   ];
 
@@ -56,8 +56,8 @@ const Home = () => {
               Give me a place to stand, and I shall move the world.
             </p>
             <p className="hero-description">
-              Engineering a generation of men who possess the economic sovereignty
-              and technical command necessary to build, sustain, and advance the modern world.
+              Welcome to the personal platform of Henzard Kruger—software developer, voracious reader,
+              and passionate mentor. Exploring ideas through code, books, and teaching.
             </p>
             <div className="hero-cta">
               <Link to="/apply">
@@ -119,12 +119,12 @@ const Home = () => {
               viewport={{ once: true }}
             >
               <p className="lead-text">
-                To provide the "place to stand" for men seeking to maximize their potential.
+                Building software, sharing knowledge, and creating opportunities through code and mentorship.
               </p>
               <p>
-                We achieve this by deploying high-impact capital into educational pathways
-                focused on financial mastery and advanced technology—turning raw human
-                capability into compounded value.
+                The Archimedes Fund is my platform for combining technology, learning, and teaching—
+                where coding projects meet philosophical exploration and apprenticeships offer hands-on
+                skill development. Let's build something meaningful together.
               </p>
             </motion.div>
 
@@ -152,7 +152,7 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <h2 className="section-title">The Three Pillars</h2>
-            <p className="section-subtitle">The Physics of The Fund</p>
+            <p className="section-subtitle">Code, Books, and Teaching</p>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -195,20 +195,20 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2>Ready to Begin?</h2>
-            <p>Apply now to join the next cohort and unlock your full potential.</p>
+            <h2>Interested in Learning?</h2>
+            <p>Apply for an apprenticeship or reach out to support my work.</p>
             <div className="cta-features">
               <div className="cta-feature">
-                <span>💼</span>
-                <p>Money</p>
+                <span>📚</span>
+                <p>Books</p>
               </div>
               <div className="cta-feature">
                 <span>💻</span>
-                <p>Tech</p>
+                <p>Code</p>
               </div>
               <div className="cta-feature">
                 <span>🎯</span>
-                <p>Mastery</p>
+                <p>Teaching</p>
               </div>
             </div>
             <Link to="/apply">

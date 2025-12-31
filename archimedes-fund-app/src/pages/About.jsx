@@ -1,57 +1,54 @@
 import { motion } from 'framer-motion';
-import { Award, Users, Target, TrendingUp } from 'lucide-react';
+import { Award, Users, Target, TrendingUp, Code, BookOpen } from 'lucide-react';
 import Card from '../components/Card';
 import investorImage from '../assets/images/Gemini_Generated_Image_vp4rzcvp4rzcvp4r.png';
 import studentImage from '../assets/images/Gemini_Generated_Image_1i8pxi1i8pxi1i8p.png';
-import johnMiller from '../assets/images/Gemini_Generated_Image_7sscru7sscru7ssc.png';
-import jimHenderson from '../assets/images/Gemini_Generated_Image_dqd7kidqd7kidqd7.png';
-import barryJenkins from '../assets/images/Gemini_Generated_Image_g50qpg50qpg50qpg.png';
 import './About.css';
 
 const About = () => {
   const values = [
     {
-      icon: <Award size={40} />,
-      title: 'Excellence',
-      description: 'We pursue the highest standards in education, mentorship, and outcomes.',
+      icon: <Code size={40} />,
+      title: 'Craftsmanship',
+      description: 'Writing clean, maintainable code that solves real problems elegantly.',
     },
     {
-      icon: <Users size={40} />,
-      title: 'Community',
-      description: 'Building a network of capable men who support and elevate each other.',
+      icon: <BookOpen size={40} />,
+      title: 'Continuous Learning',
+      description: 'Always reading, always learning, always expanding my understanding.',
     },
     {
       icon: <Target size={40} />,
       title: 'Purpose',
-      description: 'Focused on developing economic sovereignty and technical mastery.',
+      description: 'Building software that makes a meaningful difference in people\'s lives.',
     },
     {
-      icon: <TrendingUp size={40} />,
-      title: 'Growth',
-      description: 'Continuous improvement through discipline, learning, and execution.',
+      icon: <Users size={40} />,
+      title: 'Mentorship',
+      description: 'Sharing knowledge and helping others grow in their development journey.',
     },
   ];
 
   const timeline = [
     {
+      year: '2015',
+      title: 'Beginning the Journey',
+      description: 'Started my software development career, discovering a passion for building things that solve real problems. Began my reading habit in earnest.',
+    },
+    {
+      year: '2018',
+      title: 'Full-Stack Developer',
+      description: 'Expanded into full-stack development, working with modern frameworks and cloud platforms. Crossed the 500-book milestone in my reading journey.',
+    },
+    {
+      year: '2021',
+      title: 'First Apprentice',
+      description: 'Started mentoring my first apprentice, discovering that teaching is one of the best ways to solidify and expand your own knowledge.',
+    },
+    {
       year: '2024',
-      title: 'Foundation',
-      description: 'The Archimedes Fund was established with a clear mission: to provide educational pathways for men seeking financial mastery and technical excellence.',
-    },
-    {
-      year: '2025',
-      title: 'First Cohort',
-      description: 'Launched our inaugural 12-week intensive program with a pilot group of 20 students. Achieved 100% placement rate.',
-    },
-    {
-      year: '2026',
-      title: 'Expansion',
-      description: 'Scaling to multiple cohorts per year, expanding curriculum, and building strategic partnerships with leading tech companies.',
-    },
-    {
-      year: 'Future',
-      title: 'Impact at Scale',
-      description: 'Creating a global network of financially literate, technically skilled men who build the future.',
+      title: 'The Archimedes Fund',
+      description: 'Launched this platform to formalize my approach to code, books, and teaching—creating a space for projects, learning, and apprenticeships.',
     },
   ];
 
@@ -65,10 +62,10 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1>About The Archimedes Fund</h1>
+            <h1>About Henzard Kruger</h1>
             <p className="about-lead">
-              Engineering a generation of men who possess the economic sovereignty and 
-              technical command necessary to build, sustain, and advance the modern world.
+              Software developer, lifelong learner, and mentor passionate about building things 
+              that matter—whether that's code, skills, or meaningful connections.
             </p>
           </motion.div>
         </div>
@@ -85,14 +82,14 @@ const About = () => {
               viewport={{ once: true }}
             >
               <Card padding="large" className="mission-card">
-                <h2>Our Mission</h2>
+                <h2>My Mission</h2>
                 <p className="large-text">
-                  To provide the "place to stand" for men seeking to maximize their potential.
+                  To continuously learn, build meaningful software, and share knowledge with others.
                 </p>
                 <p>
-                  We achieve this by deploying high-impact capital into educational pathways 
-                  focused on financial mastery and advanced technology—turning raw human 
-                  capability into compounded value.
+                  I believe in the power of code to solve real problems, the importance of reading 
+                  widely to gain perspective, and the responsibility to mentor those who want to 
+                  learn. The Archimedes Fund is my platform for making this happen.
                 </p>
               </Card>
             </motion.div>
@@ -104,14 +101,15 @@ const About = () => {
               viewport={{ once: true }}
             >
               <Card padding="large" className="vision-card">
-                <h2>Our Vision</h2>
+                <h2>My Vision</h2>
                 <p className="large-text">
-                  A world where every man has access to the tools, knowledge, and support 
-                  needed to achieve economic independence and technical mastery.
+                  A world where knowledge and skills are freely shared, where learning never stops, 
+                  and where everyone has access to quality mentorship.
                 </p>
                 <p>
-                  We envision communities of builders, innovators, and leaders who use their 
-                  skills to create value, solve problems, and advance civilization.
+                  Through apprenticeships, open-source contributions, and continuous education, 
+                  I aim to create opportunities for others to develop their technical skills and 
+                  pursue their own adventures in software development.
                 </p>
               </Card>
             </motion.div>
@@ -129,7 +127,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">The Archimedes Principle</h2>
+            <h2 className="section-title">My Story</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -145,18 +143,19 @@ const About = () => {
                 "Give me a place to stand, and I shall move the world."
               </p>
               <p>
-                Archimedes understood a fundamental truth: with the right leverage point, 
-                anything is possible. Our fund embodies this principle by providing young men 
-                with three essential elements:
+                I'm Henzard Kruger, a software developer who believes in the power of continuous 
+                learning and knowledge sharing. My journey combines three essential elements:
               </p>
               <ul className="principle-list">
-                <li><strong>The Lever</strong> - Technology skills that multiply your force</li>
-                <li><strong>The Fulcrum</strong> - Financial knowledge that provides stability</li>
-                <li><strong>The Force</strong> - Discipline and mindset to apply your power</li>
+                <li><strong>Code</strong> - Building software that solves real problems</li>
+                <li><strong>Books</strong> - Reading voraciously across disciplines to gain perspective</li>
+                <li><strong>Teaching</strong> - Mentoring others and sharing what I've learned</li>
               </ul>
               <p>
-                Together, these three pillars create the leverage needed to move mountains, 
-                build companies, and transform lives.
+                The Archimedes Fund is my personal platform for pursuing these passions. Through 
+                apprenticeships, I offer hands-on mentorship to developers looking to level up their 
+                skills. Through my projects, I explore new technologies and ideas. And through reading, 
+                I constantly expand my understanding of the world.
               </p>
             </motion.div>
 
@@ -178,7 +177,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
+      {/* What I Do */}
       <section className="leadership section">
         <div className="container">
           <motion.div
@@ -188,7 +187,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Our Leadership</h2>
+            <h2 className="section-title">What I Do</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -200,21 +199,20 @@ const About = () => {
             viewport={{ once: true }}
           >
             <p className="leadership-intro">
-              The Archimedes Fund was founded by three men who came to a profound realization: 
-              the advantages they had received—access to capital, networks, education, and 
-              opportunity—weren't inherent virtues, but structural privileges that needed to be 
-              acknowledged and redirected.
+              I'm a full-stack developer with a passion for building elegant solutions to complex problems. 
+              My work spans web development, automation, data processing, and AI integration—always focused 
+              on creating practical, user-friendly applications.
             </p>
             <p>
-              Rather than deny or downplay these advantages, they chose a different path: to build 
-              a system that teaches the next generation not just to benefit from opportunity, but 
-              to wield it responsibly, share it generously, and use it to create value for others.
+              Beyond coding, I'm a voracious reader. Books across philosophy, history, science, and biography 
+              inform my thinking and broaden my perspective. I believe that being a well-rounded developer 
+              means understanding not just how to code, but why we code and what impact our work has on the world.
             </p>
             <p>
-              <strong>This isn't about guilt or charity—it's about leverage and responsibility.</strong> 
-              {' '}We believe that those who have been given much should build much. The Archimedes Fund 
-              exists to ensure that young men understand both the power and the duty that comes with 
-              economic freedom and technical capability.
+              <strong>Teaching is where code and books come together.</strong> Through apprenticeships, I share 
+              practical development skills while encouraging critical thinking and continuous learning. My goal 
+              isn't just to teach syntax—it's to help others become thoughtful, capable developers who can solve 
+              real problems.
             </p>
           </motion.div>
 
@@ -225,18 +223,14 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <Card padding="none" className="leader-card">
-                <div className="leader-image">
-                  <img src={johnMiller} alt="John Miller" />
-                </div>
+              <Card padding="large" className="leader-card">
+                <div className="value-icon"><Code size={50} /></div>
                 <div className="leader-info">
-                  <h3>John Miller</h3>
-                  <p className="leader-title">Director</p>
+                  <h3>Software Development</h3>
                   <p className="leader-bio">
-                    30+ years in private equity and venture capital. John recognized that the 
-                    networks and capital access he inherited opened doors that talent alone never 
-                    could. He founded The Archimedes Fund to democratize access to financial literacy 
-                    and create a meritocratic path to wealth building.
+                    Full-stack web applications, API development, automation tools, and AI integration. 
+                    I work with Python, JavaScript, React, Node.js, and modern cloud platforms. Every 
+                    project is an opportunity to learn something new and build something useful.
                   </p>
                 </div>
               </Card>
@@ -248,18 +242,14 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <Card padding="none" className="leader-card">
-                <div className="leader-image">
-                  <img src={jimHenderson} alt="Jim Henderson" />
-                </div>
+              <Card padding="large" className="leader-card">
+                <div className="value-icon"><BookOpen size={50} /></div>
                 <div className="leader-info">
-                  <h3>Jim Henderson</h3>
-                  <p className="leader-title">Chairman</p>
+                  <h3>Reading & Learning</h3>
                   <p className="leader-bio">
-                    Former tech executive and startup founder. Jim built three successful companies, 
-                    each time leveraging connections from elite institutions. He now dedicates his 
-                    time to ensuring that drive, discipline, and skill—not pedigree—determine 
-                    success for the next generation.
+                    I've read over 1,000 books across diverse topics—from Stoic philosophy and ancient 
+                    history to cutting-edge AI research and software architecture. Reading fuels my 
+                    curiosity and shapes how I approach problems, both in code and in life.
                   </p>
                 </div>
               </Card>
@@ -271,18 +261,14 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <Card padding="none" className="leader-card">
-                <div className="leader-image">
-                  <img src={barryJenkins} alt="Barry Jenkins" />
-                </div>
+              <Card padding="large" className="leader-card">
+                <div className="value-icon"><Users size={50} /></div>
                 <div className="leader-info">
-                  <h3>Barry Jenkins</h3>
-                  <p className="leader-title">Chief Operating Officer</p>
+                  <h3>Mentorship & Apprenticeships</h3>
                   <p className="leader-bio">
-                    Operations strategist and former management consultant. Barry witnessed firsthand 
-                    how access to opportunity compounds over time. He manages our day-to-day operations, 
-                    ensuring every student receives the same caliber of mentorship, resources, and 
-                    network access that traditionally required family connections.
+                    I offer hands-on apprenticeships for aspiring developers—teaching practical skills, 
+                    guiding through real projects, and sharing the lessons I've learned along the way. 
+                    My approach combines technical training with broader thinking about software's role in society.
                   </p>
                 </div>
               </Card>
@@ -297,16 +283,14 @@ const About = () => {
             viewport={{ once: true }}
           >
             <Card padding="large" className="philosophy-card">
-              <h3>Our Philosophy: Privilege as Responsibility</h3>
+              <h3>My Philosophy: Build, Learn, Share</h3>
               <p>
-                We don't ask our students to feel guilty about advantages they may have. Instead, 
-                we teach them to recognize opportunity, respect it, and use it to build something 
-                meaningful. We believe that economic sovereignty isn't just about personal wealth—it's 
-                about the ability to create jobs, solve problems, and contribute to civilization.
+                I believe the best way to learn is by building real things. The best way to grow is 
+                through continuous reading and reflection. And the best way to solidify knowledge is 
+                by teaching others. This cycle—build, learn, share—is what drives everything I do.
               </p>
               <p className="philosophy-quote">
-                "To whom much is given, much will be required. We're not here to redistribute 
-                guilt—we're here to redistribute knowledge, capital, and opportunity."
+                "The more I learn, the more I realize how much there is to know. And that's exciting."
               </p>
             </Card>
           </motion.div>
@@ -323,7 +307,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Our Values</h2>
+            <h2 className="section-title">My Values</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -357,7 +341,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Our Journey</h2>
+            <h2 className="section-title">My Journey</h2>
             <div className="section-divider"></div>
           </motion.div>
 
@@ -392,11 +376,11 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2>Ready to Join Us?</h2>
-            <p>Become part of a community dedicated to excellence, growth, and building the future.</p>
+            <h2>Interested in Working Together?</h2>
+            <p>Whether you're looking for an apprenticeship or want to support my work, I'd love to hear from you.</p>
             <div className="cta-buttons">
-              <a href="/apply" className="btn btn-primary btn-large">Apply Now</a>
-              <a href="/program" className="btn btn-secondary btn-large">View Program</a>
+              <a href="/apply" className="btn btn-primary btn-large">Apply for Apprenticeship</a>
+              <a href="/invest" className="btn btn-secondary btn-large">Support My Work</a>
             </div>
           </motion.div>
         </div>

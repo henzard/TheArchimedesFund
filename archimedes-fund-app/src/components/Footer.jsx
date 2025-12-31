@@ -69,12 +69,12 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p>&copy; {new Date().getFullYear()} The Archimedes Fund. All rights reserved.</p>
-            <p className="footer-tagline">Money. Tech. Mastery.</p>
+            <p className="footer-tagline">Code. Books. Teaching.</p>
           </div>
           <div className="footer-acknowledgment">
             <p>
-              Built by people who acknowledge their advantages and choose to redistribute opportunity. 
-              Because privilege works better when you share the leverage.
+              Built by Henzard Kruger—a developer who believes in continuous learning, 
+              quality craftsmanship, and sharing knowledge freely.
             </p>
           </div>
         </div>

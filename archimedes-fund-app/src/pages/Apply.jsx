@@ -15,9 +15,9 @@ const applySchema = z.object({
   age: z.string().min(1, 'Age is required'),
   education: z.string().min(1, 'Please select your education level'),
   experience: z.string().min(1, 'Please select your experience level'),
-  motivation: z.string().min(50, 'Please provide at least 50 characters explaining your motivation'),
+  motivation: z.string().min(50, 'Please provide at least 50 characters explaining your interest'),
   goals: z.string().min(50, 'Please provide at least 50 characters about your goals'),
-  commitment: z.boolean().refine(val => val === true, 'You must commit to the full 12-week program'),
+  commitment: z.boolean().refine(val => val === true, 'You must commit to the apprenticeship program'),
 });
 
 const Apply = () => {
@@ -85,7 +85,7 @@ const Apply = () => {
           >
             <CheckCircle size={80} color="var(--success)" />
             <h2>Application Submitted!</h2>
-            <p>Thank you for applying to The Archimedes Fund. We'll review your application and get back to you within 5-7 business days.</p>
+            <p>Thank you for applying for an apprenticeship with Henzard Kruger. I'll review your application and get back to you within 3-5 business days.</p>
             <Button variant="primary" onClick={() => window.location.href = '/'}>
               Return Home
             </Button>
@@ -104,8 +104,8 @@ const Apply = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>Apply to The Archimedes Fund</h1>
-          <p>Take the first step toward financial mastery and technical excellence.</p>
+          <h1>Apply for an Apprenticeship</h1>
+          <p>Take the first step toward hands-on mentorship and practical software development skills.</p>
         </motion.div>
 
         <div className="apply-content">
@@ -118,24 +118,24 @@ const Apply = () => {
             <Card padding="large">
               <h3>What to Expect</h3>
               <ul className="info-list">
-                <li>12-week intensive bootcamp</li>
-                <li>Financial mastery curriculum</li>
-                <li>Advanced technology training</li>
-                <li>Mentorship from industry leaders</li>
-                <li>Job placement support</li>
-                <li>Lifetime alumni network</li>
+                <li>1-on-1 personalized mentorship</li>
+                <li>Flexible scheduling options</li>
+                <li>Real project experience</li>
+                <li>Code reviews and feedback</li>
+                <li>Portfolio development</li>
+                <li>Career guidance and support</li>
               </ul>
 
               <h3 style={{ marginTop: '2rem' }}>Requirements</h3>
               <ul className="info-list">
-                <li>Commitment to full 12-week program</li>
-                <li>Willingness to learn and grow</li>
-                <li>Basic computer literacy</li>
-                <li>High school diploma or equivalent</li>
+                <li>Basic programming knowledge (any language)</li>
+                <li>Commitment to learning and growth</li>
+                <li>Willingness to work on real projects</li>
+                <li>Regular availability for mentorship sessions</li>
               </ul>
 
               <div className="info-note">
-                <p><strong>Note:</strong> Scholarships and financial aid are available based on merit and need.</p>
+                <p><strong>Note:</strong> Flexible pricing options available. Contact me to discuss your situation.</p>
               </div>
             </Card>
           </motion.div>
@@ -257,13 +257,13 @@ const Apply = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="motivation">Why do you want to join The Archimedes Fund? *</label>
+                  <label htmlFor="motivation">Why are you interested in an apprenticeship? *</label>
                   <textarea
                     id="motivation"
                     rows="5"
                     {...register('motivation')}
                     className={errors.motivation ? 'error' : ''}
-                    placeholder="Tell us about your motivation..."
+                    placeholder="Tell me about your interest in learning and what you hope to achieve..."
                   />
                   {errors.motivation && (
                     <span className="error-message">{errors.motivation.message}</span>
@@ -271,13 +271,13 @@ const Apply = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="goals">What are your career goals? *</label>
+                  <label htmlFor="goals">What are your development goals? *</label>
                   <textarea
                     id="goals"
                     rows="5"
                     {...register('goals')}
                     className={errors.goals ? 'error' : ''}
-                    placeholder="Tell us about your career aspirations..."
+                    placeholder="Tell me about what you want to learn and where you see yourself going..."
                   />
                   {errors.goals && (
                     <span className="error-message">{errors.goals.message}</span>
@@ -290,7 +290,7 @@ const Apply = () => {
                       type="checkbox"
                       {...register('commitment')}
                     />
-                    <span>I commit to completing the full 12-week program *</span>
+                    <span>I'm committed to learning and putting in the work required *</span>
                   </label>
                   {errors.commitment && (
                     <span className="error-message">{errors.commitment.message}</span>
