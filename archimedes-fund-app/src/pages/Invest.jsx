@@ -304,9 +304,11 @@ const Invest = () => {
                 </div>
               </div>
             </div>
-            <Button variant="primary" size="large">
-              Schedule a Call
-            </Button>
+            <a href="mailto:henzardkruger@gmail.com?subject=Support%20and%20Collaboration%20Inquiry">
+              <Button variant="primary" size="large">
+                Schedule a Call
+              </Button>
+            </a>
           </motion.div>
         </div>
       </section>
