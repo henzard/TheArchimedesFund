@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion';
-import { Award, Users, Target, TrendingUp, Code, BookOpen } from 'lucide-react';
+import { Award, Users, Target, TrendingUp, Code, BookOpen, Github, Linkedin } from 'lucide-react';
 import Card from '../components/Card';
-import investorImage from '../assets/images/Gemini_Generated_Image_vp4rzcvp4rzcvp4r.png';
-import studentImage from '../assets/images/Gemini_Generated_Image_1i8pxi1i8pxi1i8p.png';
 import './About.css';
 
 const About = () => {
@@ -31,24 +29,24 @@ const About = () => {
 
   const timeline = [
     {
-      year: '2015',
+      year: '2010s',
       title: 'Beginning the Journey',
-      description: 'Started my software development career, discovering a passion for building things that solve real problems. Began my reading habit in earnest.',
+      description: 'Started software development career, specializing in C#/.NET and web technologies. Began contributing to open source projects and building professional solutions.',
     },
     {
-      year: '2018',
-      title: 'Full-Stack Developer',
-      description: 'Expanded into full-stack development, working with modern frameworks and cloud platforms. Crossed the 500-book milestone in my reading journey.',
+      year: '2015+',
+      title: 'Picahoo & Enterprise Development',
+      description: 'Joined Picahoo, building enterprise solutions including XeroAPI integrations, business management systems, and full-stack web applications.',
     },
     {
-      year: '2021',
-      title: 'First Apprentice',
-      description: 'Started mentoring my first apprentice, discovering that teaching is one of the best ways to solidify and expand your own knowledge.',
+      year: '2020+',
+      title: 'Teaching & Mentorship',
+      description: 'Created the Friday Training Project for teaching Angular. Started mentoring junior developers through hands-on apprenticeships and practical code reviews.',
     },
     {
       year: '2024',
       title: 'The Archimedes Fund',
-      description: 'Launched this platform to formalize my approach to code, books, and teaching—creating a space for projects, learning, and apprenticeships.',
+      description: 'Launched this platform to formalize my approach to development and mentorship—creating a space for projects, learning, and professional apprenticeships.',
     },
   ];
 
@@ -64,9 +62,18 @@ const About = () => {
           >
             <h1>About Henzard Kruger</h1>
             <p className="about-lead">
-              Software developer, lifelong learner, and mentor passionate about building things 
-              that matter—whether that's code, skills, or meaningful connections.
+              Full-stack developer from Bloemfontein, South Africa. Building software with C#/.NET, 
+              JavaScript/Angular, and Laravel/PHP at Picahoo. Passionate about clean code, continuous 
+              learning, and mentoring the next generation.
             </p>
+            <div className="social-links" style={{ marginTop: '2rem', display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <a href="https://github.com/henzard" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'var(--card-bg)', borderRadius: '8px', textDecoration: 'none', color: 'var(--text)' }}>
+                <Github size={20} /> GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/henzard/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'var(--card-bg)', borderRadius: '8px', textDecoration: 'none', color: 'var(--text)' }}>
+                <Linkedin size={20} /> LinkedIn
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -84,12 +91,13 @@ const About = () => {
               <Card padding="large" className="mission-card">
                 <h2>My Mission</h2>
                 <p className="large-text">
-                  To continuously learn, build meaningful software, and share knowledge with others.
+                  To build elegant software solutions and share knowledge through hands-on mentorship.
                 </p>
                 <p>
-                  I believe in the power of code to solve real problems, the importance of reading 
-                  widely to gain perspective, and the responsibility to mentor those who want to 
-                  learn. The Archimedes Fund is my platform for making this happen.
+                  I believe in writing clean, maintainable code that solves real business problems. 
+                  At Picahoo, I work on full-stack applications, API integrations (like XeroAPI), and 
+                  modern web solutions. Beyond building, I'm committed to helping junior developers level 
+                  up through practical apprenticeships.
                 </p>
               </Card>
             </motion.div>
@@ -143,19 +151,20 @@ const About = () => {
                 "Give me a place to stand, and I shall move the world."
               </p>
               <p>
-                I'm Henzard Kruger, a software developer who believes in the power of continuous 
-                learning and knowledge sharing. My journey combines three essential elements:
+                I'm Henzard Kruger, a full-stack developer based in Bloemfontein, South Africa. 
+                I work at <strong>Picahoo</strong> (www.picahoo.co.za), where I build enterprise 
+                solutions using modern technologies.
               </p>
               <ul className="principle-list">
-                <li><strong>Code</strong> - Building software that solves real problems</li>
-                <li><strong>Books</strong> - Reading voraciously across disciplines to gain perspective</li>
-                <li><strong>Teaching</strong> - Mentoring others and sharing what I've learned</li>
+                <li><strong>Code</strong> - C#/.NET, JavaScript/Angular, Laravel/PHP, API development</li>
+                <li><strong>Books</strong> - Voracious reader across philosophy, technology, and history</li>
+                <li><strong>Teaching</strong> - Mentoring developers through practical apprenticeships</li>
               </ul>
               <p>
-                The Archimedes Fund is my personal platform for pursuing these passions. Through 
-                apprenticeships, I offer hands-on mentorship to developers looking to level up their 
-                skills. Through my projects, I explore new technologies and ideas. And through reading, 
-                I constantly expand my understanding of the world.
+                My GitHub showcases projects ranging from XeroAPI.Net integrations to Laravel packages 
+                and Angular training applications. I've earned badges for collaboration (Pair Extraordinaire), 
+                code contributions (Pull Shark), and taking risks (YOLO). The Archimedes Fund is my platform 
+                for combining professional development work with my passion for teaching.
               </p>
             </motion.div>
 
@@ -199,20 +208,21 @@ const About = () => {
             viewport={{ once: true }}
           >
             <p className="leadership-intro">
-              I'm a full-stack developer with a passion for building elegant solutions to complex problems. 
-              My work spans web development, automation, data processing, and AI integration—always focused 
-              on creating practical, user-friendly applications.
+              I'm a full-stack developer with expertise across the Microsoft and web development ecosystems. 
+              At Picahoo, I build enterprise solutions that integrate accounting platforms, manage business 
+              workflows, and deliver exceptional user experiences.
             </p>
             <p>
-              Beyond coding, I'm a voracious reader. Books across philosophy, history, science, and biography 
-              inform my thinking and broaden my perspective. I believe that being a well-rounded developer 
-              means understanding not just how to code, but why we code and what impact our work has on the world.
+              My tech stack includes <strong>C#/.NET</strong> for robust backend systems, <strong>JavaScript/Angular</strong> 
+              for dynamic frontends, and <strong>Laravel/PHP</strong> for flexible web applications. I've contributed to 
+              open source (like XeroAPI.Net), built training projects for teaching Angular, and developed communication 
+              packages for Laravel.
             </p>
             <p>
-              <strong>Teaching is where code and books come together.</strong> Through apprenticeships, I share 
-              practical development skills while encouraging critical thinking and continuous learning. My goal 
-              isn't just to teach syntax—it's to help others become thoughtful, capable developers who can solve 
-              real problems.
+              <strong>Teaching is where everything comes together.</strong> Through my Friday Training Project and other 
+              initiatives, I've mentored developers in Angular, modern web development, and professional best practices. 
+              My goal is to help others write better code, think critically about architecture, and build confidence in 
+              their abilities.
             </p>
           </motion.div>
 
@@ -226,11 +236,12 @@ const About = () => {
               <Card padding="large" className="leader-card">
                 <div className="value-icon"><Code size={50} /></div>
                 <div className="leader-info">
-                  <h3>Software Development</h3>
+                  <h3>Full-Stack Development</h3>
                   <p className="leader-bio">
-                    Full-stack web applications, API development, automation tools, and AI integration. 
-                    I work with Python, JavaScript, React, Node.js, and modern cloud platforms. Every 
-                    project is an opportunity to learn something new and build something useful.
+                    <strong>C#/.NET:</strong> Enterprise backend systems, API development, XeroAPI integrations<br/>
+                    <strong>JavaScript/Angular:</strong> Modern SPAs, component-based architecture, TypeScript<br/>
+                    <strong>Laravel/PHP:</strong> Web applications, custom packages, communication integrations<br/>
+                    Plus: Bootstrap, jQuery, version control with Git, and modern development workflows.
                   </p>
                 </div>
               </Card>
@@ -264,11 +275,11 @@ const About = () => {
               <Card padding="large" className="leader-card">
                 <div className="value-icon"><Users size={50} /></div>
                 <div className="leader-info">
-                  <h3>Mentorship & Apprenticeships</h3>
+                  <h3>Mentorship & Teaching</h3>
                   <p className="leader-bio">
-                    I offer hands-on apprenticeships for aspiring developers—teaching practical skills, 
-                    guiding through real projects, and sharing the lessons I've learned along the way. 
-                    My approach combines technical training with broader thinking about software's role in society.
+                    Creator of the Friday Training Project (Angular tutorial app) and mentor to junior developers. 
+                    I offer hands-on apprenticeships covering practical development skills, code review best practices, 
+                    and career guidance. My teaching philosophy: learn by building real things, not just tutorials.
                   </p>
                 </div>
               </Card>

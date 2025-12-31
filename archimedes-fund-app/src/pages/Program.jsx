@@ -10,38 +10,38 @@ const Program = () => {
     {
       icon: <Code size={50} />,
       title: 'Technical Skills',
-      description: 'Master modern development practices through real projects.',
+      description: 'Master modern development with real-world technologies.',
       modules: [
         {
-          name: 'Full-Stack Development',
-          topics: ['React & Modern JavaScript', 'Node.js & APIs', 'Database Design'],
+          name: 'Backend Development',
+          topics: ['C# & .NET Framework', 'RESTful API Design', 'Entity Framework & Databases'],
         },
         {
-          name: 'Best Practices',
-          topics: ['Clean Code Principles', 'Testing & Debugging', 'Git & Version Control'],
+          name: 'Frontend Development',
+          topics: ['JavaScript & TypeScript', 'Angular Framework', 'Bootstrap & Responsive Design'],
         },
         {
-          name: 'Advanced Topics',
-          topics: ['Cloud Deployment', 'API Integration', 'Performance Optimization'],
+          name: 'Full-Stack Integration',
+          topics: ['Laravel & PHP', 'Version Control with Git', 'API Integration (XeroAPI, etc.)'],
         },
       ],
     },
     {
       icon: <BookOpen size={50} />,
       title: 'Problem Solving',
-      description: 'Learn to think critically about code and its impact.',
+      description: 'Learn to think critically about code and architecture.',
       modules: [
         {
           name: 'Software Architecture',
-          topics: ['System Design', 'Design Patterns', 'Scalability Considerations'],
+          topics: ['MVC & MVVM Patterns', 'Component-Based Design', 'Scalability Considerations'],
         },
         {
           name: 'Code Quality',
-          topics: ['Readability & Maintainability', 'Documentation', 'Code Reviews'],
+          topics: ['Clean Code Principles', 'Code Reviews', 'Testing & Debugging'],
         },
         {
-          name: 'Critical Thinking',
-          topics: ['Requirements Analysis', 'Technical Decision Making', 'Trade-off Evaluation'],
+          name: 'Business Integration',
+          topics: ['Requirements Analysis', 'API Documentation', 'Third-Party Integrations'],
         },
       ],
     },
@@ -52,15 +52,15 @@ const Program = () => {
       modules: [
         {
           name: 'Career Development',
-          topics: ['Portfolio Building', 'Technical Interviews', 'Networking'],
+          topics: ['Portfolio Building', 'GitHub Best Practices', 'Technical Interviews'],
         },
         {
           name: 'Continuous Learning',
-          topics: ['Learning Strategies', 'Staying Current', 'Finding Resources'],
+          topics: ['Documentation Skills', 'Staying Current', 'Open Source Contribution'],
         },
         {
           name: 'Communication',
-          topics: ['Technical Writing', 'Explaining Concepts', 'Collaboration Skills'],
+          topics: ['Technical Writing', 'Code Comments', 'Team Collaboration'],
         },
       ],
     },
@@ -138,12 +138,12 @@ const Program = () => {
           >
             <h1>Apprenticeships</h1>
             <p className="program-lead">
-              Hands-on mentorship for developers who want to level up their skills through 
-              real projects, code reviews, and practical guidance.
+              Learn C#/.NET, JavaScript/Angular, and Laravel/PHP through hands-on mentorship 
+              with real projects and professional guidance.
             </p>
             <div className="program-stats">
               <div className="stat"><strong>1-on-1</strong> Mentorship</div>
-              <div className="stat"><strong>Real</strong> Projects</div>
+              <div className="stat"><strong>Real</strong> Technologies</div>
               <div className="stat"><strong>Flexible</strong> Schedule</div>
             </div>
           </motion.div>

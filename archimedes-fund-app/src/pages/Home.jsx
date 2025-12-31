@@ -3,7 +3,6 @@ import { ArrowRight, Target, TrendingUp, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Card from '../components/Card';
-import heroImage from '../assets/images/Gemini_Generated_Image_1i8pxi1i8pxi1i8p.png';
 import './Home.css';
 
 const Home = () => {
@@ -19,8 +18,8 @@ const Home = () => {
       icon: <Zap size={40} />,
       title: 'The Lever',
       subtitle: 'Code',
-      description: 'Building software that solves real problems and creates value.',
-      points: ['Python & JavaScript', 'Full-Stack Development', 'AI & Automation'],
+      description: 'Building software with C#, JavaScript, Angular, and Laravel.',
+      points: ['C# & .NET', 'JavaScript & Angular', 'Laravel & PHP'],
     },
     {
       icon: <Target size={40} />,
@@ -34,8 +33,8 @@ const Home = () => {
       icon: <TrendingUp size={40} />,
       title: 'The Force',
       subtitle: 'Teaching',
-      description: 'Sharing knowledge and helping others grow through apprenticeships.',
-      points: ['Mentorship', 'Skill Development', 'Career Growth'],
+      description: 'Mentoring developers through hands-on apprenticeships.',
+      points: ['1-on-1 Mentorship', 'Real Project Experience', 'Career Guidance'],
     },
   ];
 
@@ -56,8 +55,8 @@ const Home = () => {
               Give me a place to stand, and I shall move the world.
             </p>
             <p className="hero-description">
-              Welcome to the personal platform of Henzard Kruger—software developer, voracious reader,
-              and passionate mentor. Exploring ideas through code, books, and teaching.
+              Software developer from Bloemfontein, South Africa. Working at Picahoo, building with 
+              C#/.NET and JavaScript/Angular, and mentoring the next generation of developers.
             </p>
             <div className="hero-cta">
               <Link to="/apply">
@@ -106,7 +105,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">Our Mission</h2>
+            <h2 className="section-title">My Mission</h2>
             <div className="section-divider"></div>
           </motion.div>
           
@@ -119,23 +118,14 @@ const Home = () => {
               viewport={{ once: true }}
             >
               <p className="lead-text">
-                Building software, sharing knowledge, and creating opportunities through code and mentorship.
+                Building great software, continuously learning, and sharing knowledge with the next generation.
               </p>
               <p>
-                The Archimedes Fund is my platform for combining technology, learning, and teaching—
-                where coding projects meet philosophical exploration and apprenticeships offer hands-on
-                skill development. Let's build something meaningful together.
+                Based in Bloemfontein, South Africa, I work at Picahoo building solutions with C#/.NET, 
+                JavaScript/Angular, and Laravel/PHP. From XeroAPI integrations to full-stack applications, 
+                I love solving complex problems with elegant code. The Archimedes Fund is my platform for 
+                mentoring aspiring developers through hands-on apprenticeships.
               </p>
-            </motion.div>
-
-            <motion.div
-              className="mission-image"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <img src={heroImage} alt="The Archimedes Fund" />
             </motion.div>
           </div>
         </div>

@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Users, Target, DollarSign, Briefcase, Heart, Mail } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import investorImage from '../assets/images/Gemini_Generated_Image_vp4rzcvp4rzcvp4r.png';
 import './Invest.css';
 
 const Invest = () => {
@@ -10,17 +9,17 @@ const Invest = () => {
     {
       icon: <Target size={40} />,
       title: 'Open Source Projects',
-      description: 'Support the development of tools and libraries that help developers build better software, freely available to everyone.',
+      description: 'Support development of tools and libraries in the .NET, Angular, and Laravel ecosystems—freely available to the community.',
     },
     {
       icon: <TrendingUp size={40} />,
       title: 'Knowledge Sharing',
-      description: 'Help create educational content, tutorials, and documentation that make programming more accessible to learners.',
+      description: 'Help create tutorials, documentation, and training materials that make enterprise development more accessible to learners.',
     },
     {
       icon: <Users size={40} />,
       title: 'Apprenticeships',
-      description: 'Enable me to offer more affordable (or free) apprenticeships to talented developers who might not otherwise have access to mentorship.',
+      description: 'Enable me to offer more affordable mentorships to talented developers who might not otherwise have access to professional guidance.',
     },
   ];
 
@@ -62,32 +61,32 @@ const Invest = () => {
   ];
 
   const impact = [
-    { number: '50+', label: 'Projects Built' },
+    { number: '43', label: 'GitHub Repositories' },
     { number: '1000+', label: 'Books Read' },
-    { number: '10+', label: 'Apprentices Mentored' },
+    { number: '10+', label: 'Developers Mentored' },
     { number: '∞', label: 'Ideas Explored' },
   ];
 
   const useOfFunds = [
     {
-      category: 'Open Source Development',
+      category: 'Open Source & Projects',
       percentage: 40,
-      description: 'Building and maintaining open-source projects, tools, and libraries.',
+      description: 'Building and maintaining open-source projects, tools, and libraries for the developer community.',
     },
     {
       category: 'Apprenticeship Program',
       percentage: 30,
-      description: 'Subsidizing apprenticeships, creating learning materials, and mentorship time.',
+      description: 'Subsidizing apprenticeships, creating learning materials, and one-on-one mentorship time.',
     },
     {
-      category: 'Learning & Research',
+      category: 'Learning & Professional Development',
       percentage: 20,
-      description: 'Books, courses, conferences, and exploring new technologies.',
+      description: 'Books, courses, conferences, certifications, and exploring emerging technologies.',
     },
     {
-      category: 'Infrastructure & Operations',
+      category: 'Infrastructure & Tools',
       percentage: 10,
-      description: 'Hosting, tools, software licenses, and platform maintenance.',
+      description: 'Cloud hosting, development tools, software licenses, and platform maintenance.',
     },
   ];
 
@@ -96,41 +95,31 @@ const Invest = () => {
       {/* Hero */}
       <section className="invest-hero">
         <div className="container">
-          <div className="hero-content-grid">
-            <motion.div
-              className="hero-text"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1>Support My Work</h1>
-              <p className="hero-lead">
-                Help fund my ongoing projects, learning, and apprenticeship program through 
-                direct support or collaboration opportunities.
-              </p>
-              <p>
-                Your support allows me to dedicate more time to building open-source projects, 
-                creating educational content, offering affordable apprenticeships, and exploring 
-                new technologies that benefit the broader developer community.
-              </p>
-              <div className="hero-cta">
-                <a href="#contact">
-                  <Button variant="primary" size="large">
-                    <Mail size={20} /> Get In Touch
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="hero-image"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <img src={investorImage} alt="Invest in the Future" />
-            </motion.div>
-          </div>
+          <motion.div
+            className="hero-text"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}
+          >
+            <h1>Support My Work</h1>
+            <p className="hero-lead">
+              Help fund ongoing development projects, mentorship programs, and open-source contributions 
+              in the C#/.NET, Angular, and Laravel ecosystems.
+            </p>
+            <p>
+              Your support allows me to dedicate more time to building quality software, creating 
+              educational resources, offering affordable apprenticeships, and contributing to the 
+              developer community through open-source projects and knowledge sharing.
+            </p>
+            <div className="hero-cta">
+              <a href="#contact">
+                <Button variant="primary" size="large">
+                  <Mail size={20} /> Get In Touch
+                </Button>
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
