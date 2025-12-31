@@ -6,23 +6,36 @@ import About from './pages/About';
 import Program from './pages/Program';
 import Apply from './pages/Apply';
 import Invest from './pages/Invest';
+import Login from './pages/Login';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="app">
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/program" element={<Program />} />
-            <Route path="/apply" element={<Apply />} />
-            <Route path="/invest" element={<Invest />} />
-          </Routes>
-        </main>
-        <Footer />
+        <Routes>
+          {/* Admin routes without navbar/footer */}
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          
+          {/* Public routes with navbar/footer */}
+          <Route path="/*" element={
+            <>
+              <Navbar />
+              <main className="main-content">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/program" element={<Program />} />
+                  <Route path="/apply" element={<Apply />} />
+                  <Route path="/invest" element={<Invest />} />
+                </Routes>
+              </main>
+              <Footer />
+            </>
+          } />
+        </Routes>
       </div>
     </Router>
   );

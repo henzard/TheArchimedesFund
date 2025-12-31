@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -34,14 +33,44 @@ const Apply = () => {
   });
 
   const onSubmit = async (data) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    console.log('Application submitted:', data);
-    setSubmitted(true);
-    reset();
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setSubmitted(false), 5000);
+    try {
+      // Prepare data for backend
+      const applicationData = {
+        fullName: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        phone: data.phone,
+        dateOfBirth: `${new Date().getFullYear() - parseInt(data.age)}-01-01`, // Approximate
+        address: data.address || 'Not provided',
+        educationLevel: data.education,
+        currentSituation: data.currentSituation || 'Not provided',
+        programmingExperience: data.experience,
+        financialSituation: data.financialSituation || 'Not provided',
+        whyApply: data.motivation,
+        goals: data.goals,
+        commitment: data.commitment ? 'yes' : 'no',
+        hearAboutUs: data.referral || 'Not provided',
+      };
+
+      const response = await fetch('/.netlify/functions/submit-application', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(applicationData),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        reset();
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        const error = await response.json();
+        alert(`Submission failed: ${error.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Application submission error:', error);
+      alert('Network error. Please try again.');
+    }
   };
 
   if (submitted) {
