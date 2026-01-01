@@ -57,20 +57,33 @@ export const handler = async (event) => {
 
     const sql = getSql();
     
-    const tagsArray = tags && tags.length > 0 ? `'{${tags.join(',')}}'` : 'NULL';
+    // Helper function to safely escape strings for PostgreSQL
+    const escapeString = (str) => {
+      if (!str) return null;
+      return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
+    };
+    
+    // Helper function to format arrays for PostgreSQL
+    const formatArray = (arr) => {
+      if (!arr || arr.length === 0) return 'NULL';
+      const escapedItems = arr.map(item => escapeString(item.toString()));
+      return `ARRAY[${escapedItems.map(item => `'${item}'`).join(',')}]`;
+    };
+
+    const tagsArray = formatArray(tags);
 
     const query = `
       INSERT INTO passions (
         title, slug, subtitle, category, icon_emoji, markdown_content, excerpt,
         cover_image_url, tags, reading_time, status, date_published
       ) VALUES (
-        '${title.replace(/'/g, "''")}',
-        '${slug.replace(/'/g, "''")}',
-        ${subtitle ? `'${subtitle.replace(/'/g, "''")}'` : 'NULL'},
+        '${escapeString(title)}',
+        '${escapeString(slug)}',
+        ${subtitle ? `'${escapeString(subtitle)}'` : 'NULL'},
         ${category ? `'${category}'` : 'NULL'},
         ${icon_emoji ? `'${icon_emoji}'` : 'NULL'},
-        '${markdown_content.replace(/'/g, "''")}',
-        ${excerpt ? `'${excerpt.replace(/'/g, "''")}'` : 'NULL'},
+        '${escapeString(markdown_content)}',
+        ${excerpt ? `'${escapeString(excerpt)}'` : 'NULL'},
         ${cover_image_url ? `'${cover_image_url}'` : 'NULL'},
         ${tagsArray},
         ${reading_time || 'NULL'},

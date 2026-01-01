@@ -63,28 +63,40 @@ export const handler = async (event) => {
 
     const sql = getSql();
     
-    // Convert arrays to PostgreSQL array format
-    const techStackArray = tech_stack && tech_stack.length > 0 ? `'{${tech_stack.join(',')}}'` : 'NULL';
-    const tagsArray = tags && tags.length > 0 ? `'{${tags.join(',')}}'` : 'NULL';
-    const featuresArray = features && features.length > 0 ? `'{${features.join(',')}}'` : 'NULL';
+    // Helper function to safely escape strings for PostgreSQL
+    const escapeString = (str) => {
+      if (!str) return null;
+      return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
+    };
+    
+    // Helper function to format arrays for PostgreSQL
+    const formatArray = (arr) => {
+      if (!arr || arr.length === 0) return 'NULL';
+      const escapedItems = arr.map(item => escapeString(item.toString()));
+      return `ARRAY[${escapedItems.map(item => `'${item}'`).join(',')}]`;
+    };
+
+    const techStackArray = formatArray(tech_stack);
+    const tagsArray = formatArray(tags);
+    const featuresArray = formatArray(features);
 
     const query = `
       INSERT INTO projects (
         title, slug, tagline, description, github_url, demo_url, image_url,
         tech_stack, tags, features, challenges, learnings, status, visibility, stars, date_completed
       ) VALUES (
-        '${title.replace(/'/g, "''")}',
-        '${slug.replace(/'/g, "''")}',
-        ${tagline ? `'${tagline.replace(/'/g, "''")}'` : 'NULL'},
-        '${description.replace(/'/g, "''")}',
+        '${escapeString(title)}',
+        '${escapeString(slug)}',
+        ${tagline ? `'${escapeString(tagline)}'` : 'NULL'},
+        '${escapeString(description)}',
         '${github_url}',
         ${demo_url ? `'${demo_url}'` : 'NULL'},
         ${image_url ? `'${image_url}'` : 'NULL'},
         ${techStackArray},
         ${tagsArray},
         ${featuresArray},
-        ${challenges ? `'${challenges.replace(/'/g, "''")}'` : 'NULL'},
-        ${learnings ? `'${learnings.replace(/'/g, "''")}'` : 'NULL'},
+        ${challenges ? `'${escapeString(challenges)}'` : 'NULL'},
+        ${learnings ? `'${escapeString(learnings)}'` : 'NULL'},
         '${status}',
         '${visibility}',
         ${stars},

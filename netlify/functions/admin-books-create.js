@@ -59,23 +59,35 @@ export const handler = async (event) => {
 
     const sql = getSql();
     
-    // Convert arrays to PostgreSQL array format
-    const tagsArray = tags && tags.length > 0 ? `'{${tags.join(',')}}'` : 'NULL';
-    const problemsArray = problems_solved && problems_solved.length > 0 ? `'{${problems_solved.join(',')}}'` : 'NULL';
+    // Helper function to safely escape strings for PostgreSQL
+    const escapeString = (str) => {
+      if (!str) return null;
+      return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
+    };
+    
+    // Helper function to format arrays for PostgreSQL
+    const formatArray = (arr) => {
+      if (!arr || arr.length === 0) return 'NULL';
+      const escapedItems = arr.map(item => escapeString(item.toString()));
+      return `ARRAY[${escapedItems.map(item => `'${item}'`).join(',')}]`;
+    };
+
+    const tagsArray = formatArray(tags);
+    const problemsArray = formatArray(problems_solved);
 
     const query = `
       INSERT INTO books (
         title, author, cover_image_url, rating, tags, problems_solved, 
         impact, key_takeaways, date_read, goodreads_url, amazon_url, status
       ) VALUES (
-        '${title.replace(/'/g, "''")}',
-        '${author.replace(/'/g, "''")}',
+        '${escapeString(title)}',
+        '${escapeString(author)}',
         ${cover_image_url ? `'${cover_image_url}'` : 'NULL'},
         ${rating || 'NULL'},
         ${tagsArray},
         ${problemsArray},
-        '${impact.replace(/'/g, "''")}',
-        ${key_takeaways ? `'${key_takeaways.replace(/'/g, "''")}'` : 'NULL'},
+        '${escapeString(impact)}',
+        ${key_takeaways ? `'${escapeString(key_takeaways)}'` : 'NULL'},
         ${date_read ? `'${date_read}'` : 'NULL'},
         ${goodreads_url ? `'${goodreads_url}'` : 'NULL'},
         ${amazon_url ? `'${amazon_url}'` : 'NULL'},

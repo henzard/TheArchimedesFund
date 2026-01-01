@@ -45,20 +45,33 @@ export const handler = async (event) => {
 
     const sql = getSql();
     
+    // Helper function to safely escape strings for PostgreSQL
+    const escapeString = (str) => {
+      if (!str) return null;
+      return str.replace(/'/g, "''").replace(/\\/g, '\\\\');
+    };
+    
+    // Helper function to format arrays for PostgreSQL
+    const formatArray = (arr) => {
+      if (!arr || arr.length === 0) return 'NULL';
+      const escapedItems = arr.map(item => escapeString(item.toString()));
+      return `ARRAY[${escapedItems.map(item => `'${item}'`).join(',')}]`;
+    };
+    
     // Build update query dynamically
     const updateFields = [];
     
     if (updates.title !== undefined) {
-      updateFields.push(`title = '${updates.title.replace(/'/g, "''")}'`);
+      updateFields.push(`title = '${escapeString(updates.title)}'`);
     }
     if (updates.slug !== undefined) {
-      updateFields.push(`slug = '${updates.slug.replace(/'/g, "''")}'`);
+      updateFields.push(`slug = '${escapeString(updates.slug)}'`);
     }
     if (updates.tagline !== undefined) {
-      updateFields.push(`tagline = ${updates.tagline ? `'${updates.tagline.replace(/'/g, "''")}'` : 'NULL'}`);
+      updateFields.push(`tagline = ${updates.tagline ? `'${escapeString(updates.tagline)}'` : 'NULL'}`);
     }
     if (updates.description !== undefined) {
-      updateFields.push(`description = '${updates.description.replace(/'/g, "''")}'`);
+      updateFields.push(`description = '${escapeString(updates.description)}'`);
     }
     if (updates.github_url !== undefined) {
       updateFields.push(`github_url = '${updates.github_url}'`);
@@ -70,26 +83,19 @@ export const handler = async (event) => {
       updateFields.push(`image_url = ${updates.image_url ? `'${updates.image_url}'` : 'NULL'}`);
     }
     if (updates.tech_stack !== undefined) {
-      const techStackArray = updates.tech_stack && updates.tech_stack.length > 0 
-        ? `'{${updates.tech_stack.join(',')}}'` 
-        : 'NULL';
-      updateFields.push(`tech_stack = ${techStackArray}`);
+      updateFields.push(`tech_stack = ${formatArray(updates.tech_stack)}`);
     }
     if (updates.tags !== undefined) {
-      const tagsArray = updates.tags && updates.tags.length > 0 ? `'{${updates.tags.join(',')}}'` : 'NULL';
-      updateFields.push(`tags = ${tagsArray}`);
+      updateFields.push(`tags = ${formatArray(updates.tags)}`);
     }
     if (updates.features !== undefined) {
-      const featuresArray = updates.features && updates.features.length > 0 
-        ? `'{${updates.features.join(',')}}'` 
-        : 'NULL';
-      updateFields.push(`features = ${featuresArray}`);
+      updateFields.push(`features = ${formatArray(updates.features)}`);
     }
     if (updates.challenges !== undefined) {
-      updateFields.push(`challenges = ${updates.challenges ? `'${updates.challenges.replace(/'/g, "''")}'` : 'NULL'}`);
+      updateFields.push(`challenges = ${updates.challenges ? `'${escapeString(updates.challenges)}'` : 'NULL'}`);
     }
     if (updates.learnings !== undefined) {
-      updateFields.push(`learnings = ${updates.learnings ? `'${updates.learnings.replace(/'/g, "''")}'` : 'NULL'}`);
+      updateFields.push(`learnings = ${updates.learnings ? `'${escapeString(updates.learnings)}'` : 'NULL'}`);
     }
     if (updates.status !== undefined) {
       updateFields.push(`status = '${updates.status}'`);
