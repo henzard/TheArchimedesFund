@@ -277,3 +277,216 @@
   }
 }
 
+
+/* Books Management */
+.books-management {
+  margin-top: 2rem;
+}
+
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.books-header h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.books-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.book-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.book-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.book-cover {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-info h3 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.book-author {
+  color: var(--text-gray);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.book-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.book-rating {
+  font-size: 1.2rem;
+}
+
+.book-date {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+}
+
+.book-body {
+  margin-bottom: 1.5rem;
+}
+
+.book-tags,
+.book-problems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.book-tags .tag {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.book-problems {
+  align-items: center;
+}
+
+.book-problems strong {
+  color: var(--primary-color);
+  margin-right: 0.5rem;
+}
+
+.problem-tag {
+  background: #e8f4f8;
+  color: #2c7da0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.book-impact,
+.book-takeaways {
+  margin-bottom: 1rem;
+}
+
+.book-impact strong,
+.book-takeaways strong {
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.book-impact p,
+.book-takeaways p {
+  line-height: 1.8;
+  color: var(--text-dark);
+}
+
+.book-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Book Form */
+.book-form {
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border: 2px solid var(--secondary-color);
+}
+
+.book-form h3 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.form-group small {
+  display: block;
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}

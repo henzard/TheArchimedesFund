@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Target, TrendingUp, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
@@ -8,8 +9,27 @@ import logo from '../assets/images/Gemini_Generated_Image_viq1aaviq1aaviq1.png';
 import './Home.css';
 
 const Home = () => {
+  const [bookCount, setBookCount] = useState(1000);
+
+  useEffect(() => {
+    // Fetch real book count
+    const fetchBookCount = async () => {
+      try {
+        const response = await fetch('/.netlify/functions/books-get-all?limit=1');
+        if (response.ok) {
+          const result = await response.json();
+          setBookCount(result.total || 1000);
+        }
+      } catch (error) {
+        console.error('Error fetching book count:', error);
+      }
+    };
+    
+    fetchBookCount();
+  }, []);
+
   const stats = [
-    { number: '1000+', label: 'Books Read' },
+    { number: `${bookCount}+`, label: 'Books Read' },
     { number: '50+', label: 'Projects Built' },
     { number: '3', label: 'Core Passions' },
     { number: '∞', label: 'Ideas Explored' },

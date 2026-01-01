@@ -52,6 +52,25 @@ CREATE TABLE IF NOT EXISTS application_submissions (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create books table (for reading library)
+CREATE TABLE IF NOT EXISTS books (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(500) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  cover_image_url TEXT,
+  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+  tags TEXT[], -- Array of tags like ['leadership', 'technical', 'philosophy']
+  problems_solved TEXT[], -- Array of problems like ['team management', 'code quality']
+  impact TEXT NOT NULL, -- The impact/review of the book
+  key_takeaways TEXT, -- Bullet points or key lessons
+  date_read DATE,
+  goodreads_url TEXT,
+  amazon_url TEXT,
+  status VARCHAR(50) DEFAULT 'published', -- 'published', 'draft'
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_contact_status ON contact_submissions(status);
 CREATE INDEX idx_contact_created ON contact_submissions(created_at DESC);
@@ -59,6 +78,11 @@ CREATE INDEX idx_investment_status ON investment_inquiries(status);
 CREATE INDEX idx_investment_created ON investment_inquiries(created_at DESC);
 CREATE INDEX idx_application_status ON application_submissions(status);
 CREATE INDEX idx_application_created ON application_submissions(created_at DESC);
+CREATE INDEX idx_books_status ON books(status);
+CREATE INDEX idx_books_date_read ON books(date_read DESC);
+CREATE INDEX idx_books_rating ON books(rating DESC);
+CREATE INDEX idx_books_tags ON books USING GIN(tags);
+CREATE INDEX idx_books_problems ON books USING GIN(problems_solved);
 
 -- Insert your admin user (password will be hashed in the application)
 -- Password: password
