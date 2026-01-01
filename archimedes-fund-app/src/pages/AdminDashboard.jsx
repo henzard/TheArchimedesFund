@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye } from 'lucide-react';
+import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import './AdminDashboard.css';
@@ -399,6 +399,187 @@ const ProjectForm = ({ project, onSave, onCancel }) => {
 };
 
 
+// PassionForm Component
+const PassionForm = ({ passion, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(passion);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleArrayChange = (e, field) => {
+    const value = e.target.value;
+    const array = value.split(',').map(item => item.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, [field]: array }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Card padding="large" className="passion-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{passion.id ? 'Edit Passion' : 'Add New Passion'}</h3>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              placeholder="How to Use AI Effectively"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Slug * (URL-friendly)</label>
+            <input
+              type="text"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              required
+              placeholder="how-to-use-ai-effectively"
+            />
+            <small>Used in URL (e.g., /passions/how-to-use-ai)</small>
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Subtitle</label>
+          <input
+            type="text"
+            name="subtitle"
+            value={formData.subtitle}
+            onChange={handleChange}
+            placeholder="A practical guide to leveraging AI in your daily workflow"
+          />
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Category</label>
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              placeholder="AI, Development, Leadership, Learning"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Icon Emoji</label>
+            <input
+              type="text"
+              name="icon_emoji"
+              value={formData.icon_emoji}
+              onChange={handleChange}
+              maxLength="10"
+              placeholder="🤖"
+            />
+            <small>A single emoji to represent this passion</small>
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Cover Image URL</label>
+          <input
+            type="url"
+            name="cover_image_url"
+            value={formData.cover_image_url}
+            onChange={handleChange}
+            placeholder="https://... (optional hero image)"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Excerpt (Short Summary)</label>
+          <textarea
+            name="excerpt"
+            value={formData.excerpt}
+            onChange={handleChange}
+            rows="2"
+            placeholder="A brief preview of what this guide covers (displayed in cards)"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Markdown Content *</label>
+          <textarea
+            name="markdown_content"
+            value={formData.markdown_content}
+            onChange={handleChange}
+            rows="20"
+            required
+            placeholder="# Introduction&#10;&#10;Write your full content here using **Markdown** formatting.&#10;&#10;## Section 1&#10;- Bullet point&#10;- Another point&#10;&#10;Code example:&#10;```javascript&#10;const example = 'code';&#10;```"
+          />
+          <small>Use Markdown for formatting. Supports headings, lists, code blocks, links, etc.</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Tags (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.tags?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'tags')}
+            placeholder="AI, productivity, automation, tools"
+          />
+          <small>Tags for filtering and discovery</small>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Reading Time (minutes)</label>
+            <input
+              type="number"
+              name="reading_time"
+              value={formData.reading_time}
+              onChange={handleChange}
+              min="1"
+              placeholder="5"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Status</label>
+            <select name="status" value={formData.status} onChange={handleChange}>
+              <option value="draft">Draft (not visible)</option>
+              <option value="published">Published (public)</option>
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label>Date Published</label>
+            <input
+              type="date"
+              name="date_published"
+              value={formData.date_published}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="form-actions">
+          <Button type="submit" variant="primary">
+            <Save size={18} /> Save Passion
+          </Button>
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            <X size={18} /> Cancel
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -657,6 +838,63 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleSavePassion = async (passionData) => {
+    const token = localStorage.getItem('admin_token');
+    const isNew = !passionData.id;
+
+    try {
+      const endpoint = isNew 
+        ? '/.netlify/functions/admin-passions-create'
+        : '/.netlify/functions/admin-passions-update';
+      
+      const method = isNew ? 'POST' : 'PUT';
+
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(passionData),
+      });
+
+      if (response.ok) {
+        await fetchPassions();
+        setShowPassionForm(false);
+        setEditingPassion(null);
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Save passion error:', error);
+      alert('Failed to save passion');
+    }
+  };
+
+  const handleDeletePassion = async (id) => {
+    if (!confirm('Are you sure you want to delete this passion?')) return;
+
+    const token = localStorage.getItem('admin_token');
+
+    try {
+      const response = await fetch('/.netlify/functions/admin-passions-delete', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (response.ok) {
+        await fetchPassions();
+      }
+    } catch (error) {
+      console.error('Delete passion error:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="admin-dashboard">
@@ -765,6 +1003,19 @@ const AdminDashboard = () => {
               </p>
             </div>
           </Card>
+
+          <Card padding="large" className="stat-card">
+            <div className="stat-icon" style={{ background: '#f39c12' }}>
+              <Lightbulb size={24} />
+            </div>
+            <div className="stat-content">
+              <h3>Passions & Guides</h3>
+              <p className="stat-number">{passionsStats.published + passionsStats.draft}</p>
+              <p className="stat-detail">
+                {passionsStats.published} published, {passionsStats.draft} drafts
+              </p>
+            </div>
+          </Card>
         </div>
 
         {/* Tabs */}
@@ -798,6 +1049,12 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab('projects')}
           >
             <Code size={18} /> Projects ({projects.length})
+          </button>
+          <button
+            className={activeTab === 'passions' ? 'active' : ''}
+            onClick={() => setActiveTab('passions')}
+          >
+            <Lightbulb size={18} /> Passions ({passions.length})
           </button>
         </div>
 
@@ -1245,6 +1502,133 @@ const AdminDashboard = () => {
                 ))}
                 {projects.length === 0 && (
                   <p className="empty-state">No projects yet. Add your first project!</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'passions' && (
+            <div className="passions-management">
+              <div className="passions-header">
+                <h2>Passions & Guides Management</h2>
+                <Button 
+                  variant="primary" 
+                  onClick={() => {
+                    setEditingPassion({
+                      title: '',
+                      slug: '',
+                      subtitle: '',
+                      category: '',
+                      icon_emoji: '',
+                      markdown_content: '',
+                      excerpt: '',
+                      cover_image_url: '',
+                      tags: [],
+                      reading_time: 5,
+                      status: 'draft',
+                      date_published: ''
+                    });
+                    setShowPassionForm(true);
+                  }}
+                >
+                  <Plus size={18} /> Add New Passion
+                </Button>
+              </div>
+
+              {showPassionForm && (
+                <PassionForm 
+                  passion={editingPassion}
+                  onSave={handleSavePassion}
+                  onCancel={() => {
+                    setShowPassionForm(false);
+                    setEditingPassion(null);
+                  }}
+                />
+              )}
+
+              <div className="passions-list">
+                {passions.map((passion) => (
+                  <Card key={passion.id} padding="large" className="passion-card">
+                    <div className="passion-header">
+                      {passion.cover_image_url && (
+                        <img src={passion.cover_image_url} alt={passion.title} className="passion-cover" />
+                      )}
+                      <div className="passion-info">
+                        <h3>
+                          {passion.icon_emoji && <span className="passion-emoji">{passion.icon_emoji}</span>}
+                          {passion.title}
+                        </h3>
+                        {passion.subtitle && <p className="passion-subtitle">{passion.subtitle}</p>}
+                        <div className="passion-meta">
+                          <span 
+                            className="status-badge" 
+                            style={{ background: passion.status === 'published' ? '#27ae60' : '#f39c12' }}
+                          >
+                            {passion.status}
+                          </span>
+                          {passion.category && (
+                            <span className="passion-category">{passion.category}</span>
+                          )}
+                          {passion.reading_time && (
+                            <span className="passion-reading-time">📖 {passion.reading_time} min</span>
+                          )}
+                          {passion.view_count > 0 && (
+                            <span className="passion-views">👁️ {passion.view_count} views</span>
+                          )}
+                          {passion.date_published && (
+                            <span className="passion-date">
+                              {new Date(passion.date_published).toLocaleDateString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="passion-body">
+                      {passion.tags && passion.tags.length > 0 && (
+                        <div className="passion-tags">
+                          {passion.tags.map((tag, i) => (
+                            <span key={i} className="tag">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                      
+                      {passion.excerpt && (
+                        <div className="passion-excerpt">
+                          <strong>Excerpt:</strong>
+                          <p>{passion.excerpt}</p>
+                        </div>
+                      )}
+                      
+                      <div className="passion-content-preview">
+                        <strong>Content Preview:</strong>
+                        <p className="markdown-preview">{passion.markdown_content.substring(0, 300)}...</p>
+                      </div>
+                    </div>
+                    
+                    <div className="passion-actions">
+                      <Button 
+                        variant="secondary" 
+                        size="small"
+                        onClick={() => {
+                          setEditingPassion(passion);
+                          setShowPassionForm(true);
+                        }}
+                      >
+                        <Edit size={16} /> Edit
+                      </Button>
+                      <Button 
+                        variant="secondary" 
+                        size="small"
+                        onClick={() => handleDeletePassion(passion.id)}
+                      >
+                        <Trash2 size={16} /> Delete
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+                {passions.length === 0 && (
+                  <p className="empty-state">No passions yet. Add your first guide!</p>
                 )}
               </div>
             </div>

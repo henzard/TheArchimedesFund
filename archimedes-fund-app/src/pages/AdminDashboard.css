@@ -518,3 +518,204 @@
     flex-direction: column;
   }
 }
+
+/* Passions Management Styles */
+.passions-management {
+  margin-top: 2rem;
+}
+
+.passions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.passions-header h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.passions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.passion-card {
+  border-left: 5px solid #f39c12;
+  transition: all 0.3s ease;
+}
+
+.passion-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+}
+
+.passion-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.passion-cover {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.passion-info {
+  flex: 1;
+}
+
+.passion-info h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark-bg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.passion-emoji {
+  font-size: 2rem;
+}
+
+.passion-subtitle {
+  color: var(--text-gray);
+  font-style: italic;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.passion-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.passion-category {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.passion-reading-time,
+.passion-views {
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+.passion-date {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+}
+
+.passion-body {
+  margin-bottom: 1.5rem;
+}
+
+.passion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.passion-tags .tag {
+  background: linear-gradient(135deg, #f39c12, var(--primary-color));
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.passion-excerpt {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(243, 156, 18, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #f39c12;
+}
+
+.passion-excerpt strong {
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.passion-excerpt p {
+  line-height: 1.7;
+  color: var(--text-dark);
+}
+
+.passion-content-preview {
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.passion-content-preview strong {
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.markdown-preview {
+  line-height: 1.7;
+  color: var(--text-dark);
+  font-family: monospace;
+  font-size: 0.9rem;
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.passion-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.passion-form {
+  margin-bottom: 3rem;
+  border-left: 5px solid #f39c12;
+}
+
+.passion-form h3 {
+  color: #f39c12;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .passions-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .passion-header {
+    flex-direction: column;
+  }
+  
+  .passion-cover {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .passion-actions {
+    flex-direction: column;
+  }
+}
