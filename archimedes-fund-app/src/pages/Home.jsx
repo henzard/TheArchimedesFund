@@ -9,8 +9,9 @@ import logo from '../assets/images/Gemini_Generated_Image_viq1aaviq1aaviq1.png';
 import './Home.css';
 
 const Home = () => {
-  const [bookCount, setBookCount] = useState(1000);
-  const [projectCount, setProjectCount] = useState(50);
+  const [bookCount, setBookCount] = useState(0);
+  const [projectCount, setProjectCount] = useState(0);
+  const [passionCount, setPassionCount] = useState(0);
 
   useEffect(() => {
     // Fetch real book count
@@ -19,7 +20,7 @@ const Home = () => {
         const response = await fetch('/.netlify/functions/books-get-all?limit=1');
         if (response.ok) {
           const result = await response.json();
-          setBookCount(result.total || 1000);
+          setBookCount(result.total || 0);
         }
       } catch (error) {
         console.error('Error fetching book count:', error);
@@ -32,21 +33,35 @@ const Home = () => {
         const response = await fetch('/.netlify/functions/projects-get-all?limit=1');
         if (response.ok) {
           const result = await response.json();
-          setProjectCount(result.total || 50);
+          setProjectCount(result.total || 0);
         }
       } catch (error) {
         console.error('Error fetching project count:', error);
       }
     };
     
+    // Fetch real passion count
+    const fetchPassionCount = async () => {
+      try {
+        const response = await fetch('/.netlify/functions/passions-get-all?limit=1');
+        if (response.ok) {
+          const result = await response.json();
+          setPassionCount(result.total || 0);
+        }
+      } catch (error) {
+        console.error('Error fetching passion count:', error);
+      }
+    };
+    
     fetchBookCount();
     fetchProjectCount();
+    fetchPassionCount();
   }, []);
 
   const stats = [
-    { number: `${bookCount}+`, label: 'Books Read' },
-    { number: `${projectCount}+`, label: 'Projects Built' },
-    { number: '3', label: 'Core Passions' },
+    { number: bookCount > 0 ? `${bookCount}+` : '0', label: 'Books Read' },
+    { number: projectCount > 0 ? `${projectCount}+` : '0', label: 'Projects Built' },
+    { number: passionCount > 0 ? passionCount : '3', label: 'Core Passions' },
     { number: '∞', label: 'Ideas Explored' },
   ];
 
