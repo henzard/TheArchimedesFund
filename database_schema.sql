@@ -94,6 +94,26 @@ CREATE TABLE IF NOT EXISTS projects (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create passions table (for long-form markdown content/guides/white papers)
+CREATE TABLE IF NOT EXISTS passions (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(500) NOT NULL,
+  slug VARCHAR(500) UNIQUE NOT NULL, -- URL-friendly identifier
+  subtitle VARCHAR(500), -- Short description/tagline
+  category VARCHAR(100), -- e.g., 'AI', 'Development', 'Leadership', 'Learning'
+  icon_emoji VARCHAR(10), -- Emoji icon for the passion (e.g., '🤖', '💻', '📚')
+  markdown_content TEXT NOT NULL, -- Full markdown content
+  excerpt TEXT, -- Short excerpt for cards/previews
+  cover_image_url TEXT, -- Hero image for the article
+  tags TEXT[], -- Array of tags for filtering
+  reading_time INTEGER, -- Estimated reading time in minutes
+  status VARCHAR(50) DEFAULT 'published', -- 'published', 'draft'
+  view_count INTEGER DEFAULT 0, -- Track views
+  date_published DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_contact_status ON contact_submissions(status);
 CREATE INDEX idx_contact_created ON contact_submissions(created_at DESC);
@@ -112,6 +132,12 @@ CREATE INDEX idx_projects_slug ON projects(slug);
 CREATE INDEX idx_projects_tech_stack ON projects USING GIN(tech_stack);
 CREATE INDEX idx_projects_tags ON projects USING GIN(tags);
 CREATE INDEX idx_projects_date_completed ON projects(date_completed DESC);
+CREATE INDEX idx_passions_status ON passions(status);
+CREATE INDEX idx_passions_slug ON passions(slug);
+CREATE INDEX idx_passions_category ON passions(category);
+CREATE INDEX idx_passions_tags ON passions USING GIN(tags);
+CREATE INDEX idx_passions_date_published ON passions(date_published DESC);
+CREATE INDEX idx_passions_view_count ON passions(view_count DESC);
 
 -- Insert your admin user (password will be hashed in the application)
 -- Password: password

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink } from 'lucide-react';
+import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import './AdminDashboard.css';
@@ -411,6 +411,10 @@ const AdminDashboard = () => {
   const [projectsStats, setProjectsStats] = useState({ published: 0, draft: 0 });
   const [editingProject, setEditingProject] = useState(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [passions, setPassions] = useState([]);
+  const [passionsStats, setPassionsStats] = useState({ published: 0, draft: 0 });
+  const [editingPassion, setEditingPassion] = useState(null);
+  const [showPassionForm, setShowPassionForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -424,7 +428,28 @@ const AdminDashboard = () => {
     fetchData();
     fetchBooks();
     fetchProjects();
+    fetchPassions();
   }, [navigate]);
+
+  const fetchPassions = async () => {
+    const token = localStorage.getItem('admin_token');
+    
+    try {
+      const response = await fetch('/.netlify/functions/admin-passions-get-all', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setPassions(result.passions || []);
+        setPassionsStats(result.stats || { published: 0, draft: 0 });
+      }
+    } catch (error) {
+      console.error('Fetch passions error:', error);
+    }
+  };
 
   const fetchProjects = async () => {
     const token = localStorage.getItem('admin_token');
