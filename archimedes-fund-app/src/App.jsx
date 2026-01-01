@@ -7,6 +7,7 @@ import Program from './pages/Program';
 import Apply from './pages/Apply';
 import Invest from './pages/Invest';
 import Books from './pages/Books';
+import Projects from './pages/Projects';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
@@ -32,6 +33,7 @@ function App() {
                   <Route path="/apply" element={<Apply />} />
                   <Route path="/invest" element={<Invest />} />
                   <Route path="/books" element={<Books />} />
+                  <Route path="/projects" element={<Projects />} />
                 </Routes>
               </main>
               <Footer />

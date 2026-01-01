@@ -71,6 +71,29 @@ CREATE TABLE IF NOT EXISTS books (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create projects table (for GitHub projects showcase)
+CREATE TABLE IF NOT EXISTS projects (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(500) NOT NULL,
+  slug VARCHAR(500) UNIQUE NOT NULL, -- URL-friendly identifier
+  tagline VARCHAR(500), -- Short catchy tagline
+  description TEXT NOT NULL, -- Full description/mini blog post
+  github_url TEXT NOT NULL,
+  demo_url TEXT, -- Live demo link
+  image_url TEXT, -- Project screenshot/banner
+  tech_stack TEXT[], -- Array of technologies like ['React', 'Node.js', 'PostgreSQL']
+  tags TEXT[], -- Array of tags like ['web', 'mobile', 'api', 'tool']
+  features TEXT[], -- Array of key features
+  challenges TEXT, -- What challenges did you face?
+  learnings TEXT, -- What did you learn?
+  status VARCHAR(50) DEFAULT 'active', -- 'active', 'archived', 'in-progress'
+  visibility VARCHAR(50) DEFAULT 'published', -- 'published', 'draft'
+  stars INTEGER DEFAULT 0, -- GitHub stars count
+  date_completed DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create indexes for better query performance
 CREATE INDEX idx_contact_status ON contact_submissions(status);
 CREATE INDEX idx_contact_created ON contact_submissions(created_at DESC);
@@ -83,6 +106,12 @@ CREATE INDEX idx_books_date_read ON books(date_read DESC);
 CREATE INDEX idx_books_rating ON books(rating DESC);
 CREATE INDEX idx_books_tags ON books USING GIN(tags);
 CREATE INDEX idx_books_problems ON books USING GIN(problems_solved);
+CREATE INDEX idx_projects_visibility ON projects(visibility);
+CREATE INDEX idx_projects_status ON projects(status);
+CREATE INDEX idx_projects_slug ON projects(slug);
+CREATE INDEX idx_projects_tech_stack ON projects USING GIN(tech_stack);
+CREATE INDEX idx_projects_tags ON projects USING GIN(tags);
+CREATE INDEX idx_projects_date_completed ON projects(date_completed DESC);
 
 -- Insert your admin user (password will be hashed in the application)
 -- Password: password

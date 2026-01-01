@@ -10,6 +10,7 @@ import './Home.css';
 
 const Home = () => {
   const [bookCount, setBookCount] = useState(1000);
+  const [projectCount, setProjectCount] = useState(50);
 
   useEffect(() => {
     // Fetch real book count
@@ -25,12 +26,26 @@ const Home = () => {
       }
     };
     
+    // Fetch real project count
+    const fetchProjectCount = async () => {
+      try {
+        const response = await fetch('/.netlify/functions/projects-get-all?limit=1');
+        if (response.ok) {
+          const result = await response.json();
+          setProjectCount(result.total || 50);
+        }
+      } catch (error) {
+        console.error('Error fetching project count:', error);
+      }
+    };
+    
     fetchBookCount();
+    fetchProjectCount();
   }, []);
 
   const stats = [
     { number: `${bookCount}+`, label: 'Books Read' },
-    { number: '50+', label: 'Projects Built' },
+    { number: `${projectCount}+`, label: 'Projects Built' },
     { number: '3', label: 'Core Passions' },
     { number: '∞', label: 'Ideas Explored' },
   ];
