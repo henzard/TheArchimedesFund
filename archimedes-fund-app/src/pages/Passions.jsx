@@ -22,12 +22,13 @@ const Passions = () => {
         const response = await fetch('/.netlify/functions/passions-get-all');
         if (response.ok) {
           const data = await response.json();
-          setPassions(data);
+          const passionsArray = data.passions || [];
+          setPassions(passionsArray);
 
           // Extract unique tags and categories
           const tags = new Set();
           const categories = new Set();
-          data.forEach(passion => {
+          passionsArray.forEach(passion => {
             passion.tags?.forEach(tag => tags.add(tag));
             if (passion.category) categories.add(passion.category);
           });
