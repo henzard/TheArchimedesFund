@@ -1779,13 +1779,374 @@ const AdminDashboard = () => {
   }
 
   // Projects Page
-  function renderProjectsPage() { return <div className="data-section"><h3>Projects Page - Coming Soon</h3></div>; }
+  function renderProjectsPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <Code size={24} /> GitHub Projects Showcase
+          </h3>
+          <div className="section-actions">
+            <Button variant="primary" onClick={() => { 
+              setShowProjectForm(true); 
+              setEditingProject({ 
+                title: '', slug: '', tagline: '', description: '', github_url: '', demo_url: '', 
+                image_url: '', tech_stack: [], tags: [], features: [], challenges: '', learnings: '', 
+                status: 'active', visibility: 'draft', stars: 0, date_completed: '' 
+              }); 
+            }}>
+              <Plus size={18} /> Add New Project
+            </Button>
+          </div>
+        </div>
+
+        {showProjectForm && (
+          <ProjectForm
+            project={editingProject}
+            onSave={handleSaveProject}
+            onCancel={() => { setShowProjectForm(false); setEditingProject(null); }}
+          />
+        )}
+
+        {!showProjectForm && (
+          <>
+            <SearchFilterBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+              statuses={['published', 'draft']}
+              onClearFilters={clearFilters}
+            />
+
+            {filteredProjects.length > 0 && (
+              <div className="results-count">
+                Found <strong>{filteredProjects.length}</strong> project{filteredProjects.length !== 1 ? 's' : ''}
+              </div>
+            )}
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Tech Stack</th>
+                    <th>Status</th>
+                    <th>Visibility</th>
+                    <th>Stars</th>
+                    <th>Links</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getPaginatedData(filteredProjects).map((project) => (
+                    <tr key={project.id}>
+                      <td>
+                        <strong>{project.title}</strong>
+                        {project.tagline && <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{project.tagline}</div>}
+                      </td>
+                      <td style={{ maxWidth: '200px' }}>{project.tech_stack?.slice(0, 3).join(', ')}</td>
+                      <td><span className={`status-badge ${project.status}`}>{project.status}</span></td>
+                      <td><span className={`status-badge ${project.visibility}`}>{project.visibility}</span></td>
+                      <td>⭐ {project.stars || 0}</td>
+                      <td>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <a href={project.github_url} target="_blank" rel="noopener noreferrer" className="action-btn view">
+                            <Code size={16} />
+                          </a>
+                          {project.demo_url && (
+                            <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="action-btn view">
+                              <ExternalLink size={16} />
+                            </a>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="action-btn edit" onClick={() => { setEditingProject(project); setShowProjectForm(true); }}>
+                            <Edit size={16} />
+                          </button>
+                          <button className="action-btn delete" onClick={() => handleDeleteProject(project.id)}>
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {filteredProjects.length === 0 && (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <Code size={48} />
+                  </div>
+                  <h3>No projects found</h3>
+                  <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No projects added yet.'}</p>
+                  <Button variant="primary" onClick={() => { setShowProjectForm(true); setEditingProject({ title: '', slug: '', tagline: '', description: '', github_url: '', demo_url: '', image_url: '', tech_stack: [], tags: [], features: [], challenges: '', learnings: '', status: 'active', visibility: 'draft', stars: 0, date_completed: '' }); }}>
+                    <Plus size={18} /> Add Your First Project
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {filteredProjects.length > itemsPerPage && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredProjects.length / itemsPerPage)}
+                totalItems={filteredProjects.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
   
   // Passions Page
-  function renderPassionsPage() { return <div className="data-section"><h3>Passions Page - Coming Soon</h3></div>; }
+  function renderPassionsPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <Lightbulb size={24} /> Passions & Guides Management
+          </h3>
+          <div className="section-actions">
+            <Button variant="primary" onClick={() => { 
+              setShowPassionForm(true); 
+              setEditingPassion({ 
+                title: '', slug: '', subtitle: '', category: '', icon_emoji: '', markdown_content: '', 
+                excerpt: '', cover_image_url: '', tags: [], reading_time: 5, status: 'draft', date_published: '' 
+              }); 
+            }}>
+              <Plus size={18} /> Add New Passion
+            </Button>
+          </div>
+        </div>
+
+        {showPassionForm && (
+          <PassionForm
+            passion={editingPassion}
+            onSave={handleSavePassion}
+            onCancel={() => { setShowPassionForm(false); setEditingPassion(null); }}
+          />
+        )}
+
+        {!showPassionForm && (
+          <>
+            <SearchFilterBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+              statuses={['published', 'draft']}
+              onClearFilters={clearFilters}
+            />
+
+            {filteredPassions.length > 0 && (
+              <div className="results-count">
+                Found <strong>{filteredPassions.length}</strong> passion{filteredPassions.length !== 1 ? 's' : ''}
+              </div>
+            )}
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Reading Time</th>
+                    <th>Status</th>
+                    <th>Date Published</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getPaginatedData(filteredPassions).map((passion) => (
+                    <tr key={passion.id}>
+                      <td>
+                        {passion.icon_emoji && <span style={{ marginRight: '0.5rem' }}>{passion.icon_emoji}</span>}
+                        <strong>{passion.title}</strong>
+                        {passion.subtitle && <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{passion.subtitle}</div>}
+                      </td>
+                      <td>{passion.category || '-'}</td>
+                      <td style={{ maxWidth: '200px' }}>{passion.tags?.slice(0, 3).join(', ')}</td>
+                      <td>📖 {passion.reading_time} min</td>
+                      <td><span className={`status-badge ${passion.status}`}>{passion.status}</span></td>
+                      <td>{passion.date_published ? new Date(passion.date_published).toLocaleDateString() : '-'}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="action-btn edit" onClick={() => { setEditingPassion(passion); setShowPassionForm(true); }}>
+                            <Edit size={16} />
+                          </button>
+                          <button className="action-btn delete" onClick={() => handleDeletePassion(passion.id)}>
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {filteredPassions.length === 0 && (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <Lightbulb size={48} />
+                  </div>
+                  <h3>No passions found</h3>
+                  <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No passions added yet.'}</p>
+                  <Button variant="primary" onClick={() => { setShowPassionForm(true); setEditingPassion({ title: '', slug: '', subtitle: '', category: '', icon_emoji: '', markdown_content: '', excerpt: '', cover_image_url: '', tags: [], reading_time: 5, status: 'draft', date_published: '' }); }}>
+                    <Plus size={18} /> Add Your First Passion
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {filteredPassions.length > itemsPerPage && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredPassions.length / itemsPerPage)}
+                totalItems={filteredPassions.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
   
   // Therapist Page
-  function renderTherapistPage() { return <div className="data-section"><h3>Therapist Page - Coming Soon</h3></div>; }
+  function renderTherapistPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <MessageCircle size={24} /> Therapist Sessions
+          </h3>
+          <div className="section-actions" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+              📊 Total: {therapistStats.total_sessions} | 💬 Messages: {therapistStats.total_messages} | 📅 This Week: {therapistStats.sessions_this_week}
+            </span>
+          </div>
+        </div>
+
+        {selectedSession ? (
+          <div className="data-section">
+            <div className="section-header" style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+              <Button variant="secondary" onClick={() => { setSelectedSession(null); setSessionMessages([]); }}>
+                ← Back to Sessions
+              </Button>
+              <div style={{ marginTop: '1rem' }}>
+                <h3>🛋️ {selectedSession.chat_name}</h3>
+                <p style={{ color: 'var(--text-secondary)', margin: '0.5rem 0' }}>
+                  User: <strong>{selectedSession.username}</strong> | Started: {new Date(selectedSession.session_start).toLocaleString()}
+                </p>
+              </div>
+            </div>
+
+            <div style={{ padding: '2rem', maxHeight: '600px', overflowY: 'auto' }}>
+              {sessionMessages.map((msg) => (
+                <div key={msg.id} style={{ 
+                  marginBottom: '1.5rem', 
+                  padding: '1rem', 
+                  background: msg.sender === 'user' ? 'rgba(30, 58, 138, 0.05)' : 'rgba(201, 169, 97, 0.05)', 
+                  borderRadius: '8px',
+                  borderLeft: `3px solid ${msg.sender === 'user' ? 'var(--admin-primary)' : 'var(--admin-secondary)'}`
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                    <span><strong>{msg.sender === 'user' ? `👤 ${selectedSession.username}` : '🧠 Dr. Therapist'}</strong></span>
+                    <span>{new Date(msg.created_at).toLocaleString()}</span>
+                  </div>
+                  <p style={{ margin: 0 }}>{msg.message}</p>
+                </div>
+              ))}
+              {sessionMessages.length === 0 && (
+                <div className="empty-state">
+                  <p>No messages in this session yet.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            <SearchFilterBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+              statuses={['active', 'inactive']}
+              onClearFilters={clearFilters}
+            />
+
+            {filteredTherapistSessions.length > 0 && (
+              <div className="results-count">
+                Found <strong>{filteredTherapistSessions.length}</strong> session{filteredTherapistSessions.length !== 1 ? 's' : ''}
+              </div>
+            )}
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Chat Name</th>
+                    <th>Username</th>
+                    <th>Messages</th>
+                    <th>Started</th>
+                    <th>Last Activity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getPaginatedData(filteredTherapistSessions).map((session) => (
+                    <tr key={session.id}>
+                      <td><strong>💬 {session.chat_name}</strong></td>
+                      <td>👤 {session.username}</td>
+                      <td>{session.message_count} messages</td>
+                      <td>{new Date(session.session_start).toLocaleDateString()}</td>
+                      <td>{new Date(session.last_activity).toLocaleString()}</td>
+                      <td><span className={`status-badge ${session.status}`}>{session.status}</span></td>
+                      <td>
+                        <button className="action-btn view" onClick={() => fetchSessionMessages(session.id)}>
+                          <Eye size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {filteredTherapistSessions.length === 0 && (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <MessageCircle size={48} />
+                  </div>
+                  <h3>No sessions found</h3>
+                  <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No therapist sessions yet.'}</p>
+                </div>
+              )}
+            </div>
+
+            {filteredTherapistSessions.length > itemsPerPage && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredTherapistSessions.length / itemsPerPage)}
+                totalItems={filteredTherapistSessions.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
 };
 
 export default AdminDashboard;
