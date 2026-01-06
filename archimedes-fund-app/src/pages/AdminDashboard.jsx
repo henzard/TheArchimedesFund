@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb, MessageCircle, User } from 'lucide-react';
+import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb, MessageCircle, User, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import './AdminDashboard.css';
@@ -580,10 +580,102 @@ const PassionForm = ({ passion, onSave, onCancel }) => {
 };
 
 
+// Search and Filter Component
+const SearchFilterBar = ({ searchTerm, onSearchChange, statusFilter, onStatusChange, statuses, onClearFilters }) => {
+  return (
+    <div className="search-filter-bar">
+      <div className="search-box">
+        <Search size={18} />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
+      {statuses && (
+        <div className="filter-dropdown">
+          <select value={statusFilter} onChange={(e) => onStatusChange(e.target.value)}>
+            <option value="all">All Status</option>
+            {statuses.map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+        </div>
+      )}
+      {(searchTerm || statusFilter !== 'all') && (
+        <button className="clear-filters-btn" onClick={onClearFilters}>
+          Clear Filters
+        </button>
+      )}
+    </div>
+  );
+};
+
+// Pagination Component
+const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }) => {
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  return (
+    <div className="pagination-bar">
+      <div className="pagination-info">
+        Showing {startItem}-{endItem} of {totalItems}
+      </div>
+      <div className="pagination-controls">
+        <button
+          className="pagination-btn"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft size={18} /> Prev
+        </button>
+        {[...Array(totalPages)].map((_, i) => {
+          const pageNum = i + 1;
+          // Show first, last, current, and pages around current
+          if (
+            pageNum === 1 ||
+            pageNum === totalPages ||
+            (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+          ) {
+            return (
+              <button
+                key={pageNum}
+                className={`pagination-btn ${currentPage === pageNum ? 'active' : ''}`}
+                onClick={() => onPageChange(pageNum)}
+              >
+                {pageNum}
+              </button>
+            );
+          } else if (pageNum === currentPage - 2 || pageNum === currentPage + 2) {
+            return <span key={pageNum}>...</span>;
+          }
+          return null;
+        })}
+        <button
+          className="pagination-btn"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('contacts');
+  
+  // Search and Filter States
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  
   const [books, setBooks] = useState([]);
   const [booksStats, setBooksStats] = useState({ published: 0, draft: 0 });
   const [editingBook, setEditingBook] = useState(null);
@@ -601,6 +693,80 @@ const AdminDashboard = () => {
   const [selectedSession, setSelectedSession] = useState(null);
   const [sessionMessages, setSessionMessages] = useState([]);
   const navigate = useNavigate();
+
+  // Reset pagination when tab or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchTerm, statusFilter]);
+
+  // Filter and paginate data based on active tab
+  const getFilteredData = (items, searchFields) => {
+    if (!items) return [];
+    
+    let filtered = items;
+    
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(item => 
+        searchFields.some(field => 
+          item[field]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+    
+    // Apply status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(item => item.status === statusFilter || item.visibility === statusFilter);
+    }
+    
+    return filtered;
+  };
+
+  const getPaginatedData = (items) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return items.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  // Filtered data for each section
+  const filteredContacts = useMemo(() => 
+    data ? getFilteredData(data.contacts, ['name', 'email', 'message']) : [],
+    [data, searchTerm, statusFilter]
+  );
+
+  const filteredInvestments = useMemo(() => 
+    data ? getFilteredData(data.investments, ['name', 'email', 'company', 'message']) : [],
+    [data, searchTerm, statusFilter]
+  );
+
+  const filteredApplications = useMemo(() => 
+    data ? getFilteredData(data.applications, ['full_name', 'email', 'why_apply', 'goals']) : [],
+    [data, searchTerm, statusFilter]
+  );
+
+  const filteredBooks = useMemo(() => 
+    getFilteredData(books, ['title', 'author', 'tags']),
+    [books, searchTerm, statusFilter]
+  );
+
+  const filteredProjects = useMemo(() => 
+    getFilteredData(projects, ['title', 'description', 'tags']),
+    [projects, searchTerm, statusFilter]
+  );
+
+  const filteredPassions = useMemo(() => 
+    getFilteredData(passions, ['title', 'subtitle', 'category', 'tags']),
+    [passions, searchTerm, statusFilter]
+  );
+
+  const filteredTherapistSessions = useMemo(() => 
+    getFilteredData(therapistSessions, ['username', 'chat_name']),
+    [therapistSessions, searchTerm, statusFilter]
+  );
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+  };
 
   useEffect(() => {
     // Check if logged in
@@ -1125,157 +1291,250 @@ const AdminDashboard = () => {
         {/* Tab Content */}
         <div className="tab-content">
           {activeTab === 'contacts' && (
-            <div className="submissions-list">
-              {data.contacts.map((contact) => (
-                <Card key={contact.id} padding="large" className="submission-card">
-                  <div className="submission-header">
-                    <div>
-                      <h3>{contact.name}</h3>
-                      <p className="submission-email">{contact.email}</p>
-                      {contact.phone && <p className="submission-phone">{contact.phone}</p>}
-                    </div>
-                    <div className="submission-meta">
-                      <span 
-                        className="status-badge" 
-                        style={{ background: getStatusColor(contact.status) }}
-                      >
-                        {contact.status}
-                      </span>
-                      <span className="submission-date">
-                        {new Date(contact.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="submission-body">
-                    <p><strong>Message:</strong></p>
-                    <p>{contact.message}</p>
-                  </div>
-                  <div className="submission-actions">
-                    <select
-                      value={contact.status}
-                      onChange={(e) => handleStatusUpdate('contact', contact.id, e.target.value)}
-                    >
-                      <option value="new">New</option>
-                      <option value="read">Read</option>
-                      <option value="responded">Responded</option>
-                      <option value="archived">Archived</option>
-                    </select>
-                  </div>
-                </Card>
-              ))}
-              {data.contacts.length === 0 && (
-                <p className="empty-state">No contact submissions yet.</p>
+            <>
+              <SearchFilterBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                statusFilter={statusFilter}
+                onStatusChange={setStatusFilter}
+                statuses={['new', 'read', 'responded', 'archived']}
+                onClearFilters={clearFilters}
+              />
+              
+              {filteredContacts.length > 0 && (
+                <div className="results-count">
+                  Found {filteredContacts.length} contact{filteredContacts.length !== 1 ? 's' : ''}
+                </div>
               )}
-            </div>
+
+              <div className="submissions-list">
+                {getPaginatedData(filteredContacts).map((contact) => (
+                  <Card key={contact.id} padding="large" className="submission-card">
+                    <div className="submission-header">
+                      <div>
+                        <h3>{contact.name}</h3>
+                        <p className="submission-email">{contact.email}</p>
+                        {contact.phone && <p className="submission-phone">{contact.phone}</p>}
+                      </div>
+                      <div className="submission-meta">
+                        <span 
+                          className="status-badge" 
+                          style={{ background: getStatusColor(contact.status) }}
+                        >
+                          {contact.status}
+                        </span>
+                        <span className="submission-date">
+                          {new Date(contact.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="submission-body">
+                      <p><strong>Message:</strong></p>
+                      <p>{contact.message}</p>
+                    </div>
+                    <div className="submission-actions">
+                      <select
+                        value={contact.status}
+                        onChange={(e) => handleStatusUpdate('contact', contact.id, e.target.value)}
+                      >
+                        <option value="new">New</option>
+                        <option value="read">Read</option>
+                        <option value="responded">Responded</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                    </div>
+                  </Card>
+                ))}
+                {filteredContacts.length === 0 && (
+                  <div className="empty-state-enhanced">
+                    <Mail size={80} />
+                    <h3>No contacts found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No contact submissions yet.'}</p>
+                  </div>
+                )}
+              </div>
+
+              {filteredContacts.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredContacts.length / itemsPerPage)}
+                  totalItems={filteredContacts.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </>
           )}
 
           {activeTab === 'investments' && (
-            <div className="submissions-list">
-              {data.investments.map((investment) => (
-                <Card key={investment.id} padding="large" className="submission-card">
-                  <div className="submission-header">
-                    <div>
-                      <h3>{investment.name}</h3>
-                      <p className="submission-email">{investment.email}</p>
-                      {investment.phone && <p className="submission-phone">{investment.phone}</p>}
-                      {investment.company && <p className="submission-company">Company: {investment.company}</p>}
-                    </div>
-                    <div className="submission-meta">
-                      <span 
-                        className="status-badge" 
-                        style={{ background: getStatusColor(investment.status) }}
-                      >
-                        {investment.status}
-                      </span>
-                      <span className="submission-date">
-                        {new Date(investment.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="submission-body">
-                    {investment.investment_tier && (
-                      <p><strong>Tier:</strong> {investment.investment_tier}</p>
-                    )}
-                    {investment.investment_amount && (
-                      <p><strong>Amount:</strong> {investment.investment_amount}</p>
-                    )}
-                    {investment.message && (
-                      <>
-                        <p><strong>Message:</strong></p>
-                        <p>{investment.message}</p>
-                      </>
-                    )}
-                  </div>
-                  <div className="submission-actions">
-                    <select
-                      value={investment.status}
-                      onChange={(e) => handleStatusUpdate('investment', investment.id, e.target.value)}
-                    >
-                      <option value="new">New</option>
-                      <option value="contacted">Contacted</option>
-                      <option value="meeting_scheduled">Meeting Scheduled</option>
-                      <option value="closed">Closed</option>
-                    </select>
-                  </div>
-                </Card>
-              ))}
-              {data.investments.length === 0 && (
-                <p className="empty-state">No investment inquiries yet.</p>
+            <>
+              <SearchFilterBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                statusFilter={statusFilter}
+                onStatusChange={setStatusFilter}
+                statuses={['new', 'contacted', 'meeting_scheduled', 'closed']}
+                onClearFilters={clearFilters}
+              />
+              
+              {filteredInvestments.length > 0 && (
+                <div className="results-count">
+                  Found {filteredInvestments.length} investment inquir{filteredInvestments.length !== 1 ? 'ies' : 'y'}
+                </div>
               )}
-            </div>
+
+              <div className="submissions-list">
+                {getPaginatedData(filteredInvestments).map((investment) => (
+                  <Card key={investment.id} padding="large" className="submission-card">
+                    <div className="submission-header">
+                      <div>
+                        <h3>{investment.name}</h3>
+                        <p className="submission-email">{investment.email}</p>
+                        {investment.phone && <p className="submission-phone">{investment.phone}</p>}
+                        {investment.company && <p className="submission-company">Company: {investment.company}</p>}
+                      </div>
+                      <div className="submission-meta">
+                        <span 
+                          className="status-badge" 
+                          style={{ background: getStatusColor(investment.status) }}
+                        >
+                          {investment.status}
+                        </span>
+                        <span className="submission-date">
+                          {new Date(investment.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="submission-body">
+                      {investment.investment_tier && (
+                        <p><strong>Tier:</strong> {investment.investment_tier}</p>
+                      )}
+                      {investment.investment_amount && (
+                        <p><strong>Amount:</strong> {investment.investment_amount}</p>
+                      )}
+                      {investment.message && (
+                        <>
+                          <p><strong>Message:</strong></p>
+                          <p>{investment.message}</p>
+                        </>
+                      )}
+                    </div>
+                    <div className="submission-actions">
+                      <select
+                        value={investment.status}
+                        onChange={(e) => handleStatusUpdate('investment', investment.id, e.target.value)}
+                      >
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="meeting_scheduled">Meeting Scheduled</option>
+                        <option value="closed">Closed</option>
+                      </select>
+                    </div>
+                  </Card>
+                ))}
+                {filteredInvestments.length === 0 && (
+                  <div className="empty-state-enhanced">
+                    <DollarSign size={80} />
+                    <h3>No investments found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No investment inquiries yet.'}</p>
+                  </div>
+                )}
+              </div>
+
+              {filteredInvestments.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredInvestments.length / itemsPerPage)}
+                  totalItems={filteredInvestments.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </>
           )}
 
           {activeTab === 'applications' && (
-            <div className="submissions-list">
-              {data.applications.map((application) => (
-                <Card key={application.id} padding="large" className="submission-card">
-                  <div className="submission-header">
-                    <div>
-                      <h3>{application.full_name}</h3>
-                      <p className="submission-email">{application.email}</p>
-                      <p className="submission-phone">{application.phone}</p>
-                    </div>
-                    <div className="submission-meta">
-                      <span 
-                        className="status-badge" 
-                        style={{ background: getStatusColor(application.status) }}
-                      >
-                        {application.status}
-                      </span>
-                      <span className="submission-date">
-                        {new Date(application.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="submission-body">
-                    <div className="application-details">
-                      <p><strong>DOB:</strong> {new Date(application.date_of_birth).toLocaleDateString()}</p>
-                      <p><strong>Education:</strong> {application.education_level}</p>
-                      <p><strong>Programming Experience:</strong> {application.programming_experience}</p>
-                      <p><strong>Why Apply:</strong></p>
-                      <p>{application.why_apply}</p>
-                      <p><strong>Goals:</strong></p>
-                      <p>{application.goals}</p>
-                    </div>
-                  </div>
-                  <div className="submission-actions">
-                    <select
-                      value={application.status}
-                      onChange={(e) => handleStatusUpdate('application', application.id, e.target.value)}
-                    >
-                      <option value="new">New</option>
-                      <option value="reviewing">Reviewing</option>
-                      <option value="interview">Interview</option>
-                      <option value="accepted">Accepted</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
-                  </div>
-                </Card>
-              ))}
-              {data.applications.length === 0 && (
-                <p className="empty-state">No applications yet.</p>
+            <>
+              <SearchFilterBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                statusFilter={statusFilter}
+                onStatusChange={setStatusFilter}
+                statuses={['new', 'reviewing', 'interview', 'accepted', 'rejected']}
+                onClearFilters={clearFilters}
+              />
+              
+              {filteredApplications.length > 0 && (
+                <div className="results-count">
+                  Found {filteredApplications.length} application{filteredApplications.length !== 1 ? 's' : ''}
+                </div>
               )}
-            </div>
+
+              <div className="submissions-list">
+                {getPaginatedData(filteredApplications).map((application) => (
+                  <Card key={application.id} padding="large" className="submission-card">
+                    <div className="submission-header">
+                      <div>
+                        <h3>{application.full_name}</h3>
+                        <p className="submission-email">{application.email}</p>
+                        <p className="submission-phone">{application.phone}</p>
+                      </div>
+                      <div className="submission-meta">
+                        <span 
+                          className="status-badge" 
+                          style={{ background: getStatusColor(application.status) }}
+                        >
+                          {application.status}
+                        </span>
+                        <span className="submission-date">
+                          {new Date(application.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="submission-body">
+                      <div className="application-details">
+                        <p><strong>DOB:</strong> {new Date(application.date_of_birth).toLocaleDateString()}</p>
+                        <p><strong>Education:</strong> {application.education_level}</p>
+                        <p><strong>Programming Experience:</strong> {application.programming_experience}</p>
+                        <p><strong>Why Apply:</strong></p>
+                        <p>{application.why_apply}</p>
+                        <p><strong>Goals:</strong></p>
+                        <p>{application.goals}</p>
+                      </div>
+                    </div>
+                    <div className="submission-actions">
+                      <select
+                        value={application.status}
+                        onChange={(e) => handleStatusUpdate('application', application.id, e.target.value)}
+                      >
+                        <option value="new">New</option>
+                        <option value="reviewing">Reviewing</option>
+                        <option value="interview">Interview</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+                    </div>
+                  </Card>
+                ))}
+                {filteredApplications.length === 0 && (
+                  <div className="empty-state-enhanced">
+                    <FileText size={80} />
+                    <h3>No applications found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No applications yet.'}</p>
+                  </div>
+                )}
+              </div>
+
+              {filteredApplications.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredApplications.length / itemsPerPage)}
+                  totalItems={filteredApplications.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </>
           )}
 
           {activeTab === 'books' && (

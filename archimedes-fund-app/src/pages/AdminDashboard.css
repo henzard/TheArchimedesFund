@@ -959,3 +959,303 @@
     flex-direction: column;
   }
 }
+
+/* ============================================
+   UX IMPROVEMENTS - Search, Filter & Better Organization
+   ============================================ */
+
+/* Search and Filter Bar */
+.search-filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.search-filter-bar:focus-within {
+  border-color: var(--secondary-color);
+  box-shadow: 0 4px 16px rgba(201, 169, 97, 0.15);
+}
+
+.search-box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.875rem 1.125rem 0.875rem 3rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-box svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-gray);
+  pointer-events: none;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+}
+
+.filter-dropdown {
+  min-width: 180px;
+}
+
+.filter-dropdown select {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-dropdown select:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+}
+
+.clear-filters-btn {
+  padding: 0.875rem 1.5rem;
+  background: rgba(201, 169, 97, 0.08);
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.clear-filters-btn:hover {
+  background: var(--secondary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+/* Status Filter Pills */
+.status-filter-pills {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.status-pill {
+  padding: 0.6rem 1.25rem;
+  border-radius: 24px;
+  border: 2px solid var(--border-color);
+  background: white;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-pill:hover {
+  border-color: var(--secondary-color);
+  background: rgba(201, 169, 97, 0.08);
+  transform: translateY(-2px);
+}
+
+.status-pill.active {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  border-color: var(--secondary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+.status-pill-count {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-pill.active .status-pill-count {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Pagination */
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.pagination-info {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagination-btn {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 40px;
+  justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--secondary-color);
+  background: rgba(201, 169, 97, 0.08);
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  border-color: var(--secondary-color);
+  color: white;
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+/* Section Results Count */
+.results-count {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(201, 169, 97, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+/* Loading States */
+.loading-skeleton {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.skeleton-card {
+  height: 200px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Empty State - Enhanced */
+.empty-state-enhanced {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--text-gray);
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed var(--border-color);
+}
+
+.empty-state-enhanced svg {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  opacity: 0.4;
+  width: 80px;
+  height: 80px;
+}
+
+.empty-state-enhanced h3 {
+  color: var(--primary-color);
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.empty-state-enhanced p {
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Responsive Improvements for UX features */
+@media (max-width: 768px) {
+  .search-filter-bar {
+    flex-direction: column;
+  }
+
+  .search-box,
+  .filter-dropdown {
+    width: 100%;
+  }
+
+  .status-filter-pills {
+    flex-direction: column;
+  }
+
+  .status-pill {
+    justify-content: space-between;
+  }
+
+  .pagination-bar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .pagination-controls {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
