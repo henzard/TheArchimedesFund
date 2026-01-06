@@ -1,6 +1,5 @@
 import { getDb, headers } from './utils/db.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import { verifyAdmin } from './utils/auth.js';
 
 export const handler = async (event) => {
   // Only allow POST requests
@@ -25,19 +24,7 @@ export const handler = async (event) => {
     }
 
     // Verify admin credentials
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-
-    if (username !== adminEmail) {
-      return {
-        statusCode: 401,
-        headers,
-        body: JSON.stringify({ error: 'Invalid credentials' })
-      };
-    }
-
-    const isValidPassword = await bcrypt.compare(password, adminPassword);
-    if (!isValidPassword) {
+    if (!verifyAdmin(username, password)) {
       return {
         statusCode: 401,
         headers,
