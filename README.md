@@ -1,104 +1,192 @@
-# The Archimedes Fund Website
+# The Archimedes Fund
 
-A modern, professional website for The Archimedes Fund - an educational initiative focused on financial mastery and technical excellence.
+A modern, full-stack web application for The Archimedes Fund - an educational initiative focused on financial mastery and technical excellence.
 
-## Overview
+## 🎯 Overview
 
-This website showcases The Archimedes Fund's mission to provide educational pathways for men seeking to maximize their potential through:
+The Archimedes Fund provides educational pathways for men seeking to maximize their potential through:
 - **The Lever (Technology)**: Hard technical skills in coding, AI, and engineering
 - **The Fulcrum (Capital)**: Deep financial literacy and wealth-building strategies
 - **The Force (Discipline)**: Mindset, responsibility, and leadership development
 
-## Files
+## 📁 Project Structure
 
-- `index.html` - Main website structure
-- `styles.css` - All styling and responsive design
-- `script.js` - Interactive features and animations
-- `Gemini_Generated_Image_viq1aaviq1aaviq1.png` - Logo
-- `Gemini_Generated_Image_1i8pxi1i8pxi1i8p.png` - Hero/Apply section image
-- `Gemini_Generated_Image_vp4rzcvp4rzcvp4r.png` - Investor section image
+```
+TheArchimedesFund/
+├── docs/                          # 📚 All documentation
+│   ├── deployment/               # Deployment guides
+│   ├── features/                 # Feature documentation
+│   ├── development/              # Development guides
+│   └── architecture/             # Architecture docs
+├── assets/                        # 🎨 Project-level assets
+│   └── images/                   # Brand images & mockups
+├── archimedes-fund-app/          # ⚛️ Frontend React application
+│   ├── src/                      # Source code
+│   ├── public/                   # Static assets
+│   └── dist/                     # Build output
+├── netlify/                      # ☁️ Backend serverless functions
+│   └── functions/                # API endpoints
+├── database_schema.sql           # 🗄️ PostgreSQL schema
+├── package.json                  # 📦 Dependencies
+├── netlify.toml                  # ⚙️ Deployment config
+└── README.md                     # 📖 This file
+```
 
-## Features
+## 🚀 Quick Start
 
-### Design Elements
-- Modern, professional design with navy blue and gold color scheme
-- Fully responsive layout for mobile, tablet, and desktop
-- Smooth scrolling navigation
-- Animated statistics counters
-- Parallax effects
-- Fade-in animations on scroll
-- Interactive hover effects
+```bash
+# Clone the repository
+git clone https://github.com/your-username/TheArchimedesFund.git
+cd TheArchimedesFund
 
-### Sections
-1. **Hero Section** - Bold statement with tagline "A Place To Stand"
-2. **Statistics** - Key metrics about the program
-3. **About** - Mission, vision, and image showcases
-4. **The Three Pillars** - Technology, Capital, and Discipline
-5. **Program** - 12-week bootcamp timeline and benefits
-6. **Apply CTA** - Call to action for potential students
-7. **Invest CTA** - Call to action for potential investors
-8. **Contact** - Contact form and information
-9. **Footer** - Quick links and branding
+# Install dependencies
+cd archimedes-fund-app
+npm install
 
-## How to Use
+# Start development server
+npm run dev
+```
 
-### Local Development
-1. Open `index.html` in a web browser
-2. All images must be in the same directory
-3. No server required - pure HTML/CSS/JS
+For detailed setup instructions, see **[Quick Start Guide](docs/development/quick-start.md)**.
 
-### Customization
-- Colors: Edit CSS variables in `styles.css` (lines 9-18)
-- Content: Edit text directly in `index.html`
-- Images: Replace image files with same filenames or update paths in HTML
+## 🌟 Features
 
-### Form Integration
-The contact form currently logs to console. To make it functional:
-1. Set up a backend API endpoint
-2. Update the form submission handler in `script.js` (line 60)
-3. Or use a service like Formspree, Netlify Forms, or EmailJS
+### User-Facing
+- **Responsive Design**: Mobile-first, works on all devices
+- **Content Management**: Books, Projects, Passions sections
+- **Application System**: Apply to the program
+- **Investment Inquiry**: Connect with potential investors
+- **Therapist Chat**: AI-powered conversation feature
+- **Contact Forms**: Multiple touchpoints for engagement
 
-## Deployment
+### Admin Dashboard
+- **Content Management**: CRUD operations for all content types
+- **Application Review**: Manage program applications
+- **Search & Filters**: Advanced filtering on all sections
+- **Pagination**: Handle large datasets efficiently
+- **Analytics**: Track submissions and engagement
 
-### Option 1: GitHub Pages
-1. Create a GitHub repository
-2. Push all files
-3. Enable GitHub Pages in repository settings
-4. Your site will be at `https://yourusername.github.io/repository-name/`
+### Technical
+- **React 18**: Modern React with hooks
+- **React Router**: Client-side routing
+- **Framer Motion**: Smooth animations
+- **Netlify Functions**: Serverless backend
+- **PostgreSQL (Neon)**: Managed database
+- **Markdown Support**: Rich content authoring
 
-### Option 2: Netlify
-1. Drag and drop the folder to Netlify
-2. Or connect your GitHub repository
-3. Automatic deployment on every push
+## 📚 Documentation
 
-### Option 3: Traditional Hosting
-1. Upload all files to your web hosting via FTP
-2. Ensure `index.html` is in the root directory
-3. Access via your domain name
+Comprehensive documentation is available in the `/docs` directory:
 
-## Browser Support
+- **[📖 Documentation Index](docs/README.md)** - Start here!
+- **[🚀 Deployment Guide](docs/deployment/netlify-deployment.md)** - Deploy to Netlify
+- **[💻 Backend Setup](docs/development/backend-setup.md)** - Configure serverless functions
+- **[✨ Features](docs/features/)** - Feature-specific documentation
+- **[🏗️ Architecture](docs/architecture/)** - System design & refactoring plans
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers
+## 🛠️ Tech Stack
 
-## Font Credits
+### Frontend
+- **React 18** - UI library
+- **React Router** - Routing
+- **Framer Motion** - Animations
+- **Lucide React** - Icons
+- **ReactMarkdown** - Markdown rendering
+- **Vite** - Build tool
 
-- **Playfair Display** - Headers and decorative text
-- **Inter** - Body text and UI elements
-- Both fonts loaded from Google Fonts
+### Backend
+- **Netlify Functions** - Serverless API
+- **PostgreSQL** - Database (Neon)
+- **Node.js** - Runtime
 
-## Color Palette
+### Styling
+- **CSS3** - Custom styling
+- **Playfair Display** - Heading font
+- **Inter** - Body font
 
-- **Primary Color**: #1e3a5f (Navy Blue)
-- **Secondary Color**: #c9a961 (Gold)
-- **Accent Color**: #d4af37 (Bright Gold)
-- **Dark Background**: #0f1419
-- **Light Background**: #f5f5f5
+## 🎨 Design System
 
-## Key Messaging
+- **Primary Color**: `#1e3a5f` (Navy Blue)
+- **Secondary Color**: `#c9a961` (Gold)
+- **Typography**: Playfair Display (headings), Inter (body)
+- **Layout**: Mobile-first, responsive grid
+- **Theme**: Dark blue/gold, professional & elegant
+
+## 🚀 Deployment
+
+### Prerequisites
+1. Netlify account
+2. Neon database account
+3. GitHub repository
+
+### Steps
+1. Connect repository to Netlify
+2. Set up environment variables
+3. Configure Neon database
+4. Deploy!
+
+See **[Deployment Guide](docs/deployment/netlify-deployment.md)** for detailed instructions.
+
+## 📝 Environment Variables
+
+Create `.env` file in `archimedes-fund-app/`:
+
+```env
+VITE_API_URL=your-netlify-url
+```
+
+Netlify environment variables:
+- `NETLIFY_DATABASE_URL` - Neon connection string
+- `ADMIN_TOKEN` - Admin authentication token
+
+## 🧪 Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 📊 Project Status
+
+- ✅ Core website (all pages)
+- ✅ Admin dashboard with full CRUD
+- ✅ Content management (Books, Projects, Passions)
+- ✅ Application & contact systems
+- ✅ Therapist chat feature
+- ✅ Search, filters & pagination
+- ✅ Responsive design
+- ✅ Premium styling
+- 🚧 Admin dashboard refactoring (in progress)
+- 📅 Additional features (planned)
+
+## 🤝 Contributing
+
+1. Check **[Project Structure Rules](PROJECT_STRUCTURE_RULES.md)**
+2. Follow the established patterns
+3. Document new features
+4. Test thoroughly
+5. Submit PR
+
+## 📜 License
+
+All rights reserved - The Archimedes Fund
+
+## 🆘 Support
+
+- **Documentation**: Check `/docs` directory
+- **Issues**: Create GitHub issue
+- **Email**: support@thearchimedesfund.com
+
+## 🎯 Key Messaging
 
 **Tagline**: "Money. Tech. Mastery."
 
@@ -108,21 +196,6 @@ The contact form currently logs to console. To make it functional:
 
 **Vision**: To engineer a generation of men who possess the economic sovereignty and technical command necessary to build, sustain, and advance the modern world.
 
-## Next Steps
-
-1. ✅ Review the website in your browser
-2. ✅ Customize content to match your specific needs
-3. ✅ Set up form handling for contact submissions
-4. ✅ Add domain and hosting
-5. ✅ Connect with analytics (Google Analytics, etc.)
-6. ✅ Set up email forwarding for info@archimedesfund.org
-7. ✅ Test on multiple devices and browsers
-
-## Support
-
-For questions or customization help, refer to the comments in the code files.
-
 ---
 
 **The Archimedes Fund** - Engineering the future, one builder at a time.
-
