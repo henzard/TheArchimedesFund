@@ -4,15 +4,36 @@
   min-height: 100vh;
 }
 
+/* Hero Section - Matching site style */
 .passions-hero {
-  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); /* Orange gradient */
-  color: white;
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-bg);
+  color: var(--text-light);
+  overflow: hidden;
   padding: 4rem 0;
-  text-align: center;
-  margin-bottom: 3rem;
+}
+
+.passions-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(18, 41, 67, 0.5) 70%);
+  z-index: 1;
 }
 
 .passions-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,27 +43,39 @@
 .passions-hero-logo {
   width: 100px;
   height: auto;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(0 4px 16px rgba(201, 169, 97, 0.5));
+  margin-bottom: 1rem;
 }
 
 .passions-hero h1 {
-  font-size: 3.5rem;
-  margin-bottom: 0.5rem;
-  color: white;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, var(--text-light) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .passions-lead {
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.8;
   max-width: 800px;
-  margin: 0 auto 1rem auto;
-  opacity: 0.9;
+  margin: 0 auto 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .passions-subtitle {
-  font-size: 1.1rem;
-  opacity: 0.8;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--secondary-color);
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
 }
 
+/* Filters Section */
 .passions-filters {
   display: flex;
   flex-wrap: wrap;
@@ -51,9 +84,10 @@
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  background: var(--card-bg);
+  background: white;
   border-radius: 12px;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid var(--secondary-color);
 }
 
 .filter-group {
@@ -66,6 +100,10 @@
   border: 1px solid var(--border-color);
 }
 
+.filter-group svg {
+  color: var(--primary-color);
+}
+
 .filter-group input,
 .filter-group select {
   border: none;
@@ -74,12 +112,14 @@
   color: var(--text-dark);
   padding: 0.3rem 0;
   outline: none;
+  font-family: 'Inter', sans-serif;
 }
 
 .filter-group select {
   cursor: pointer;
 }
 
+/* Passions Grid */
 .passions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -99,7 +139,7 @@
 .passion-card-public:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-  border-color: #f39c12;
+  border-color: var(--secondary-color);
 }
 
 .passion-cover-public {
@@ -136,6 +176,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: 'Playfair Display', serif;
 }
 
 .passion-emoji-public {
@@ -159,7 +200,7 @@
 }
 
 .passion-category-public {
-  background: linear-gradient(135deg, #f39c12, #e67e22);
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
   color: white;
   padding: 0.3rem 0.8rem;
   border-radius: 16px;
@@ -185,7 +226,7 @@
 }
 
 .passion-tag-public {
-  background: linear-gradient(135deg, #f39c12 0%, var(--primary-color) 100%);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
   color: white;
   padding: 0.3rem 0.7rem;
   border-radius: 16px;
@@ -196,13 +237,14 @@
 .passion-excerpt-public {
   margin-bottom: 1.5rem;
   padding: 1rem;
-  background: rgba(243, 156, 18, 0.05);
+  background: rgba(201, 169, 97, 0.05);
   border-radius: 8px;
-  border-left: 4px solid #f39c12;
+  border-left: 4px solid var(--secondary-color);
   line-height: 1.8;
   color: var(--text-dark);
 }
 
+/* Markdown Content */
 .passion-markdown-public {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -221,6 +263,7 @@
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  font-family: 'Playfair Display', serif;
 }
 
 .passion-markdown-public h1 {
@@ -286,7 +329,7 @@
 }
 
 .passion-markdown-public blockquote {
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid var(--secondary-color);
   padding-left: 1rem;
   margin: 1rem 0;
   font-style: italic;
@@ -327,13 +370,28 @@
   background: var(--light-bg);
 }
 
+/* Loading & Empty States */
+.loading,
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-gray);
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+  .passions-hero {
+    min-height: 50vh;
+    padding: 3rem 0;
+  }
+
   .passions-hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   .passions-lead {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .passions-subtitle {
@@ -343,6 +401,7 @@
   .passions-filters {
     flex-direction: column;
     align-items: stretch;
+    padding: 1rem;
   }
 
   .filter-group {
@@ -351,6 +410,7 @@
 
   .passions-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .passion-title-public {

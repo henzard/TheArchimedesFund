@@ -3,25 +3,55 @@
   min-height: 100vh;
 }
 
-/* Hero */
+/* Hero Section - Matching site style */
 .program-hero {
-  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary-color) 100%);
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-bg);
   color: var(--text-light);
+  overflow: hidden;
   padding: 6rem 0;
   text-align: center;
 }
 
+.program-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(18, 41, 67, 0.5) 70%);
+  z-index: 1;
+}
+
+.program-hero > .container {
+  position: relative;
+  z-index: 2;
+}
+
 .program-hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
   margin-bottom: 1.5rem;
+  color: var(--text-light);
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, var(--text-light) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .program-lead {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
   line-height: 1.8;
   max-width: 900px;
   margin: 0 auto 3rem;
   color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .program-stats {
@@ -33,6 +63,7 @@
 
 .program-stats .stat {
   font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .program-stats .stat strong {
@@ -41,13 +72,42 @@
   color: var(--secondary-color);
   font-family: 'Playfair Display', serif;
   margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-/* Overview */
+/* Overview Section */
 .program-overview {
   background: var(--light-bg);
-  padding: 4rem 0 2rem;
+  padding: 6rem 0;
   text-align: center;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--primary-color);
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1rem;
+  font-weight: 900;
+}
+
+.section-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+  margin: 1.5rem auto;
+  border-radius: 2px;
+}
+
+.section-description {
+  max-width: 700px;
+  margin: 1rem auto 0;
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  line-height: 1.8;
 }
 
 .process-visual {
@@ -69,17 +129,10 @@
   transform: translateY(-8px);
 }
 
-.section-description {
-  max-width: 700px;
-  margin: 1rem auto 0;
-  font-size: 1.1rem;
-  color: var(--text-gray);
-  line-height: 1.8;
-}
-
-/* Pillars Detailed */
+/* Pillars Detailed Section */
 .pillars-detailed {
-  background: var(--text-light);
+  background: white;
+  padding: 6rem 0;
 }
 
 .pillar-section {
@@ -108,6 +161,8 @@
   font-size: clamp(2rem, 4vw, 3rem);
   color: var(--primary-color);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
 }
 
 .pillar-tagline {
@@ -129,6 +184,8 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--border-color);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .module-card ul {
@@ -152,14 +209,19 @@
   font-weight: bold;
 }
 
-/* Timeline */
+/* Timeline Section */
 .program-timeline {
   background: var(--dark-bg);
   color: var(--text-light);
+  padding: 6rem 0;
 }
 
 .program-timeline .section-title {
   color: var(--text-light);
+}
+
+.program-timeline .section-divider {
+  background: linear-gradient(90deg, var(--secondary-color), rgba(201, 169, 97, 0.5));
 }
 
 .timeline-grid {
@@ -191,6 +253,7 @@
   font-size: 1.5rem;
   font-weight: 900;
   font-family: 'Playfair Display', serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .phase-week {
@@ -204,6 +267,8 @@
   font-size: 2rem;
   color: var(--text-light);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .phase-focus {
@@ -230,6 +295,7 @@
   color: var(--secondary-color);
   display: block;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 .deliverables ul {
@@ -251,9 +317,10 @@
   color: var(--secondary-color);
 }
 
-/* Benefits */
+/* Benefits Section */
 .benefits {
   background: var(--light-bg);
+  padding: 6rem 0;
 }
 
 .benefits-grid {
@@ -269,15 +336,17 @@
   align-items: center;
   gap: 1rem;
   padding: 1.5rem;
-  background: var(--text-light);
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .benefit-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--secondary-color);
 }
 
 .benefit-icon {
@@ -291,9 +360,10 @@
   font-weight: 500;
 }
 
-/* FAQ */
+/* FAQ Section */
 .faq {
-  background: var(--text-light);
+  background: white;
+  padding: 6rem 0;
 }
 
 .faq-list {
@@ -306,17 +376,21 @@
 
 .faq-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .faq-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: var(--secondary-color);
 }
 
 .faq-card h3 {
   color: var(--primary-color);
   font-size: 1.3rem;
   margin-bottom: 1rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .faq-card p {
@@ -325,9 +399,10 @@
   margin: 0;
 }
 
-/* CTA */
+/* CTA Section */
 .program-cta {
   background: linear-gradient(135deg, var(--primary-color) 0%, #2d5a8f 100%);
+  padding: 6rem 0;
 }
 
 .cta-box {
@@ -339,6 +414,8 @@
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   margin-bottom: 1rem;
   color: var(--text-light);
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
 }
 
 .cta-box p {
@@ -347,10 +424,18 @@
   opacity: 0.9;
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
+  .program-hero {
+    padding: 4rem 0;
+  }
+
   .program-stats {
     gap: 2rem;
+  }
+
+  .program-stats .stat strong {
+    font-size: 2.5rem;
   }
 
   .pillar-header {
