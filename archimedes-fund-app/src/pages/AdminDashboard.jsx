@@ -1576,8 +1576,27 @@ const AdminDashboard = () => {
                 />
               )}
 
+              {!showBookForm && (
+                <>
+                  <SearchFilterBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    statusFilter={statusFilter}
+                    onStatusChange={setStatusFilter}
+                    statuses={['published', 'draft']}
+                    onClearFilters={clearFilters}
+                  />
+                  
+                  {filteredBooks.length > 0 && (
+                    <div className="results-count">
+                      Found {filteredBooks.length} book{filteredBooks.length !== 1 ? 's' : ''}
+                    </div>
+                  )}
+                </>
+              )}
+
               <div className="books-list">
-                {books.map((book) => (
+                {getPaginatedData(filteredBooks).map((book) => (
                   <Card key={book.id} padding="large" className="book-card">
                     <div className="book-header">
                       {book.cover_image_url && (
@@ -1657,10 +1676,24 @@ const AdminDashboard = () => {
                     </div>
                   </Card>
                 ))}
-                {books.length === 0 && (
-                  <p className="empty-state">No books yet. Add your first book!</p>
+                {filteredBooks.length === 0 && !showBookForm && (
+                  <div className="empty-state-enhanced">
+                    <BookOpen size={80} />
+                    <h3>No books found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No books yet. Add your first book!'}</p>
+                  </div>
                 )}
               </div>
+
+              {!showBookForm && filteredBooks.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredBooks.length / itemsPerPage)}
+                  totalItems={filteredBooks.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
             </div>
           )}
 
@@ -1707,8 +1740,27 @@ const AdminDashboard = () => {
                 />
               )}
 
+              {!showProjectForm && (
+                <>
+                  <SearchFilterBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    statusFilter={statusFilter}
+                    onStatusChange={setStatusFilter}
+                    statuses={['published', 'draft']}
+                    onClearFilters={clearFilters}
+                  />
+                  
+                  {filteredProjects.length > 0 && (
+                    <div className="results-count">
+                      Found {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+                    </div>
+                  )}
+                </>
+              )}
+
               <div className="projects-list">
-                {projects.map((project) => (
+                {getPaginatedData(filteredProjects).map((project) => (
                   <Card key={project.id} padding="large" className="project-card">
                     <div className="project-header">
                       {project.image_url && (
@@ -1823,10 +1875,24 @@ const AdminDashboard = () => {
                     </div>
                   </Card>
                 ))}
-                {projects.length === 0 && (
-                  <p className="empty-state">No projects yet. Add your first project!</p>
+                {filteredProjects.length === 0 && !showProjectForm && (
+                  <div className="empty-state-enhanced">
+                    <Code size={80} />
+                    <h3>No projects found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No projects yet. Add your first project!'}</p>
+                  </div>
                 )}
               </div>
+
+              {!showProjectForm && filteredProjects.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredProjects.length / itemsPerPage)}
+                  totalItems={filteredProjects.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
             </div>
           )}
 
@@ -1869,8 +1935,27 @@ const AdminDashboard = () => {
                 />
               )}
 
+              {!showPassionForm && (
+                <>
+                  <SearchFilterBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    statusFilter={statusFilter}
+                    onStatusChange={setStatusFilter}
+                    statuses={['published', 'draft']}
+                    onClearFilters={clearFilters}
+                  />
+                  
+                  {filteredPassions.length > 0 && (
+                    <div className="results-count">
+                      Found {filteredPassions.length} passion{filteredPassions.length !== 1 ? 's' : ''}
+                    </div>
+                  )}
+                </>
+              )}
+
               <div className="passions-list">
-                {passions.map((passion) => (
+                {getPaginatedData(filteredPassions).map((passion) => (
                   <Card key={passion.id} padding="large" className="passion-card">
                     <div className="passion-header">
                       {passion.cover_image_url && (
@@ -1950,10 +2035,24 @@ const AdminDashboard = () => {
                     </div>
                   </Card>
                 ))}
-                {passions.length === 0 && (
-                  <p className="empty-state">No passions yet. Add your first guide!</p>
+                {filteredPassions.length === 0 && !showPassionForm && (
+                  <div className="empty-state-enhanced">
+                    <Lightbulb size={80} />
+                    <h3>No passions found</h3>
+                    <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No passions yet. Add your first guide!'}</p>
+                  </div>
                 )}
               </div>
+
+              {!showPassionForm && filteredPassions.length > itemsPerPage && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(filteredPassions.length / itemsPerPage)}
+                  totalItems={filteredPassions.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={setCurrentPage}
+                />
+              )}
             </div>
           )}
 
@@ -2014,8 +2113,24 @@ const AdminDashboard = () => {
                   </Card>
                 </div>
               ) : (
-                <div className="therapist-sessions-list">
-                  {therapistSessions.map((session) => (
+                <>
+                  <SearchFilterBar
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    statusFilter={statusFilter}
+                    onStatusChange={setStatusFilter}
+                    statuses={['active', 'inactive']}
+                    onClearFilters={clearFilters}
+                  />
+                  
+                  {filteredTherapistSessions.length > 0 && (
+                    <div className="results-count">
+                      Found {filteredTherapistSessions.length} session{filteredTherapistSessions.length !== 1 ? 's' : ''}
+                    </div>
+                  )}
+
+                  <div className="therapist-sessions-list">
+                    {getPaginatedData(filteredTherapistSessions).map((session) => (
                     <Card key={session.id} padding="large" className="therapist-session-card">
                       <div className="therapist-session-header">
                         <div>
@@ -2055,11 +2170,26 @@ const AdminDashboard = () => {
                       </div>
                     </Card>
                   ))}
-                  {therapistSessions.length === 0 && (
-                    <p className="empty-state">No therapist sessions yet.</p>
+                  {filteredTherapistSessions.length === 0 && (
+                    <div className="empty-state-enhanced">
+                      <MessageCircle size={80} />
+                      <h3>No sessions found</h3>
+                      <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No therapist sessions yet.'}</p>
+                    </div>
                   )}
                 </div>
-              )}
+
+                {filteredTherapistSessions.length > itemsPerPage && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(filteredTherapistSessions.length / itemsPerPage)}
+                    totalItems={filteredTherapistSessions.length}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={setCurrentPage}
+                  />
+                )}
+              </>
+            )}
             </div>
           )}
         </div>
