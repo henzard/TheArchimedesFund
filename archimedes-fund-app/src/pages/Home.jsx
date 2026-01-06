@@ -61,7 +61,7 @@ const Home = () => {
   const stats = [
     { number: bookCount > 0 ? `${bookCount}+` : '0', label: 'Books Read' },
     { number: projectCount > 0 ? `${projectCount}+` : '0', label: 'Projects Built' },
-    { number: passionCount > 0 ? passionCount : '3', label: 'Core Passions' },
+    { number: passionCount > 0 ? `${passionCount}+` : '0', label: 'Core Passions' },
     { number: '∞', label: 'Ideas Explored' },
   ];
 
