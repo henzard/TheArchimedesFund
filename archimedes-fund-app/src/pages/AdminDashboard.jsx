@@ -1,15 +1,669 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Code, ExternalLink, Heart, Eye, Lightbulb, MessageCircle, User } from 'lucide-react';
+import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb, MessageCircle, User, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import './AdminDashboard.css';
 
-// Import refactored components
-import { SearchFilterBar, Pagination, EmptyState, ResultsCount } from './admin/components';
-import { BookForm, ProjectForm, PassionForm } from './admin/forms';
-import { useSearchFilter, usePagination } from './admin/hooks';
-import adminApi from './admin/services/adminApi';
+// BookForm Component
+const BookForm = ({ book, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(book);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleArrayChange = (e, field) => {
+    const value = e.target.value;
+    const array = value.split(',').map(item => item.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, [field]: array }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Card padding="large" className="book-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{book.id ? 'Edit Book' : 'Add New Book'}</h3>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Author *</label>
+            <input
+              type="text"
+              name="author"
+              value={formData.author}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Cover Image URL</label>
+            <input
+              type="url"
+              name="cover_image_url"
+              value={formData.cover_image_url}
+              onChange={handleChange}
+              placeholder="https://..."
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Rating</label>
+            <select name="rating" value={formData.rating} onChange={handleChange}>
+              <option value="1">⭐</option>
+              <option value="2">⭐⭐</option>
+              <option value="3">⭐⭐⭐</option>
+              <option value="4">⭐⭐⭐⭐</option>
+              <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label>Date Read</label>
+            <input
+              type="date"
+              name="date_read"
+              value={formData.date_read}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Tags (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.tags?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'tags')}
+            placeholder="leadership, technical, philosophy, productivity"
+          />
+          <small>Examples: leadership, technical, philosophy, productivity, mindset, business</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Problems Solved (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.problems_solved?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'problems_solved')}
+            placeholder="team management, code quality, time management"
+          />
+          <small>Examples: team management, code quality, time management, decision-making</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Impact / Review *</label>
+          <textarea
+            name="impact"
+            value={formData.impact}
+            onChange={handleChange}
+            rows="4"
+            required
+            placeholder="What impact did this book have on you? How did it change your thinking or approach?"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Key Takeaways</label>
+          <textarea
+            name="key_takeaways"
+            value={formData.key_takeaways}
+            onChange={handleChange}
+            rows="3"
+            placeholder="Bullet points or key lessons from the book"
+          />
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Goodreads URL</label>
+            <input
+              type="url"
+              name="goodreads_url"
+              value={formData.goodreads_url}
+              onChange={handleChange}
+              placeholder="https://goodreads.com/..."
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Amazon URL</label>
+            <input
+              type="url"
+              name="amazon_url"
+              value={formData.amazon_url}
+              onChange={handleChange}
+              placeholder="https://amazon.com/..."
+            />
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Status</label>
+          <select name="status" value={formData.status} onChange={handleChange}>
+            <option value="draft">Draft (not visible to public)</option>
+            <option value="published">Published (visible to public)</option>
+          </select>
+        </div>
+        
+        <div className="form-actions">
+          <Button type="submit" variant="primary">
+            <Save size={18} /> Save Book
+          </Button>
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            <X size={18} /> Cancel
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+// ProjectForm Component
+const ProjectForm = ({ project, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(project);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleArrayChange = (e, field) => {
+    const value = e.target.value;
+    const array = value.split(',').map(item => item.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, [field]: array }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Card padding="large" className="project-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{project.id ? 'Edit Project' : 'Add New Project'}</h3>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Project Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              placeholder="My Awesome Project"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>URL Slug *</label>
+            <input
+              type="text"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              required
+              placeholder="my-awesome-project"
+            />
+            <small>URL-friendly version (lowercase, hyphens)</small>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Tagline</label>
+          <input
+            type="text"
+            name="tagline"
+            value={formData.tagline}
+            onChange={handleChange}
+            placeholder="A catchy one-liner about your project"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Description / Mini Blog Post *</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="6"
+            required
+            placeholder="Write about your project like a mini blog post. What is it? Why did you build it? What problem does it solve?"
+          />
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>GitHub URL *</label>
+            <input
+              type="url"
+              name="github_url"
+              value={formData.github_url}
+              onChange={handleChange}
+              required
+              placeholder="https://github.com/username/repo"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Live Demo URL</label>
+            <input
+              type="url"
+              name="demo_url"
+              value={formData.demo_url}
+              onChange={handleChange}
+              placeholder="https://myproject.com"
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Project Image/Screenshot URL</label>
+          <input
+            type="url"
+            name="image_url"
+            value={formData.image_url}
+            onChange={handleChange}
+            placeholder="https://... (banner or screenshot)"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Tech Stack (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.tech_stack?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'tech_stack')}
+            placeholder="React, Node.js, PostgreSQL, Docker"
+          />
+          <small>Technologies and frameworks used</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Tags/Categories (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.tags?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'tags')}
+            placeholder="web, mobile, api, tool, game"
+          />
+          <small>Project categories for filtering</small>
+        </div>
+
+        <div className="form-group">
+          <label>Key Features (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.features?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'features')}
+            placeholder="Real-time chat, User authentication, API integration"
+          />
+          <small>Bullet points of main features</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Challenges Faced</label>
+          <textarea
+            name="challenges"
+            value={formData.challenges}
+            onChange={handleChange}
+            rows="3"
+            placeholder="What obstacles did you encounter while building this?"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>What I Learned</label>
+          <textarea
+            name="learnings"
+            value={formData.learnings}
+            onChange={handleChange}
+            rows="3"
+            placeholder="Key insights and skills gained from this project"
+          />
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Project Status</label>
+            <select name="status" value={formData.status} onChange={handleChange}>
+              <option value="active">Active (maintained)</option>
+              <option value="in-progress">In Progress</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Visibility</label>
+            <select name="visibility" value={formData.visibility} onChange={handleChange}>
+              <option value="draft">Draft (not visible)</option>
+              <option value="published">Published (public)</option>
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label>GitHub Stars</label>
+            <input
+              type="number"
+              name="stars"
+              value={formData.stars}
+              onChange={handleChange}
+              min="0"
+              placeholder="0"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Date Completed</label>
+            <input
+              type="date"
+              name="date_completed"
+              value={formData.date_completed}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="form-actions">
+          <Button type="submit" variant="primary">
+            <Save size={18} /> Save Project
+          </Button>
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            <X size={18} /> Cancel
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+
+// PassionForm Component
+const PassionForm = ({ passion, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(passion);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleArrayChange = (e, field) => {
+    const value = e.target.value;
+    const array = value.split(',').map(item => item.trim()).filter(Boolean);
+    setFormData(prev => ({ ...prev, [field]: array }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <Card padding="large" className="passion-form">
+      <form onSubmit={handleSubmit}>
+        <h3>{passion.id ? 'Edit Passion' : 'Add New Passion'}</h3>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Title *</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              placeholder="How to Use AI Effectively"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Slug * (URL-friendly)</label>
+            <input
+              type="text"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              required
+              placeholder="how-to-use-ai-effectively"
+            />
+            <small>Used in URL (e.g., /passions/how-to-use-ai)</small>
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Subtitle</label>
+          <input
+            type="text"
+            name="subtitle"
+            value={formData.subtitle}
+            onChange={handleChange}
+            placeholder="A practical guide to leveraging AI in your daily workflow"
+          />
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Category</label>
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              placeholder="AI, Development, Leadership, Learning"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Icon Emoji</label>
+            <input
+              type="text"
+              name="icon_emoji"
+              value={formData.icon_emoji}
+              onChange={handleChange}
+              maxLength="10"
+              placeholder="🤖"
+            />
+            <small>A single emoji to represent this passion</small>
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label>Cover Image URL</label>
+          <input
+            type="url"
+            name="cover_image_url"
+            value={formData.cover_image_url}
+            onChange={handleChange}
+            placeholder="https://... (optional hero image)"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Excerpt (Short Summary)</label>
+          <textarea
+            name="excerpt"
+            value={formData.excerpt}
+            onChange={handleChange}
+            rows="2"
+            placeholder="A brief preview of what this guide covers (displayed in cards)"
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Markdown Content *</label>
+          <textarea
+            name="markdown_content"
+            value={formData.markdown_content}
+            onChange={handleChange}
+            rows="20"
+            required
+            placeholder="# Introduction&#10;&#10;Write your full content here using **Markdown** formatting.&#10;&#10;## Section 1&#10;- Bullet point&#10;- Another point&#10;&#10;Code example:&#10;```javascript&#10;const example = 'code';&#10;```"
+          />
+          <small>Use Markdown for formatting. Supports headings, lists, code blocks, links, etc.</small>
+        </div>
+        
+        <div className="form-group">
+          <label>Tags (comma-separated)</label>
+          <input
+            type="text"
+            value={formData.tags?.join(', ') || ''}
+            onChange={(e) => handleArrayChange(e, 'tags')}
+            placeholder="AI, productivity, automation, tools"
+          />
+          <small>Tags for filtering and discovery</small>
+        </div>
+        
+        <div className="form-row">
+          <div className="form-group">
+            <label>Reading Time (minutes)</label>
+            <input
+              type="number"
+              name="reading_time"
+              value={formData.reading_time}
+              onChange={handleChange}
+              min="1"
+              placeholder="5"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Status</label>
+            <select name="status" value={formData.status} onChange={handleChange}>
+              <option value="draft">Draft (not visible)</option>
+              <option value="published">Published (public)</option>
+            </select>
+          </div>
+          
+          <div className="form-group">
+            <label>Date Published</label>
+            <input
+              type="date"
+              name="date_published"
+              value={formData.date_published}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="form-actions">
+          <Button type="submit" variant="primary">
+            <Save size={18} /> Save Passion
+          </Button>
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            <X size={18} /> Cancel
+          </Button>
+        </div>
+      </form>
+    </Card>
+  );
+};
+
+
+// Search and Filter Component
+const SearchFilterBar = ({ searchTerm, onSearchChange, statusFilter, onStatusChange, statuses, onClearFilters }) => {
+  return (
+    <div className="search-filter-bar">
+      <div className="search-box">
+        <Search size={18} />
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
+      {statuses && (
+        <div className="filter-dropdown">
+          <select value={statusFilter} onChange={(e) => onStatusChange(e.target.value)}>
+            <option value="all">All Status</option>
+            {statuses.map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+        </div>
+      )}
+      {(searchTerm || statusFilter !== 'all') && (
+        <button className="clear-filters-btn" onClick={onClearFilters}>
+          Clear Filters
+        </button>
+      )}
+    </div>
+  );
+};
+
+// Pagination Component
+const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }) => {
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  return (
+    <div className="pagination-bar">
+      <div className="pagination-info">
+        Showing {startItem}-{endItem} of {totalItems}
+      </div>
+      <div className="pagination-controls">
+        <button
+          className="pagination-btn"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft size={18} /> Prev
+        </button>
+        {[...Array(totalPages)].map((_, i) => {
+          const pageNum = i + 1;
+          // Show first, last, current, and pages around current
+          if (
+            pageNum === 1 ||
+            pageNum === totalPages ||
+            (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+          ) {
+            return (
+              <button
+                key={pageNum}
+                className={`pagination-btn ${currentPage === pageNum ? 'active' : ''}`}
+                onClick={() => onPageChange(pageNum)}
+              >
+                {pageNum}
+              </button>
+            );
+          } else if (pageNum === currentPage - 2 || pageNum === currentPage + 2) {
+            return <span key={pageNum}>...</span>;
+          }
+          return null;
+        })}
+        <button
+          className="pagination-btn"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next <ChevronRight size={18} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
