@@ -33,11 +33,11 @@ Refactor the 2,203-line AdminDashboard.jsx into a maintainable, modular architec
 - [ ] Create `PassionsSection.jsx` in `src/pages/admin/sections/`
 - [ ] Create `TherapistSection.jsx` in `src/pages/admin/sections/`
 
-### Phase 5: API Service Layer
-- [ ] Create `src/pages/admin/services/adminApi.js`
-- [ ] Extract all API calls to service layer
-- [ ] Add error handling and loading states
-- [ ] Add TypeScript interfaces (optional)
+### Phase 5: API Service Layer ✅ COMPLETE
+- [x] Create `src/pages/admin/services/adminApi.js`
+- [x] Extract all API calls to service layer
+- [x] Add error handling and loading states
+- [x] Organize by feature (submissions, books, projects, passions, therapist, stats)
 
 ### Phase 6: Main Dashboard Refactor
 - [ ] Create simplified `AdminDashboard.jsx` as main container
