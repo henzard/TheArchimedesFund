@@ -1480,13 +1480,312 @@ const AdminDashboard = () => {
     );
   }
 
-  // Add placeholder render functions for other pages (will implement next)
-  function renderInvestmentsPage() { return <div>Investments Page - Coming Soon</div>; }
-  function renderApplicationsPage() { return <div>Applications Page - Coming Soon</div>; }
-  function renderBooksPage() { return <div>Books Page - Coming Soon</div>; }
-  function renderProjectsPage() { return <div>Projects Page - Coming Soon</div>; }
-  function renderPassionsPage() { return <div>Passions Page - Coming Soon</div>; }
-  function renderTherapistPage() { return <div>Therapist Page - Coming Soon</div>; }
+  // Investments Page
+  function renderInvestmentsPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <DollarSign size={24} /> Investment Inquiries
+          </h3>
+        </div>
+        
+        <SearchFilterBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+          statuses={['new', 'contacted', 'in-discussion', 'closed']}
+          onClearFilters={clearFilters}
+        />
+        
+        {filteredInvestments.length > 0 && (
+          <div className="results-count">
+            Found <strong>{filteredInvestments.length}</strong> investment inquir{filteredInvestments.length !== 1 ? 'ies' : 'y'}
+          </div>
+        )}
+
+        <div className="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>Amount</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {getPaginatedData(filteredInvestments).map((investment) => (
+                <tr key={investment.id}>
+                  <td><strong>{investment.name}</strong></td>
+                  <td>{investment.email}</td>
+                  <td>{investment.company || '-'}</td>
+                  <td>{investment.amount ? `$${parseInt(investment.amount).toLocaleString()}` : '-'}</td>
+                  <td style={{ maxWidth: '250px' }}>{investment.message.substring(0, 80)}...</td>
+                  <td>{new Date(investment.created_at).toLocaleDateString()}</td>
+                  <td>
+                    <span className={`status-badge ${investment.status}`}>
+                      {investment.status}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      value={investment.status}
+                      onChange={(e) => handleStatusUpdate('investment', investment.id, e.target.value)}
+                      style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)' }}
+                    >
+                      <option value="new">New</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="in-discussion">In Discussion</option>
+                      <option value="closed">Closed</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+          {filteredInvestments.length === 0 && (
+            <div className="empty-state">
+              <div className="empty-icon">
+                <DollarSign size={48} />
+              </div>
+              <h3>No investment inquiries found</h3>
+              <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No investment inquiries yet.'}</p>
+            </div>
+          )}
+        </div>
+
+        {filteredInvestments.length > itemsPerPage && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(filteredInvestments.length / itemsPerPage)}
+            totalItems={filteredInvestments.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Applications Page
+  function renderApplicationsPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <FileText size={24} /> Program Applications
+          </h3>
+        </div>
+        
+        <SearchFilterBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+          statuses={['new', 'reviewing', 'accepted', 'rejected']}
+          onClearFilters={clearFilters}
+        />
+        
+        {filteredApplications.length > 0 && (
+          <div className="results-count">
+            Found <strong>{filteredApplications.length}</strong> application{filteredApplications.length !== 1 ? 's' : ''}
+          </div>
+        )}
+
+        <div className="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Location</th>
+                <th>Why Apply</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {getPaginatedData(filteredApplications).map((app) => (
+                <tr key={app.id}>
+                  <td><strong>{app.full_name}</strong></td>
+                  <td>{app.email}</td>
+                  <td>{app.age}</td>
+                  <td>{app.city}, {app.country}</td>
+                  <td style={{ maxWidth: '300px' }}>{app.why_apply.substring(0, 100)}...</td>
+                  <td>{new Date(app.created_at).toLocaleDateString()}</td>
+                  <td>
+                    <span className={`status-badge ${app.status}`}>
+                      {app.status}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      value={app.status}
+                      onChange={(e) => handleStatusUpdate('application', app.id, e.target.value)}
+                      style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)' }}
+                    >
+                      <option value="new">New</option>
+                      <option value="reviewing">Reviewing</option>
+                      <option value="accepted">Accepted</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+          {filteredApplications.length === 0 && (
+            <div className="empty-state">
+              <div className="empty-icon">
+                <FileText size={48} />
+              </div>
+              <h3>No applications found</h3>
+              <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No applications yet.'}</p>
+            </div>
+          )}
+        </div>
+
+        {filteredApplications.length > itemsPerPage && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(filteredApplications.length / itemsPerPage)}
+            totalItems={filteredApplications.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Books Page
+  function renderBooksPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <BookOpen size={24} /> Books Library
+          </h3>
+          <div className="section-actions">
+            <Button variant="primary" onClick={() => { setShowBookForm(true); setEditingBook({ title: '', author: '', rating: 5, tags: [], problems_solved: [], status: 'draft' }); }}>
+              <Plus size={18} /> Add New Book
+            </Button>
+          </div>
+        </div>
+
+        {showBookForm && (
+          <BookForm
+            book={editingBook}
+            onSave={handleSaveBook}
+            onCancel={() => { setShowBookForm(false); setEditingBook(null); }}
+          />
+        )}
+
+        {!showBookForm && (
+          <>
+            <SearchFilterBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+              statuses={['published', 'draft']}
+              onClearFilters={clearFilters}
+            />
+
+            {filteredBooks.length > 0 && (
+              <div className="results-count">
+                Found <strong>{filteredBooks.length}</strong> book{filteredBooks.length !== 1 ? 's' : ''}
+              </div>
+            )}
+
+            <div className="data-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Rating</th>
+                    <th>Tags</th>
+                    <th>Date Read</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getPaginatedData(filteredBooks).map((book) => (
+                    <tr key={book.id}>
+                      <td><strong>{book.title}</strong></td>
+                      <td>{book.author}</td>
+                      <td>{'⭐'.repeat(book.rating)}</td>
+                      <td style={{ maxWidth: '200px' }}>{book.tags?.slice(0, 3).join(', ')}</td>
+                      <td>{book.date_read ? new Date(book.date_read).toLocaleDateString() : '-'}</td>
+                      <td>
+                        <span className={`status-badge ${book.status}`}>
+                          {book.status}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <button className="action-btn edit" onClick={() => { setEditingBook(book); setShowBookForm(true); }}>
+                            <Edit size={16} />
+                          </button>
+                          <button className="action-btn delete" onClick={() => handleDeleteBook(book.id)}>
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {filteredBooks.length === 0 && (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <BookOpen size={48} />
+                  </div>
+                  <h3>No books found</h3>
+                  <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No books added yet.'}</p>
+                  <Button variant="primary" onClick={() => { setShowBookForm(true); setEditingBook({ title: '', author: '', rating: 5, tags: [], problems_solved: [], status: 'draft' }); }}>
+                    <Plus size={18} /> Add Your First Book
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {filteredBooks.length > itemsPerPage && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredBooks.length / itemsPerPage)}
+                totalItems={filteredBooks.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // Projects Page
+  function renderProjectsPage() { return <div className="data-section"><h3>Projects Page - Coming Soon</h3></div>; }
+  
+  // Passions Page
+  function renderPassionsPage() { return <div className="data-section"><h3>Passions Page - Coming Soon</h3></div>; }
+  
+  // Therapist Page
+  function renderTherapistPage() { return <div className="data-section"><h3>Therapist Page - Coming Soon</h3></div>; }
 };
 
 export default AdminDashboard;
