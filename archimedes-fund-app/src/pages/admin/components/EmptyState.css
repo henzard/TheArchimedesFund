@@ -1,0 +1,61 @@
+/* Empty State Styles */
+.empty-state-enhanced {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--text-gray);
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed var(--border-color);
+}
+
+.empty-state-icon {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  opacity: 0.4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-state-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.empty-state-enhanced h3 {
+  color: var(--primary-color);
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.empty-state-enhanced p {
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.empty-state-action {
+  margin-top: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .empty-state-enhanced {
+    padding: 3rem 1.5rem;
+  }
+
+  .empty-state-icon svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .empty-state-enhanced h3 {
+    font-size: 1.3rem;
+  }
+
+  .empty-state-enhanced p {
+    font-size: 0.95rem;
+  }
+}
