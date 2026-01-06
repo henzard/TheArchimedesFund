@@ -139,6 +139,31 @@ CREATE INDEX idx_passions_tags ON passions USING GIN(tags);
 CREATE INDEX idx_passions_date_published ON passions(date_published DESC);
 CREATE INDEX idx_passions_view_count ON passions(view_count DESC);
 
+-- Create therapist sessions table
+CREATE TABLE IF NOT EXISTS therapist_sessions (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) NOT NULL,
+  chat_name VARCHAR(200) NOT NULL,
+  session_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status VARCHAR(50) DEFAULT 'active' -- 'active', 'archived'
+);
+
+-- Create therapist messages table
+CREATE TABLE IF NOT EXISTS therapist_messages (
+  id SERIAL PRIMARY KEY,
+  session_id INTEGER REFERENCES therapist_sessions(id) ON DELETE CASCADE,
+  sender VARCHAR(20) NOT NULL, -- 'user' or 'therapist'
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create indexes for therapist tables
+CREATE INDEX idx_therapist_sessions_status ON therapist_sessions(status);
+CREATE INDEX idx_therapist_sessions_created ON therapist_sessions(session_start DESC);
+CREATE INDEX idx_therapist_messages_session ON therapist_messages(session_id);
+CREATE INDEX idx_therapist_messages_created ON therapist_messages(created_at DESC);
+
 -- Insert your admin user (password will be hashed in the application)
 -- Password: password
 -- This is a placeholder - we'll handle hashing in the backend

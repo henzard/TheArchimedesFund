@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb } from 'lucide-react';
+import { LogOut, Mail, DollarSign, FileText, BookOpen, Plus, Edit, Trash2, Save, X, Code, ExternalLink, Heart, Eye, Lightbulb, MessageCircle, User } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import './AdminDashboard.css';
@@ -596,6 +596,10 @@ const AdminDashboard = () => {
   const [passionsStats, setPassionsStats] = useState({ published: 0, draft: 0 });
   const [editingPassion, setEditingPassion] = useState(null);
   const [showPassionForm, setShowPassionForm] = useState(false);
+  const [therapistSessions, setTherapistSessions] = useState([]);
+  const [therapistStats, setTherapistStats] = useState({ total_sessions: 0, active_sessions: 0, sessions_this_week: 0, total_messages: 0 });
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [sessionMessages, setSessionMessages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -610,6 +614,7 @@ const AdminDashboard = () => {
     fetchBooks();
     fetchProjects();
     fetchPassions();
+    fetchTherapistSessions();
   }, [navigate]);
 
   const fetchPassions = async () => {
@@ -629,6 +634,46 @@ const AdminDashboard = () => {
       }
     } catch (error) {
       console.error('Fetch passions error:', error);
+    }
+  };
+
+  const fetchTherapistSessions = async () => {
+    const token = localStorage.getItem('admin_token');
+    
+    try {
+      const response = await fetch('/.netlify/functions/admin-therapist-get-sessions', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setTherapistSessions(result.sessions || []);
+        setTherapistStats(result.stats || { total_sessions: 0, active_sessions: 0, sessions_this_week: 0, total_messages: 0 });
+      }
+    } catch (error) {
+      console.error('Fetch therapist sessions error:', error);
+    }
+  };
+
+  const fetchSessionMessages = async (sessionId) => {
+    const token = localStorage.getItem('admin_token');
+    
+    try {
+      const response = await fetch(`/.netlify/functions/admin-therapist-get-messages?sessionId=${sessionId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setSelectedSession(result.session);
+        setSessionMessages(result.messages || []);
+      }
+    } catch (error) {
+      console.error('Fetch session messages error:', error);
     }
   };
 
@@ -1016,6 +1061,19 @@ const AdminDashboard = () => {
               </p>
             </div>
           </Card>
+
+          <Card padding="large" className="stat-card">
+            <div className="stat-icon" style={{ background: '#8e44ad' }}>
+              <MessageCircle size={24} />
+            </div>
+            <div className="stat-content">
+              <h3>Therapist Sessions</h3>
+              <p className="stat-number">{therapistStats.total_sessions}</p>
+              <p className="stat-detail">
+                {therapistStats.total_messages} messages, {therapistStats.sessions_this_week} this week
+              </p>
+            </div>
+          </Card>
         </div>
 
         {/* Tabs */}
@@ -1055,6 +1113,12 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab('passions')}
           >
             <Lightbulb size={18} /> Passions ({passions.length})
+          </button>
+          <button
+            className={activeTab === 'therapist' ? 'active' : ''}
+            onClick={() => setActiveTab('therapist')}
+          >
+            <MessageCircle size={18} /> Therapist ({therapistSessions.length})
           </button>
         </div>
 
@@ -1631,6 +1695,112 @@ const AdminDashboard = () => {
                   <p className="empty-state">No passions yet. Add your first guide!</p>
                 )}
               </div>
+            </div>
+          )}
+
+          {activeTab === 'therapist' && (
+            <div className="therapist-management">
+              <div className="therapist-header">
+                <h2>Therapist Sessions</h2>
+                <div className="therapist-stats-summary">
+                  <span>📊 Total: {therapistStats.total_sessions}</span>
+                  <span>💬 Messages: {therapistStats.total_messages}</span>
+                  <span>📅 This Week: {therapistStats.sessions_this_week}</span>
+                </div>
+              </div>
+
+              {selectedSession ? (
+                <div className="session-detail-view">
+                  <div className="session-detail-header">
+                    <Button 
+                      variant="secondary" 
+                      size="small"
+                      onClick={() => {
+                        setSelectedSession(null);
+                        setSessionMessages([]);
+                      }}
+                    >
+                      ← Back to Sessions
+                    </Button>
+                    <div className="session-detail-info">
+                      <h3>🛋️ {selectedSession.chat_name}</h3>
+                      <p>User: <strong>{selectedSession.username}</strong></p>
+                      <p>Started: {new Date(selectedSession.session_start).toLocaleString()}</p>
+                    </div>
+                  </div>
+
+                  <Card padding="large" className="session-messages-card">
+                    <div className="session-messages-list">
+                      {sessionMessages.map((msg) => (
+                        <div 
+                          key={msg.id} 
+                          className={`therapist-message ${msg.sender === 'user' ? 'therapist-message-user' : 'therapist-message-therapist'}`}
+                        >
+                          <div className="therapist-message-header">
+                            <span className="therapist-message-sender">
+                              {msg.sender === 'user' ? <User size={16} /> : '🧠'} 
+                              {msg.sender === 'user' ? selectedSession.username : 'Dr. Therapist'}
+                            </span>
+                            <span className="therapist-message-time">
+                              {new Date(msg.created_at).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="therapist-message-text">{msg.message}</p>
+                        </div>
+                      ))}
+                      {sessionMessages.length === 0 && (
+                        <p className="empty-state">No messages in this session yet.</p>
+                      )}
+                    </div>
+                  </Card>
+                </div>
+              ) : (
+                <div className="therapist-sessions-list">
+                  {therapistSessions.map((session) => (
+                    <Card key={session.id} padding="large" className="therapist-session-card">
+                      <div className="therapist-session-header">
+                        <div>
+                          <h3>
+                            <MessageCircle size={20} /> {session.chat_name}
+                          </h3>
+                          <p className="session-user">
+                            <User size={16} /> <strong>{session.username}</strong>
+                          </p>
+                        </div>
+                        <div className="therapist-session-meta">
+                          <span 
+                            className="status-badge" 
+                            style={{ background: session.status === 'active' ? '#27ae60' : '#95a5a6' }}
+                          >
+                            {session.status}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="therapist-session-body">
+                        <div className="therapist-session-stats">
+                          <span>💬 {session.message_count} messages</span>
+                          <span>🕐 Started: {new Date(session.session_start).toLocaleDateString()}</span>
+                          <span>🕐 Last activity: {new Date(session.last_activity).toLocaleString()}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="therapist-session-actions">
+                        <Button 
+                          variant="primary" 
+                          size="small"
+                          onClick={() => fetchSessionMessages(session.id)}
+                        >
+                          <Eye size={16} /> View Conversation
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                  {therapistSessions.length === 0 && (
+                    <p className="empty-state">No therapist sessions yet.</p>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>

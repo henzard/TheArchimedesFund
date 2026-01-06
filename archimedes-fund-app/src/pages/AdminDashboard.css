@@ -719,3 +719,198 @@
     flex-direction: column;
   }
 }
+
+/* Therapist Management Styles */
+.therapist-management {
+  margin-top: 2rem;
+}
+
+.therapist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.therapist-header h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.therapist-stats-summary {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  font-weight: 600;
+}
+
+.therapist-sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.therapist-session-card {
+  border-left: 5px solid #8e44ad;
+  transition: all 0.3s ease;
+}
+
+.therapist-session-card:hover {
+  box-shadow: 0 8px 20px rgba(142, 68, 173, 0.15);
+  transform: translateY(-3px);
+}
+
+.therapist-session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.therapist-session-header h3 {
+  font-size: 1.4rem;
+  color: var(--dark-bg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.session-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.therapist-session-body {
+  margin-bottom: 1rem;
+}
+
+.therapist-session-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--text-gray);
+}
+
+.therapist-session-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Session Detail View */
+.session-detail-view {
+  margin-top: 2rem;
+}
+
+.session-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.session-detail-info h3 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.session-detail-info p {
+  color: var(--text-gray);
+  margin: 0.25rem 0;
+}
+
+.session-messages-card {
+  background: var(--light-bg);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.session-messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.therapist-message {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid transparent;
+}
+
+.therapist-message-user {
+  border-left-color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, white 100%);
+}
+
+.therapist-message-therapist {
+  border-left-color: #8e44ad;
+  background: linear-gradient(135deg, rgba(142, 68, 173, 0.05) 0%, white 100%);
+}
+
+.therapist-message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.therapist-message-sender {
+  font-weight: 700;
+  color: var(--dark-bg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.therapist-message-time {
+  font-size: 0.8rem;
+  color: var(--text-gray);
+}
+
+.therapist-message-text {
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .therapist-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .therapist-stats-summary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .session-detail-header {
+    flex-direction: column;
+  }
+  
+  .therapist-session-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .therapist-session-actions {
+    flex-direction: column;
+  }
+}

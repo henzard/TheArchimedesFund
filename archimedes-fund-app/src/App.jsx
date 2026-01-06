@@ -9,6 +9,7 @@ import Invest from './pages/Invest';
 import Books from './pages/Books';
 import Projects from './pages/Projects';
 import Passions from './pages/Passions';
+import Therapist from './pages/Therapist';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
@@ -36,6 +37,7 @@ function App() {
                   <Route path="/books" element={<Books />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/passions" element={<Passions />} />
+                  <Route path="/therapist" element={<Therapist />} />
                 </Routes>
               </main>
               <Footer />
