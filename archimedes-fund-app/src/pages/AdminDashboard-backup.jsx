@@ -11,8 +11,8 @@ import { BookForm, ProjectForm, PassionForm } from './admin/forms';
 import { useSearchFilter, usePagination } from './admin/hooks';
 import adminApi from './admin/services/adminApi';
 
-/* OLD EMBEDDED COMPONENTS - NOW IMPORTED FROM ./admin/ 
-// BookForm Component
+
+const AdminDashboard = () => {
 const BookForm = ({ book, onSave, onCancel }) => {
   const [formData, setFormData] = useState(book);
 
@@ -671,56 +671,109 @@ const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
   );
 };
 
-END OF OLD EMBEDDED COMPONENTS */
 
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('contacts');
   
+  // Search and Filter States
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  
   const [books, setBooks] = useState([]);
   const [booksStats, setBooksStats] = useState({ published: 0, draft: 0 });
   const [editingBook, setEditingBook] = useState(null);
   const [showBookForm, setShowBookForm] = useState(false);
-  
   const [projects, setProjects] = useState([]);
   const [projectsStats, setProjectsStats] = useState({ published: 0, draft: 0 });
   const [editingProject, setEditingProject] = useState(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
-  
   const [passions, setPassions] = useState([]);
   const [passionsStats, setPassionsStats] = useState({ published: 0, draft: 0 });
   const [editingPassion, setEditingPassion] = useState(null);
   const [showPassionForm, setShowPassionForm] = useState(false);
-  
   const [therapistSessions, setTherapistSessions] = useState([]);
   const [therapistStats, setTherapistStats] = useState({ total_sessions: 0, active_sessions: 0, sessions_this_week: 0, total_messages: 0 });
   const [selectedSession, setSelectedSession] = useState(null);
   const [sessionMessages, setSessionMessages] = useState([]);
-  
   const navigate = useNavigate();
 
-  // Use custom hooks for search/filter/pagination
-  const contactsFilter = useSearchFilter(data?.contacts || [], ['name', 'email', 'message']);
-  const contactsPagination = usePagination(contactsFilter.filteredData, 10);
+  // Reset pagination when tab or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchTerm, statusFilter]);
 
-  const investmentsFilter = useSearchFilter(data?.investments || [], ['name', 'email', 'company', 'message']);
-  const investmentsPagination = usePagination(investmentsFilter.filteredData, 10);
+  // Filter and paginate data based on active tab
+  const getFilteredData = (items, searchFields) => {
+    if (!items) return [];
+    
+    let filtered = items;
+    
+    // Apply search filter
+    if (searchTerm) {
+      filtered = filtered.filter(item => 
+        searchFields.some(field => 
+          item[field]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+    
+    // Apply status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(item => item.status === statusFilter || item.visibility === statusFilter);
+    }
+    
+    return filtered;
+  };
 
-  const applicationsFilter = useSearchFilter(data?.applications || [], ['full_name', 'email', 'why_apply', 'goals']);
-  const applicationsPagination = usePagination(applicationsFilter.filteredData, 10);
+  const getPaginatedData = (items) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return items.slice(startIndex, startIndex + itemsPerPage);
+  };
 
-  const booksFilter = useSearchFilter(books, ['title', 'author', 'tags'], 'status');
-  const booksPagination = usePagination(booksFilter.filteredData, 10);
+  // Filtered data for each section
+  const filteredContacts = useMemo(() => 
+    data ? getFilteredData(data.contacts, ['name', 'email', 'message']) : [],
+    [data, searchTerm, statusFilter]
+  );
 
-  const projectsFilter = useSearchFilter(projects, ['title', 'description', 'tags'], 'visibility');
-  const projectsPagination = usePagination(projectsFilter.filteredData, 10);
+  const filteredInvestments = useMemo(() => 
+    data ? getFilteredData(data.investments, ['name', 'email', 'company', 'message']) : [],
+    [data, searchTerm, statusFilter]
+  );
 
-  const passionsFilter = useSearchFilter(passions, ['title', 'subtitle', 'category', 'tags'], 'status');
-  const passionsPagination = usePagination(passionsFilter.filteredData, 10);
+  const filteredApplications = useMemo(() => 
+    data ? getFilteredData(data.applications, ['full_name', 'email', 'why_apply', 'goals']) : [],
+    [data, searchTerm, statusFilter]
+  );
 
-  const therapistFilter = useSearchFilter(therapistSessions, ['username', 'chat_name'], 'status');
-  const therapistPagination = usePagination(therapistFilter.filteredData, 10);
+  const filteredBooks = useMemo(() => 
+    getFilteredData(books, ['title', 'author', 'tags']),
+    [books, searchTerm, statusFilter]
+  );
+
+  const filteredProjects = useMemo(() => 
+    getFilteredData(projects, ['title', 'description', 'tags']),
+    [projects, searchTerm, statusFilter]
+  );
+
+  const filteredPassions = useMemo(() => 
+    getFilteredData(passions, ['title', 'subtitle', 'category', 'tags']),
+    [passions, searchTerm, statusFilter]
+  );
+
+  const filteredTherapistSessions = useMemo(() => 
+    getFilteredData(therapistSessions, ['username', 'chat_name']),
+    [therapistSessions, searchTerm, statusFilter]
+  );
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+  };
 
   useEffect(() => {
     // Check if logged in
