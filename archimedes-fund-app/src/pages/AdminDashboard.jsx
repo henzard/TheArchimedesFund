@@ -668,7 +668,8 @@ const Pagination = ({ currentPage, totalPages, totalItems, itemsPerPage, onPageC
 const AdminDashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('contacts');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   
   // Search and Filter States
   const [searchTerm, setSearchTerm] = useState('');
@@ -767,6 +768,38 @@ const AdminDashboard = () => {
     setSearchTerm('');
     setStatusFilter('all');
   };
+
+  // Navigation sections for sidebar
+  const navSections = [
+    {
+      title: "Overview",
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: Eye, badge: null }
+      ]
+    },
+    {
+      title: "Submissions",
+      items: [
+        { id: 'contacts', label: 'Contacts', icon: Mail, badge: data?.contacts?.filter(c => c.status === 'new').length || 0 },
+        { id: 'investments', label: 'Investments', icon: DollarSign, badge: data?.investments?.filter(i => i.status === 'new').length || 0 },
+        { id: 'applications', label: 'Applications', icon: FileText, badge: data?.applications?.filter(a => a.status === 'new').length || 0 }
+      ]
+    },
+    {
+      title: "Content Management",
+      items: [
+        { id: 'books', label: 'Books', icon: BookOpen, badge: null },
+        { id: 'projects', label: 'Projects', icon: Code, badge: null },
+        { id: 'passions', label: 'Passions', icon: Lightbulb, badge: null }
+      ]
+    },
+    {
+      title: "Support",
+      items: [
+        { id: 'therapist', label: 'Therapist', icon: MessageCircle, badge: null }
+      ]
+    }
+  ];
 
   useEffect(() => {
     // Check if logged in
@@ -1133,122 +1166,330 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <div className="dashboard-header">
-        <div className="container">
-          <div className="header-content">
-            <div>
-              <h1>Admin Dashboard</h1>
-              <p>Welcome, {localStorage.getItem('admin_email')}</p>
+      {/* Sidebar Navigation */}
+      <aside className={`admin-sidebar ${sidebarOpen ? '' : 'collapsed'}`}>
+        <div className="sidebar-header">
+          <div className="sidebar-logo">⚡</div>
+          <h2 className="sidebar-title">Admin</h2>
+        </div>
+        
+        <nav className="sidebar-nav">
+          {navSections.map((section, idx) => (
+            <div key={idx} className="nav-section">
+              <div className="nav-section-title">{section.title}</div>
+              {section.items.map(item => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={item.id}
+                    className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setCurrentPage(1);
+                      setSearchTerm('');
+                      setStatusFilter('all');
+                    }}
+                  >
+                    <IconComponent size={20} />
+                    <span>{item.label}</span>
+                    {item.badge > 0 && (
+                      <span className="nav-item-badge">{item.badge}</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
-            <Button variant="secondary" onClick={handleLogout}>
+          ))}
+        </nav>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="admin-main">
+        {/* Top Bar */}
+        <div className="admin-topbar">
+          <div className="topbar-left">
+            <div className="topbar-title">
+              <h2>{navSections.flatMap(s => s.items).find(i => i.id === activeTab)?.label || 'Dashboard'}</h2>
+              <div className="topbar-breadcrumb">
+                <span>Admin</span> / <span>{navSections.flatMap(s => s.items).find(i => i.id === activeTab)?.label || 'Dashboard'}</span>
+              </div>
+            </div>
+          </div>
+          <div className="topbar-right">
+            <span style={{ marginRight: '1rem', color: 'var(--text-secondary)' }}>
+              {localStorage.getItem('admin_email')}
+            </span>
+            <button className="topbar-btn logout" onClick={handleLogout}>
               <LogOut size={18} /> Logout
-            </Button>
+            </button>
           </div>
         </div>
-      </div>
 
-      <div className="container">
-        {/* Stats Cards */}
+        {/* Content Area */}
+        <div className="admin-content">{renderContent()}</div>
+      </div>
+    </div>
+  );
+
+  // Helper function to render content based on active tab
+  function renderContent() {
+    if (activeTab === 'dashboard') {
+      return renderDashboardOverview();
+    } else if (activeTab === 'contacts') {
+      return renderContactsPage();
+    } else if (activeTab === 'investments') {
+      return renderInvestmentsPage();
+    } else if (activeTab === 'applications') {
+      return renderApplicationsPage();
+    } else if (activeTab === 'books') {
+      return renderBooksPage();
+    } else if (activeTab === 'projects') {
+      return renderProjectsPage();
+    } else if (activeTab === 'passions') {
+      return renderPassionsPage();
+    } else if (activeTab === 'therapist') {
+      return renderTherapistPage();
+    }
+  }
+
+  // Dashboard Overview Page
+  function renderDashboardOverview() {
+    return (
+      <>
         <div className="stats-grid">
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#3498db' }}>
-              <Mail size={24} />
+          <div className="stat-card primary">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <Mail size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Contact Submissions</h3>
-              <p className="stat-number">{data.contacts.length}</p>
-              <p className="stat-detail">
-                {data.contacts.filter(c => c.status === 'new').length} new
-              </p>
+              <p className="stat-value">{data.contacts.length}</p>
+              <div className="stat-change positive">
+                <span>{data.contacts.filter(c => c.status === 'new').length} new</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#27ae60' }}>
-              <DollarSign size={24} />
+          <div className="stat-card success">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <DollarSign size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Investment Inquiries</h3>
-              <p className="stat-number">{data.investments.length}</p>
-              <p className="stat-detail">
-                {data.investments.filter(i => i.status === 'new').length} new
-              </p>
+              <p className="stat-value">{data.investments.length}</p>
+              <div className="stat-change positive">
+                <span>{data.investments.filter(i => i.status === 'new').length} new</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#e74c3c' }}>
-              <FileText size={24} />
+          <div className="stat-card warning">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <FileText size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Applications</h3>
-              <p className="stat-number">{data.applications.length}</p>
-              <p className="stat-detail">
-                {data.applications.filter(a => a.status === 'new').length} new
-              </p>
+              <p className="stat-value">{data.applications.length}</p>
+              <div className="stat-change positive">
+                <span>{data.applications.filter(a => a.status === 'new').length} new</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#9b59b6' }}>
-              <BookOpen size={24} />
+          <div className="stat-card info">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <BookOpen size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Books Library</h3>
-              <p className="stat-number">{booksStats.published + booksStats.draft}</p>
-              <p className="stat-detail">
-                {booksStats.published} published, {booksStats.draft} drafts
-              </p>
+              <p className="stat-value">{booksStats.published + booksStats.draft}</p>
+              <div className="stat-change">
+                <span>{booksStats.published} published</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#16a085' }}>
-              <Code size={24} />
+          <div className="stat-card secondary">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <Code size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>GitHub Projects</h3>
-              <p className="stat-number">{projectsStats.published + projectsStats.draft}</p>
-              <p className="stat-detail">
-                {projectsStats.published} published, {projectsStats.draft} drafts
-              </p>
+              <p className="stat-value">{projectsStats.published + projectsStats.draft}</p>
+              <div className="stat-change">
+                <span>{projectsStats.published} published</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#f39c12' }}>
-              <Lightbulb size={24} />
+          <div className="stat-card warning">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <Lightbulb size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Passions & Guides</h3>
-              <p className="stat-number">{passionsStats.published + passionsStats.draft}</p>
-              <p className="stat-detail">
-                {passionsStats.published} published, {passionsStats.draft} drafts
-              </p>
+              <p className="stat-value">{passionsStats.published + passionsStats.draft}</p>
+              <div className="stat-change">
+                <span>{passionsStats.published} published</span>
+              </div>
             </div>
-          </Card>
+          </div>
 
-          <Card padding="large" className="stat-card">
-            <div className="stat-icon" style={{ background: '#8e44ad' }}>
-              <MessageCircle size={24} />
+          <div className="stat-card danger">
+            <div className="stat-card-header">
+              <div className="stat-icon">
+                <MessageCircle size={24} />
+              </div>
             </div>
             <div className="stat-content">
               <h3>Therapist Sessions</h3>
-              <p className="stat-number">{therapistStats.total_sessions}</p>
-              <p className="stat-detail">
-                {therapistStats.total_messages} messages, {therapistStats.sessions_this_week} this week
-              </p>
+              <p className="stat-value">{therapistStats.total_sessions}</p>
+              <div className="stat-change">
+                <span>{therapistStats.total_messages} messages</span>
+              </div>
             </div>
-          </Card>
+          </div>
         </div>
 
-        {/* Tabs */}
-        <div className="dashboard-tabs">
-          <button
-            className={activeTab === 'contacts' ? 'active' : ''}
-            onClick={() => setActiveTab('contacts')}
-          >
-            <Mail size={18} /> Contact Forms ({data.contacts.length})
+        <div className="data-section">
+          <div className="section-header">
+            <h3 className="section-title">Quick Actions</h3>
+          </div>
+          <div style={{ padding: '2rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            <Button variant="primary" onClick={() => setActiveTab('books')}>
+              <Plus size={18} /> Add New Book
+            </Button>
+            <Button variant="primary" onClick={() => setActiveTab('projects')}>
+              <Plus size={18} /> Add New Project
+            </Button>
+            <Button variant="primary" onClick={() => setActiveTab('passions')}>
+              <Plus size={18} /> Add New Passion
+            </Button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Contacts Page (keeping original logic)
+  function renderContactsPage() {
+    return (
+      <div className="data-section">
+        <div className="section-header">
+          <h3 className="section-title">
+            <Mail size={24} /> Contact Submissions
+          </h3>
+          <div className="section-actions">
+            <Button variant="secondary" onClick={() => window.location.reload()}>
+              Refresh
+            </Button>
+          </div>
+        </div>
+        
+        <SearchFilterBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+          statuses={['new', 'read', 'responded', 'archived']}
+          onClearFilters={clearFilters}
+        />
+        
+        {filteredContacts.length > 0 && (
+          <div className="results-count">
+            Found <strong>{filteredContacts.length}</strong> contact{filteredContacts.length !== 1 ? 's' : ''}
+          </div>
+        )}
+
+        <div className="data-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {getPaginatedData(filteredContacts).map((contact) => (
+                <tr key={contact.id}>
+                  <td><strong>{contact.name}</strong></td>
+                  <td>{contact.email}</td>
+                  <td>{contact.phone || '-'}</td>
+                  <td style={{ maxWidth: '300px' }}>{contact.message.substring(0, 100)}...</td>
+                  <td>{new Date(contact.created_at).toLocaleDateString()}</td>
+                  <td>
+                    <span className={`status-badge ${contact.status}`}>
+                      {contact.status}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      value={contact.status}
+                      onChange={(e) => handleStatusUpdate('contact', contact.id, e.target.value)}
+                      style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)' }}
+                    >
+                      <option value="new">New</option>
+                      <option value="read">Read</option>
+                      <option value="responded">Responded</option>
+                      <option value="archived">Archived</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          
+          {filteredContacts.length === 0 && (
+            <div className="empty-state">
+              <div className="empty-icon">
+                <Mail size={48} />
+              </div>
+              <h3>No contacts found</h3>
+              <p>{searchTerm || statusFilter !== 'all' ? 'Try adjusting your filters' : 'No contact submissions yet.'}</p>
+            </div>
+          )}
+        </div>
+
+        {filteredContacts.length > itemsPerPage && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(filteredContacts.length / itemsPerPage)}
+            totalItems={filteredContacts.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Add placeholder render functions for other pages (will implement next)
+  function renderInvestmentsPage() { return <div>Investments Page - Coming Soon</div>; }
+  function renderApplicationsPage() { return <div>Applications Page - Coming Soon</div>; }
+  function renderBooksPage() { return <div>Books Page - Coming Soon</div>; }
+  function renderProjectsPage() { return <div>Projects Page - Coming Soon</div>; }
+  function renderPassionsPage() { return <div>Passions Page - Coming Soon</div>; }
+  function renderTherapistPage() { return <div>Therapist Page - Coming Soon</div>; }
+};
+
+export default AdminDashboard;
           </button>
           <button
             className={activeTab === 'investments' ? 'active' : ''}
