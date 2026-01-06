@@ -1,32 +1,71 @@
 .therapist-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding-bottom: 4rem;
+  padding-top: 80px;
 }
 
+/* Hero Section - Matching site style */
 .therapist-hero {
-  padding: 4rem 0 3rem;
-  color: white;
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-bg);
+  color: var(--text-light);
+  overflow: hidden;
+}
+
+.therapist-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(18, 41, 67, 0.5) 70%);
+  z-index: 1;
+}
+
+.therapist-hero-content {
+  position: relative;
+  z-index: 2;
   text-align: center;
-}
-
-.therapist-hero-content h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.therapist-tagline {
-  font-size: 1.25rem;
-  margin-bottom: 1rem;
-  opacity: 0.95;
-}
-
-.therapist-disclaimer {
-  font-size: 0.9rem;
-  opacity: 0.85;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text-light) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Playfair Display', serif;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-description {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.therapist-content {
+  background: var(--light-bg);
 }
 
 .therapist-welcome {
@@ -38,24 +77,26 @@
   text-align: center;
   background: white;
   border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-icon {
-  color: var(--primary);
+  color: var(--primary-color);
   margin-bottom: 1.5rem;
 }
 
 .welcome-card h2 {
   font-size: 2rem;
+  font-family: 'Playfair Display', serif;
   margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: var(--primary-color);
 }
 
 .welcome-card > p {
-  color: var(--text-secondary);
+  color: var(--text-gray);
   margin-bottom: 2rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .session-form {
@@ -72,30 +113,33 @@
   gap: 0.5rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: var(--primary-color);
+  font-size: 0.95rem;
 }
 
 .session-form input {
   width: 100%;
   padding: 0.875rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  font-family: 'Inter', sans-serif;
 }
 
 .session-form input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--secondary-color);
 }
 
 .session-form small {
   display: block;
   margin-top: 0.5rem;
-  color: var(--text-secondary);
+  color: var(--text-gray);
   font-size: 0.875rem;
 }
 
+/* Chat Section */
 .therapist-chat {
   max-width: 900px;
   margin: 0 auto;
@@ -104,7 +148,7 @@
 .chat-card {
   background: white;
   border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -113,15 +157,17 @@
 }
 
 .chat-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #2d5a8f 100%);
   color: white;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(201, 169, 97, 0.2);
 }
 
 .chat-header-info h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  color: var(--text-light);
 }
 
 .chat-header-info p {
@@ -134,7 +180,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem;
-  background: #f8f9fa;
+  background: var(--light-bg);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -169,16 +215,17 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .message-user .message-avatar {
-  background: var(--primary);
+  background: var(--primary-color);
   color: white;
 }
 
 .message-therapist .message-avatar {
-  background: #f0f0f0;
+  background: rgba(201, 169, 97, 0.15);
+  border: 2px solid var(--secondary-color);
 }
 
 .message-content {
@@ -190,8 +237,13 @@
 }
 
 .message-user .message-content {
-  background: var(--primary);
+  background: var(--primary-color);
   color: white;
+}
+
+.message-therapist .message-content {
+  background: white;
+  border: 1px solid var(--border-color);
 }
 
 .message-header {
@@ -205,6 +257,7 @@
 .message-sender {
   font-weight: 600;
   font-size: 0.875rem;
+  color: var(--primary-color);
 }
 
 .message-user .message-sender {
@@ -218,7 +271,12 @@
 
 .message-text {
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.message-user .message-text {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .typing-indicator {
@@ -232,7 +290,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--text-secondary);
+  background: var(--secondary-color);
   animation: typing 1.4s infinite;
 }
 
@@ -260,25 +318,26 @@
   gap: 0.75rem;
   padding: 1.25rem;
   background: white;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
 }
 
 .chat-input {
   flex: 1;
   padding: 0.875rem 1.125rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 24px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  font-family: 'Inter', sans-serif;
 }
 
 .chat-input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--secondary-color);
 }
 
 .chat-input:disabled {
-  background: #f5f5f5;
+  background: var(--light-bg);
   cursor: not-allowed;
 }
 
@@ -294,26 +353,52 @@
 }
 
 .therapist-emoji {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+}
+
+/* Scrollbar Styling for Chat */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: var(--light-bg);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .therapist-hero-content h1 {
+  .therapist-hero {
+    min-height: 50vh;
+  }
+
+  .hero-title {
     font-size: 2rem;
   }
 
-  .therapist-tagline {
-    font-size: 1rem;
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
   }
 
   .chat-card {
-    height: calc(100vh - 280px);
+    height: calc(100vh - 250px);
     border-radius: 12px;
   }
 
   .message-content {
-    max-width: 80%;
+    max-width: 85%;
   }
 
   .chat-messages {

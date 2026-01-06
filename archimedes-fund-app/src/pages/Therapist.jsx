@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Send, MessageCircle, User } from 'lucide-react';
 import Card from '../components/Card';
 import Button from '../components/Button';
@@ -55,10 +56,6 @@ const Therapist = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const getRandomResponse = () => {
-    return THERAPIST_RESPONSES[Math.floor(Math.random() * THERAPIST_RESPONSES.length)];
-  };
 
   const handleStartSession = async (e) => {
     e.preventDefault();
@@ -155,171 +152,177 @@ const Therapist = () => {
     }
   };
 
-  const handleLoadSession = async () => {
-    if (!sessionId) return;
-
-    setLoading(true);
-    try {
-      const response = await fetch(`/.netlify/functions/therapist-get-history?sessionId=${sessionId}`);
-      
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(data.messages);
-      }
-    } catch (error) {
-      console.error('Load history error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="therapist-page">
-      <div className="therapist-hero">
+      {/* Hero Section */}
+      <section className="therapist-hero">
         <div className="container">
-          <div className="therapist-hero-content">
-            <h1>🛋️ The Digital Therapist</h1>
-            <p className="therapist-tagline">
-              Sometimes you just need someone to listen... even if it's a quirky AI therapist!
+          <motion.div
+            className="therapist-hero-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="hero-title">The Digital Therapist</h1>
+            <p className="hero-subtitle">
+              Sometimes you just need someone to listen...
             </p>
-            <p className="therapist-disclaimer">
-              <em>Note: This is a fun, lighthearted feature inspired by toy therapists. Not a replacement for real professional help!</em>
+            <p className="hero-description">
+              A lighthearted space to share your thoughts, vent, or just chat. 
+              Inspired by toy therapists, this quirky digital companion responds 
+              with random therapeutic insights. Not real therapy—just fun!
             </p>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
-      <div className="container">
-        {showWelcome ? (
-          <div className="therapist-welcome">
-            <Card padding="large" className="welcome-card">
-              <div className="welcome-icon">
-                <MessageCircle size={64} />
-              </div>
-              <h2>Start Your Therapy Session</h2>
-              <p>Share your thoughts, problems, or just vent. The therapist is here to listen and respond with... interesting insights.</p>
-              
-              <form onSubmit={handleStartSession} className="session-form">
-                <div className="form-group">
-                  <label htmlFor="username">
-                    <User size={18} /> Your Name
-                  </label>
-                  <input
-                    id="username"
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your name"
-                    required
-                    maxLength={50}
-                  />
+      {/* Main Content */}
+      <section className="section therapist-content">
+        <div className="container">
+          {showWelcome ? (
+            <motion.div
+              className="therapist-welcome"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Card padding="large" className="welcome-card">
+                <div className="welcome-icon">
+                  <MessageCircle size={64} />
+                </div>
+                <h2>Start Your Therapy Session</h2>
+                <p>Share your thoughts, problems, or just vent. The therapist is here to listen and respond with... interesting insights.</p>
+                
+                <form onSubmit={handleStartSession} className="session-form">
+                  <div className="form-group">
+                    <label htmlFor="username">
+                      <User size={18} /> Your Name
+                    </label>
+                    <input
+                      id="username"
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Enter your name"
+                      required
+                      maxLength={50}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="chatName">
+                      <MessageCircle size={18} /> Chat Session Name
+                    </label>
+                    <input
+                      id="chatName"
+                      type="text"
+                      value={chatName}
+                      onChange={(e) => setChatName(e.target.value)}
+                      placeholder="e.g., Monday Blues, Work Stress, Life Decisions"
+                      required
+                      maxLength={100}
+                    />
+                    <small>Give your session a name so you can identify it later</small>
+                  </div>
+                  
+                  <Button type="submit" variant="primary" size="large" fullWidth disabled={loading}>
+                    {loading ? 'Starting Session...' : 'Start Talking'}
+                  </Button>
+                </form>
+              </Card>
+            </motion.div>
+          ) : (
+            <motion.div
+              className="therapist-chat"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Card padding="none" className="chat-card">
+                <div className="chat-header">
+                  <div className="chat-header-info">
+                    <h3>Therapy Session: {chatName}</h3>
+                    <p>Talking with the therapist as <strong>{username}</strong></p>
+                  </div>
                 </div>
                 
-                <div className="form-group">
-                  <label htmlFor="chatName">
-                    <MessageCircle size={18} /> Chat Session Name
-                  </label>
-                  <input
-                    id="chatName"
-                    type="text"
-                    value={chatName}
-                    onChange={(e) => setChatName(e.target.value)}
-                    placeholder="e.g., Monday Blues, Work Stress, Life Decisions"
-                    required
-                    maxLength={100}
-                  />
-                  <small>Give your session a name so you can identify it later</small>
+                <div className="chat-messages">
+                  {messages.map((msg) => (
+                    <motion.div 
+                      key={msg.id} 
+                      className={`message ${msg.sender === 'user' ? 'message-user' : 'message-therapist'}`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="message-avatar">
+                        {msg.sender === 'user' ? (
+                          <User size={20} />
+                        ) : (
+                          <span className="therapist-emoji">💭</span>
+                        )}
+                      </div>
+                      <div className="message-content">
+                        <div className="message-header">
+                          <span className="message-sender">
+                            {msg.sender === 'user' ? username : 'Dr. Therapist'}
+                          </span>
+                          <span className="message-time">
+                            {new Date(msg.created_at).toLocaleTimeString([], { 
+                              hour: '2-digit', 
+                              minute: '2-digit' 
+                            })}
+                          </span>
+                        </div>
+                        <p className="message-text">{msg.message}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                  
+                  {loading && (
+                    <div className="message message-therapist">
+                      <div className="message-avatar">
+                        <span className="therapist-emoji">💭</span>
+                      </div>
+                      <div className="message-content">
+                        <div className="message-header">
+                          <span className="message-sender">Dr. Therapist</span>
+                        </div>
+                        <p className="message-text typing-indicator">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div ref={messagesEndRef} />
                 </div>
                 
-                <Button type="submit" variant="primary" size="large" fullWidth disabled={loading}>
-                  {loading ? 'Starting Session...' : 'Start Talking'}
-                </Button>
-              </form>
-            </Card>
-          </div>
-        ) : (
-          <div className="therapist-chat">
-            <Card padding="none" className="chat-card">
-              <div className="chat-header">
-                <div className="chat-header-info">
-                  <h3>🛋️ Therapy Session: {chatName}</h3>
-                  <p>Talking to the therapist as <strong>{username}</strong></p>
-                </div>
-              </div>
-              
-              <div className="chat-messages">
-                {messages.map((msg) => (
-                  <div 
-                    key={msg.id} 
-                    className={`message ${msg.sender === 'user' ? 'message-user' : 'message-therapist'}`}
+                <form onSubmit={handleSendMessage} className="chat-input-form">
+                  <input
+                    type="text"
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    placeholder="Type your message..."
+                    disabled={loading}
+                    className="chat-input"
+                  />
+                  <Button 
+                    type="submit" 
+                    variant="primary" 
+                    disabled={loading || !inputMessage.trim()}
+                    className="send-button"
                   >
-                    <div className="message-avatar">
-                      {msg.sender === 'user' ? (
-                        <User size={20} />
-                      ) : (
-                        <span className="therapist-emoji">🧠</span>
-                      )}
-                    </div>
-                    <div className="message-content">
-                      <div className="message-header">
-                        <span className="message-sender">
-                          {msg.sender === 'user' ? username : 'Dr. Therapist'}
-                        </span>
-                        <span className="message-time">
-                          {new Date(msg.created_at).toLocaleTimeString([], { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
-                          })}
-                        </span>
-                      </div>
-                      <p className="message-text">{msg.message}</p>
-                    </div>
-                  </div>
-                ))}
-                
-                {loading && (
-                  <div className="message message-therapist">
-                    <div className="message-avatar">
-                      <span className="therapist-emoji">🧠</span>
-                    </div>
-                    <div className="message-content">
-                      <div className="message-header">
-                        <span className="message-sender">Dr. Therapist</span>
-                      </div>
-                      <p className="message-text typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </p>
-                    </div>
-                  </div>
-                )}
-                
-                <div ref={messagesEndRef} />
-              </div>
-              
-              <form onSubmit={handleSendMessage} className="chat-input-form">
-                <input
-                  type="text"
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder="Type your message..."
-                  disabled={loading}
-                  className="chat-input"
-                />
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  disabled={loading || !inputMessage.trim()}
-                  className="send-button"
-                >
-                  <Send size={20} />
-                </Button>
-              </form>
-            </Card>
-          </div>
-        )}
-      </div>
+                    <Send size={20} />
+                  </Button>
+                </form>
+              </Card>
+            </motion.div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
