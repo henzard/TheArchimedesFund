@@ -4,14 +4,30 @@
   padding-top: 80px;
 }
 
+/* Premium Dashboard Header */
 .dashboard-header {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-bg) 100%);
+  position: relative;
+  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--primary-color) 100%);
   color: var(--text-light);
-  padding: 3rem 0;
+  padding: 4rem 0;
   margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.dashboard-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a961' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.1;
 }
 
 .header-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,13 +35,17 @@
 
 .dashboard-header h1 {
   color: var(--text-light);
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dashboard-header p {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .loading {
@@ -35,7 +55,7 @@
   color: var(--text-gray);
 }
 
-/* Stats Grid */
+/* Premium Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -47,55 +67,75 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.03) 0%, white 100%);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  border-color: var(--secondary-color);
 }
 
 .stat-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   flex-shrink: 0;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
 }
 
 .stat-content h3 {
-  color: var(--text-gray);
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   margin-bottom: 0.5rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .stat-number {
   font-size: 2.5rem;
   font-weight: 900;
-  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
+  font-family: 'Playfair Display', serif;
 }
 
 .stat-detail {
   color: var(--text-gray);
   font-size: 0.9rem;
   margin: 0;
+  font-weight: 500;
 }
 
-/* Tabs */
+/* Premium Tabs */
 .dashboard-tabs {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: 2px solid var(--border-color);
+  gap: 0.5rem;
+  margin-bottom: 3rem;
   flex-wrap: wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .dashboard-tabs button {
   background: none;
   border: none;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-gray);
   cursor: pointer;
@@ -103,20 +143,22 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
+  border-radius: 10px;
+  position: relative;
 }
 
 .dashboard-tabs button:hover {
   color: var(--primary-color);
+  background: rgba(201, 169, 97, 0.08);
 }
 
 .dashboard-tabs button.active {
-  color: var(--primary-color);
-  border-bottom-color: var(--primary-color);
+  color: white;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
 }
 
-/* Submissions List */
+/* Premium Submissions List */
 .submissions-list {
   display: flex;
   flex-direction: column;
@@ -124,12 +166,14 @@
 }
 
 .submission-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .submission-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  border-color: var(--secondary-color);
 }
 
 .submission-header {
@@ -138,18 +182,21 @@
   align-items: flex-start;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid rgba(201, 169, 97, 0.15);
 }
 
 .submission-header h3 {
   color: var(--primary-color);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .submission-email {
-  color: var(--text-gray);
+  color: var(--secondary-color);
   margin: 0.25rem 0;
+  font-weight: 600;
 }
 
 .submission-phone,
@@ -167,17 +214,20 @@
 }
 
 .status-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  border-radius: 24px;
   color: white;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: capitalize;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .submission-date {
   color: var(--text-gray);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .submission-body {
@@ -192,6 +242,7 @@
 
 .submission-body strong {
   color: var(--primary-color);
+  font-weight: 700;
 }
 
 .application-details {
@@ -203,145 +254,147 @@
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .submission-actions select {
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.25rem;
   border: 2px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--primary-color);
   cursor: pointer;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .submission-actions select:hover {
-  border-color: var(--primary-color);
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
 }
 
 .submission-actions select:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.15);
 }
 
 .empty-state {
   text-align: center;
-  padding: 4rem 0;
+  padding: 4rem 2rem;
   color: var(--text-gray);
   font-size: 1.1rem;
 }
 
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: flex-start;
-  }
-
-  .dashboard-header h1 {
-    font-size: 2rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-tabs {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .dashboard-tabs button {
-    width: 100%;
-    justify-content: center;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .submission-header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .submission-meta {
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .submission-actions {
-    flex-direction: column;
-  }
-
-  .submission-actions select {
-    width: 100%;
-  }
-}
-
-/* Books Management */
-.books-management {
+/* Books Management - Premium Style */
+.books-management,
+.projects-management,
+.passions-management,
+.therapist-management {
   margin-top: 2rem;
 }
 
-.books-header {
+.books-header,
+.projects-header,
+.passions-header,
+.therapist-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.books-header h2 {
+.books-header h2,
+.projects-header h2,
+.passions-header h2,
+.therapist-header h2 {
   color: var(--primary-color);
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
 }
 
-.books-list {
+.books-list,
+.projects-list,
+.passions-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.book-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.book-card,
+.project-card,
+.passion-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
-.book-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+.book-card:hover,
+.project-card:hover,
+.passion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  border-color: var(--secondary-color);
 }
 
-.book-header {
+.book-header,
+.project-header,
+.passion-header {
   display: flex;
   gap: 2rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid rgba(201, 169, 97, 0.15);
 }
 
 .book-cover {
-  width: 100px;
-  height: 150px;
+  width: 120px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.book-info {
+.book-card:hover .book-cover {
+  transform: scale(1.03) rotateY(3deg);
+}
+
+.book-info,
+.project-info,
+.passion-info {
   flex: 1;
 }
 
-.book-info h3 {
+.book-info h3,
+.project-info h3,
+.passion-info h3 {
   color: var(--primary-color);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.book-author {
+.book-author,
+.project-tagline,
+.passion-subtitle {
   color: var(--text-gray);
   font-style: italic;
   margin-bottom: 1rem;
+  font-size: 1.05rem;
 }
 
-.book-meta {
+.book-meta,
+.project-meta,
+.passion-meta {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -352,16 +405,23 @@
   font-size: 1.2rem;
 }
 
-.book-date {
+.book-date,
+.project-date,
+.passion-date {
   color: var(--text-gray);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.book-body {
+.book-body,
+.project-body,
+.passion-body {
   margin-bottom: 1.5rem;
 }
 
 .book-tags,
+.project-tags,
+.passion-tags,
 .book-problems {
   display: flex;
   flex-wrap: wrap;
@@ -369,13 +429,16 @@
   margin-bottom: 1rem;
 }
 
-.book-tags .tag {
+.book-tags .tag,
+.project-tags .tag,
+.passion-tags .tag {
   background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
   color: white;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem 0.9rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
+  box-shadow: 0 2px 6px rgba(201, 169, 97, 0.3);
 }
 
 .book-problems {
@@ -385,52 +448,105 @@
 .book-problems strong {
   color: var(--primary-color);
   margin-right: 0.5rem;
+  font-weight: 700;
 }
 
-.problem-tag {
-  background: #e8f4f8;
-  color: #2c7da0;
-  padding: 0.4rem 0.8rem;
+.problem-tag,
+.tech-tag {
+  background: rgba(201, 169, 97, 0.1);
+  color: var(--primary-color);
+  padding: 0.4rem 0.9rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
+  border: 1px solid var(--secondary-color);
 }
 
 .book-impact,
-.book-takeaways {
+.book-takeaways,
+.project-description,
+.project-features,
+.project-section,
+.passion-excerpt,
+.passion-content-preview {
   margin-bottom: 1rem;
 }
 
 .book-impact strong,
-.book-takeaways strong {
+.book-takeaways strong,
+.project-description strong,
+.project-features strong,
+.project-section strong,
+.passion-excerpt strong,
+.passion-content-preview strong {
   color: var(--primary-color);
   display: block;
   margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .book-impact p,
-.book-takeaways p {
+.book-takeaways p,
+.project-description p,
+.project-section p,
+.passion-excerpt p {
   line-height: 1.8;
   color: var(--text-dark);
 }
 
-.book-actions {
+.passion-excerpt {
+  padding: 1rem;
+  background: rgba(201, 169, 97, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--secondary-color);
+}
+
+.passion-content-preview {
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.markdown-preview {
+  line-height: 1.7;
+  color: var(--text-dark);
+  font-family: monospace;
+  font-size: 0.9rem;
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-actions,
+.project-actions,
+.passion-actions,
+.therapist-session-actions {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
-/* Book Form */
-.book-form {
-  margin-bottom: 2rem;
-  background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, rgba(255, 255, 255, 0.95) 100%);
+/* Premium Forms */
+.book-form,
+.project-form,
+.passion-form {
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, rgba(255, 255, 255, 0.98) 100%);
   border: 2px solid var(--secondary-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.book-form h3 {
+.book-form h3,
+.project-form h3,
+.passion-form h3 {
   color: var(--primary-color);
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
 }
 
 .form-row {
@@ -447,7 +563,7 @@
 .form-group label {
   display: block;
   color: var(--primary-color);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
 }
@@ -456,12 +572,13 @@
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.875rem 1.125rem;
   border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+  background: white;
 }
 
 .form-group input:focus,
@@ -469,6 +586,7 @@
 .form-group textarea:focus {
   outline: none;
   border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.15);
 }
 
 .form-group small {
@@ -476,11 +594,13 @@
   color: var(--text-gray);
   font-size: 0.85rem;
   margin-top: 0.5rem;
+  font-style: italic;
 }
 
 .form-group textarea {
   resize: vertical;
   min-height: 100px;
+  line-height: 1.6;
 }
 
 .form-actions {
@@ -490,122 +610,18 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 768px) {
-  .books-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  
-  .book-header {
-    flex-direction: column;
-  }
-  
-  .book-cover {
-    width: 100%;
-    max-width: 200px;
-  }
-  
-  .book-actions {
-    flex-direction: column;
-  }
-  
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-}
-
-/* Passions Management Styles */
-.passions-management {
-  margin-top: 2rem;
-}
-
-.passions-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.passions-header h2 {
-  color: var(--primary-color);
-  font-size: 2rem;
-}
-
-.passions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.passion-card {
-  border-left: 5px solid #f39c12;
-  transition: all 0.3s ease;
-}
-
-.passion-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-3px);
-}
-
-.passion-header {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 1.5rem;
-  align-items: flex-start;
-}
-
-.passion-cover {
-  width: 200px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.passion-info {
-  flex: 1;
-}
-
-.passion-info h3 {
-  font-size: 1.6rem;
-  margin-bottom: 0.5rem;
-  color: var(--dark-bg);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
+/* Passions Management - Site Theme */
 .passion-emoji {
   font-size: 2rem;
 }
 
-.passion-subtitle {
-  color: var(--text-gray);
-  font-style: italic;
-  margin-bottom: 1rem;
-  font-size: 1.05rem;
-}
-
-.passion-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  align-items: center;
-  font-size: 0.9rem;
-}
-
 .passion-category {
-  background: linear-gradient(135deg, #f39c12, #e67e22);
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
   color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 12px;
+  padding: 0.4rem 0.9rem;
+  border-radius: 16px;
   font-weight: 600;
+  box-shadow: 0 2px 6px rgba(201, 169, 97, 0.3);
 }
 
 .passion-reading-time,
@@ -614,131 +630,16 @@
   font-weight: 500;
 }
 
-.passion-date {
-  color: var(--text-gray);
-  font-size: 0.85rem;
-}
-
-.passion-body {
-  margin-bottom: 1.5rem;
-}
-
-.passion-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.passion-tags .tag {
-  background: linear-gradient(135deg, #f39c12, var(--primary-color));
-  color: white;
-  padding: 0.3rem 0.8rem;
+.passion-cover {
+  width: 220px;
+  height: 132px;
+  object-fit: cover;
   border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.passion-excerpt {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: rgba(243, 156, 18, 0.05);
-  border-radius: 8px;
-  border-left: 4px solid #f39c12;
-}
-
-.passion-excerpt strong {
-  color: var(--primary-color);
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.passion-excerpt p {
-  line-height: 1.7;
-  color: var(--text-dark);
-}
-
-.passion-content-preview {
-  padding: 1rem;
-  background: var(--light-bg);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-}
-
-.passion-content-preview strong {
-  color: var(--primary-color);
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.markdown-preview {
-  line-height: 1.7;
-  color: var(--text-dark);
-  font-family: monospace;
-  font-size: 0.9rem;
-  max-height: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.passion-actions {
-  display: flex;
-  gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.passion-form {
-  margin-bottom: 3rem;
-  border-left: 5px solid #f39c12;
-}
-
-.passion-form h3 {
-  color: #f39c12;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 768px) {
-  .passions-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  
-  .passion-header {
-    flex-direction: column;
-  }
-  
-  .passion-cover {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .passion-actions {
-    flex-direction: column;
-  }
-}
-
-/* Therapist Management Styles */
-.therapist-management {
-  margin-top: 2rem;
-}
-
-.therapist-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.therapist-header h2 {
-  color: var(--primary-color);
-  font-size: 2rem;
-}
-
+/* Therapist Management - Site Theme */
 .therapist-stats-summary {
   display: flex;
   gap: 1.5rem;
@@ -754,13 +655,15 @@
 }
 
 .therapist-session-card {
-  border-left: 5px solid #8e44ad;
+  border-left: 5px solid var(--secondary-color);
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .therapist-session-card:hover {
-  box-shadow: 0 8px 20px rgba(142, 68, 173, 0.15);
+  box-shadow: 0 12px 28px rgba(201, 169, 97, 0.2);
   transform: translateY(-3px);
+  border-color: var(--secondary-color);
 }
 
 .therapist-session-header {
@@ -769,16 +672,18 @@
   align-items: flex-start;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid rgba(201, 169, 97, 0.15);
 }
 
 .therapist-session-header h3 {
-  font-size: 1.4rem;
-  color: var(--dark-bg);
+  font-size: 1.5rem;
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 .session-user {
@@ -802,13 +707,6 @@
   color: var(--text-gray);
 }
 
-.therapist-session-actions {
-  display: flex;
-  gap: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-}
-
 /* Session Detail View */
 .session-detail-view {
   margin-top: 2rem;
@@ -822,9 +720,11 @@
 }
 
 .session-detail-info h3 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
 }
 
 .session-detail-info p {
@@ -847,9 +747,14 @@
 .therapist-message {
   background: white;
   border-radius: 12px;
-  padding: 1rem 1.25rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border-left: 4px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.therapist-message:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .therapist-message-user {
@@ -858,8 +763,8 @@
 }
 
 .therapist-message-therapist {
-  border-left-color: #8e44ad;
-  background: linear-gradient(135deg, rgba(142, 68, 173, 0.05) 0%, white 100%);
+  border-left-color: var(--secondary-color);
+  background: linear-gradient(135deg, rgba(30, 58, 95, 0.03) 0%, white 100%);
 }
 
 .therapist-message-header {
@@ -872,7 +777,7 @@
 
 .therapist-message-sender {
   font-weight: 700;
-  color: var(--dark-bg);
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -882,6 +787,7 @@
 .therapist-message-time {
   font-size: 0.8rem;
   color: var(--text-gray);
+  font-weight: 500;
 }
 
 .therapist-message-text {
@@ -890,27 +796,166 @@
   margin: 0;
 }
 
+/* Project Links */
+.project-links-header {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-link-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: rgba(201, 169, 97, 0.08);
+  transition: all 0.3s ease;
+}
+
+.project-link-header:hover {
+  background: var(--secondary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+.project-tech {
+  margin-bottom: 1rem;
+}
+
+.project-tech strong {
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.project-image {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.project-features ul {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+  line-height: 1.8;
+}
+
+/* Scrollbar Styling */
+.session-messages-card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.session-messages-card::-webkit-scrollbar-track {
+  background: var(--light-bg);
+}
+
+.session-messages-card::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.session-messages-card::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .therapist-header {
+  .header-content {
     flex-direction: column;
+    gap: 1.5rem;
     align-items: flex-start;
   }
-  
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-tabs {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .dashboard-tabs button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .submission-header,
+  .book-header,
+  .project-header,
+  .passion-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .submission-meta {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .submission-actions,
+  .book-actions,
+  .project-actions,
+  .passion-actions,
+  .therapist-session-actions {
+    flex-direction: column;
+  }
+
+  .submission-actions select {
+    width: 100%;
+  }
+
+  .book-cover {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .passion-cover {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .project-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
   .therapist-stats-summary {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .session-detail-header {
     flex-direction: column;
   }
-  
+
   .therapist-session-stats {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
-  .therapist-session-actions {
+
+  .project-links-header {
     flex-direction: column;
   }
 }
