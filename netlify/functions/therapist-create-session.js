@@ -1,13 +1,7 @@
-const { query } = require('./utils/db');
+// Create therapist session
+import { getDb, headers } from './utils/db.js';
 
-exports.handler = async (event) => {
-  // Enable CORS
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
+export const handler = async (event) => {
   // Handle preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
@@ -33,15 +27,16 @@ exports.handler = async (event) => {
       };
     }
 
+    const sql = getDb();
+    
     // Create new session
-    const result = await query(
-      `INSERT INTO therapist_sessions (username, chat_name, status)
-       VALUES ($1, $2, 'active')
-       RETURNING id, username, chat_name, session_start`,
-      [username.trim(), chatName.trim()]
-    );
+    const result = await sql`
+      INSERT INTO therapist_sessions (username, chat_name, status)
+      VALUES (${username.trim()}, ${chatName.trim()}, 'active')
+      RETURNING id, username, chat_name, session_start
+    `;
 
-    const session = result.rows[0];
+    const session = result[0];
 
     return {
       statusCode: 200,
@@ -58,7 +53,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Failed to create session' }),
+      body: JSON.stringify({ error: 'Failed to create session', details: error.message }),
     };
   }
 };

@@ -1,4 +1,5 @@
-const { query } = require('./utils/db');
+// Send message to therapist
+import { getDb, headers } from './utils/db.js';
 
 // Fun therapist responses
 const THERAPIST_RESPONSES = [
@@ -38,14 +39,7 @@ const getRandomResponse = () => {
   return THERAPIST_RESPONSES[Math.floor(Math.random() * THERAPIST_RESPONSES.length)];
 };
 
-exports.handler = async (event) => {
-  // Enable CORS
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
+export const handler = async (event) => {
   // Handle preflight
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
@@ -71,13 +65,15 @@ exports.handler = async (event) => {
       };
     }
 
-    // Verify session exists
-    const sessionCheck = await query(
-      'SELECT id FROM therapist_sessions WHERE id = $1 AND status = $2',
-      [sessionId, 'active']
-    );
+    const sql = getDb();
 
-    if (sessionCheck.rows.length === 0) {
+    // Verify session exists
+    const sessionCheck = await sql`
+      SELECT id FROM therapist_sessions 
+      WHERE id = ${sessionId} AND status = 'active'
+    `;
+
+    if (sessionCheck.length === 0) {
       return {
         statusCode: 404,
         headers,
@@ -86,37 +82,36 @@ exports.handler = async (event) => {
     }
 
     // Save user message
-    const userMsgResult = await query(
-      `INSERT INTO therapist_messages (session_id, sender, message)
-       VALUES ($1, 'user', $2)
-       RETURNING id, created_at`,
-      [sessionId, message.trim()]
-    );
+    const userMsgResult = await sql`
+      INSERT INTO therapist_messages (session_id, sender, message)
+      VALUES (${sessionId}, 'user', ${message.trim()})
+      RETURNING id, created_at
+    `;
 
     // Generate random therapist response
     const therapistResponse = getRandomResponse();
 
     // Save therapist response
-    const therapistMsgResult = await query(
-      `INSERT INTO therapist_messages (session_id, sender, message)
-       VALUES ($1, 'therapist', $2)
-       RETURNING id, created_at`,
-      [sessionId, therapistResponse]
-    );
+    const therapistMsgResult = await sql`
+      INSERT INTO therapist_messages (session_id, sender, message)
+      VALUES (${sessionId}, 'therapist', ${therapistResponse})
+      RETURNING id, created_at
+    `;
 
     // Update session last activity
-    await query(
-      'UPDATE therapist_sessions SET last_activity = CURRENT_TIMESTAMP WHERE id = $1',
-      [sessionId]
-    );
+    await sql`
+      UPDATE therapist_sessions 
+      SET last_activity = CURRENT_TIMESTAMP 
+      WHERE id = ${sessionId}
+    `;
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        messageId: therapistMsgResult.rows[0].id,
+        messageId: therapistMsgResult[0].id,
         therapistResponse,
-        timestamp: therapistMsgResult.rows[0].created_at,
+        timestamp: therapistMsgResult[0].created_at,
       }),
     };
   } catch (error) {
@@ -124,7 +119,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Failed to send message' }),
+      body: JSON.stringify({ error: 'Failed to send message', details: error.message }),
     };
   }
 };
