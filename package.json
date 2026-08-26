@@ -2,7 +2,9 @@
   "name": "henzard-co-za",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,6 +14,8 @@
     "lint:prose": "node scripts/lint-prose.mjs"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "7.2.6"
   }
 }
