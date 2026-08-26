@@ -1,14 +1,6 @@
 [build]
-  base = "archimedes-fund-app"
-  command = "cd .. && npm install && cd archimedes-fund-app && npm run build"
+  command = "npm run build"
   publish = "dist"
 
-[functions]
-  directory = "../netlify/functions"
-  node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
+[build.environment]
+  NODE_VERSION = "22.12.0"
