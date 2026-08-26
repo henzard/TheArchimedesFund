@@ -1,17 +1,8 @@
 ---
-const title = 'Henzard Kruger';
+import Base from '../layouts/Base.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../site.js';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <main>
-      <h1>{title}</h1>
-      <p>Site under construction.</p>
-    </main>
-  </body>
-</html>
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <h1>{SITE_TITLE}</h1>
+  <p>Site under construction.</p>
+</Base>

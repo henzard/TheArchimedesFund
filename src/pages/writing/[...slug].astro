@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Prose from '../../components/Prose.astro';
 
 export async function getStaticPaths() {
   const essays = await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true);
@@ -16,6 +17,8 @@ const { Content } = await render(essay);
     <time datetime={essay.data.date.toISOString()}>
       {essay.data.date.toISOString().slice(0, 10)}
     </time>
-    <Content />
+    <Prose>
+      <Content />
+    </Prose>
   </article>
 </Base>

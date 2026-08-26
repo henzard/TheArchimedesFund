@@ -1,0 +1,26 @@
+/* Approved identity primitives - brand/BRAND.md, approved 2026-08-26.
+   Changing a colour or family here is a brand decision, not a tweak. */
+:root {
+  --ink: #111827;
+  --slate: #52606d;
+  --accent: #0e7490;
+  --ground: #f7f8f6;
+  --on-accent: #ffffff;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  --step-display: clamp(2.75rem, 6vw, 5rem);
+  --step-h1: clamp(2rem, 4vw, 3.5rem);
+  --step-h2: clamp(1.5rem, 2.5vw, 2.25rem);
+  --step-body-lg: 1.125rem;
+  --step-body: 1rem;
+  --step-meta: 0.8125rem;
+
+  --space-xs: 4px;  --space-sm: 8px;  --space-md: 16px;
+  --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
+
+  --radius-sm: 4px; --radius-md: 10px; --radius-lg: 18px;
+
+  --measure: 68ch;
+}

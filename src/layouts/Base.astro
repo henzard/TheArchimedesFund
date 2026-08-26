@@ -1,9 +1,13 @@
 ---
-interface Props {
-  title: string;
-  description?: string;
-}
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '../styles/base.css';
+import { SITE_TITLE } from '../site.js';
+
+interface Props { title: string; description?: string; }
 const { title, description } = Astro.props;
+const year = new Date().getFullYear();
 ---
 <!doctype html>
 <html lang="en">
@@ -12,18 +16,24 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    <link rel="alternate" type="application/rss+xml" title="Henzard Kruger" href="/rss.xml" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <header>
+    <header class="shell">
       <nav aria-label="Primary">
         <a href="/">Home</a>
         <a href="/writing/">Writing</a>
+        <a href="/work/">Work</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
       </nav>
     </header>
-    <main id="main">
-      <slot />
-    </main>
+    <main id="main" class="shell"><slot /></main>
+    <footer class="shell meta">
+      <p>&copy; {year} {SITE_TITLE}</p>
+      <p><a href="/rss.xml">RSS</a></p>
+    </footer>
   </body>
 </html>

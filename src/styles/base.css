@@ -1,0 +1,46 @@
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.15; text-wrap: balance; margin: 0 0 var(--space-md); }
+h1 { font-size: var(--step-h1); letter-spacing: -0.02em; }
+h2 { font-size: var(--step-h2); letter-spacing: -0.01em; }
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* Visible focus is not optional - it is how a keyboard user knows where
+   they are. Never remove it without replacing it. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.meta { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--slate); }
+
+.skip-link {
+  position: absolute; left: -9999px;
+  background: var(--ink); color: var(--ground);
+  padding: var(--space-sm) var(--space-md);
+}
+.skip-link:focus { left: var(--space-md); top: var(--space-md); z-index: 10; }
+
+.shell { width: min(100% - 2 * var(--space-lg), 1100px); margin-inline: auto; }
+.prose { max-width: var(--measure); }
+.prose p, .prose ul, .prose ol { margin-block: 0 var(--space-lg); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
