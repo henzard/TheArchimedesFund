@@ -37,9 +37,12 @@ jobs:
       # every built entry point explicitly, with --server-root pinned to
       # dist so root-relative hrefs resolve against the site root instead
       # of the filesystem, makes the crawl actually walk all five pages.
+      # `writing` alone is sufficient to reach every essay by recursion -
+      # naming a specific essay here would make CI brittle against renaming
+      # or unpublishing it.
       - name: Link check
         run: |
           npx --yes linkinator@8.0.4 \
-            . writing writing/hello-world 404.html rss.xml \
+            . writing 404.html rss.xml \
             --recurse --server-root dist --silent \
             --skip "^https://henzard\.co\.za"

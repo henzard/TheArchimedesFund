@@ -14,7 +14,13 @@ export function slugify(title) {
 
 export function frontMatter(title, date) {
   const escaped = String(title).replace(/"/g, '\\"');
-  const day = date.toISOString().slice(0, 10);
+  // Local date parts, not toISOString() (which is UTC): the author is at
+  // UTC+2 (SAST), so scaffolding before 02:00 local time would otherwise
+  // stamp yesterday's date into the front matter.
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const dayOfMonth = String(date.getDate()).padStart(2, '0');
+  const day = `${year}-${month}-${dayOfMonth}`;
   return [
     '---',
     `title: "${escaped}"`,

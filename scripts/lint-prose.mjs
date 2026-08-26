@@ -82,7 +82,12 @@ function main() {
   const dir = path.join('src', 'content', 'essays');
   if (!fs.existsSync(dir)) return;
   let failed = false;
-  for (const name of fs.readdirSync(dir).filter((n) => n.endsWith('.md'))) {
+  // Mirrors the content loader's `pattern: '**/*.md'` (src/content.config.ts):
+  // it walks every subdirectory, not just the top level, so an essay nested
+  // under e.g. `2026/` gets linted exactly like one at the top level.
+  // `{ recursive: true }` requires Node >= 20; engines already requires >= 22.12.
+  const names = fs.readdirSync(dir, { recursive: true });
+  for (const name of names.filter((n) => n.endsWith('.md'))) {
     const file = path.join(dir, name);
     const issues = lintText(fs.readFileSync(file, 'utf8'));
     for (const issue of issues) {

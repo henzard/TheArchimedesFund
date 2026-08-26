@@ -16,4 +16,4 @@ npm run build   # emits dist/
 npm test        # unit tests
 ```
 
-`main` is production: merging to it publishes to https://henzard.co.za.
+`master` is production: merging to it publishes to https://henzard.co.za.
