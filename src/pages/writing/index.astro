@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+// import.meta.env.PROD is true for `astro build`, false for `astro dev`,
+// so drafts are readable locally and never published.
+const essays = (await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title="Writing — Henzard Kruger" description="Essays on AI, agentic systems, enterprise transformation and systems thinking.">
+  <h1>Writing</h1>
+  {essays.length === 0 && <p>No essays published yet.</p>}
+  <ul>
+    {essays.map((essay) => (
+      <li>
+        <a href={`/writing/${essay.id}/`}>{essay.data.title}</a>
+        <time datetime={essay.data.date.toISOString()}>
+          {essay.data.date.toISOString().slice(0, 10)}
+        </time>
+        <p>{essay.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>
