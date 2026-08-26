@@ -7,8 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "node --test tests/*.test.mjs",
-    "new": "node scripts/new-essay.mjs"
+    "test": "node --test tests/*.test.mjs && npm run lint:prose",
+    "new": "node scripts/new-essay.mjs",
+    "lint:prose": "node scripts/lint-prose.mjs"
   },
   "dependencies": {
     "astro": "7.2.6"
