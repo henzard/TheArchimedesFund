@@ -6,10 +6,23 @@ import { fileURLToPath } from 'node:url';
 // Seeded from brand/BRAND.md's avoid-list. The point is not prohibition:
 // each term can be overridden inline. The point is that generic phrasing
 // becomes a decision instead of a default.
+//
+// Entries are either a plain string (exact word/phrase match) or an object
+// { term, pattern } carrying its own regex source, used to catch common
+// inflections (delving, leveraging, seamlessly, ...) that the plain form
+// would silently miss. `term` stays stable for reporting and for the
+// prose-lint-ignore mechanism regardless of which inflection matched.
 const BANNED = [
-  'leverage', 'unlock', 'delve', 'game-changer', 'game changer',
-  'seamless', 'cutting-edge', 'revolutionize', 'revolutionise',
-  'supercharge', 'harness the power', 'in today\'s fast-paced world',
+  { term: 'leverage', pattern: 'leverag(?:e|es|ed|ing)' },
+  'unlock',
+  { term: 'delve', pattern: 'delv(?:e|es|ed|ing)' },
+  'game-changer', 'game changer',
+  { term: 'seamless', pattern: 'seamless(?:ly)?' },
+  'cutting-edge',
+  { term: 'revolutionize', pattern: 'revolutioniz(?:e|es|ed|ing)' },
+  { term: 'revolutionise', pattern: 'revolutionis(?:e|es|ed|ing)' },
+  { term: 'supercharge', pattern: 'supercharg(?:e|es|ed|ing)' },
+  'harness the power', 'in today\'s fast-paced world',
   'at the end of the day', 'moving forward', 'synergy', 'paradigm shift',
   'best-in-class', 'world-class', 'transformative journey', 'deep dive',
 ];
@@ -31,9 +44,11 @@ export function lintText(text) {
     );
     if (ignored.has('all')) return;
 
-    for (const term of BANNED) {
+    for (const entry of BANNED) {
+      const term = typeof entry === 'string' ? entry : entry.term;
+      const source = typeof entry === 'string' ? escapeRegExp(entry) : entry.pattern;
       if (ignored.has(term)) continue;
-      const re = new RegExp(`\\b${escapeRegExp(term)}\\b`, 'i');
+      const re = new RegExp(`\\b${source}\\b`, 'i');
       if (re.test(line)) {
         issues.push({ line: index + 1, term, message: `banned phrasing: "${term}"` });
       }

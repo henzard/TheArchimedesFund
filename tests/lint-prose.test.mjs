@@ -40,3 +40,27 @@ test('matching is case-insensitive but respects word boundaries', () => {
   // "unlocked" is a normal English word — substring matching would flag it
   assert.deepEqual(lintText('He unlocked the door'), []);
 });
+
+test('flags an inflected form: "delves" (stemmed term)', () => {
+  const issues = lintText('This essay delves into the problem.');
+  assert.ok(issues.some((i) => i.term === 'delve'), 'expected "delve" to be flagged for "delves"');
+});
+
+test('flags an inflected form: "leveraging" (stemmed term)', () => {
+  const issues = lintText('We are leveraging AI across the org.');
+  assert.ok(issues.some((i) => i.term === 'leverage'), 'expected "leverage" to be flagged for "leveraging"');
+});
+
+test('flags an inflected form: "seamlessly" (stemmed term)', () => {
+  const issues = lintText('The system was seamlessly integrated.');
+  assert.ok(issues.some((i) => i.term === 'seamless'), 'expected "seamless" to be flagged for "seamlessly"');
+});
+
+test('regression guard: "unlocked" still does not flag', () => {
+  assert.deepEqual(lintText('He unlocked the door'), []);
+});
+
+test('inline override suppresses an inflected hit: "delving"', () => {
+  const issues = lintText('We are delving into it. <!-- prose-lint-ignore: delve -->');
+  assert.equal(issues.length, 0);
+});
