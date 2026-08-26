@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import { loadRepos } from '../data/github.mjs';
+import curatedWork from '../data/curated-work.json';
+
+const { products, awards } = curatedWork;
+
+let repos = [];
+let loadError = null;
+try {
+  repos = await loadRepos();
+} catch (err) {
+  loadError = err;
+}
+if (loadError) throw loadError;
+
+function formatDate(iso) {
+  return iso.slice(0, 10);
+}
+---
+<Base
+  title="Work — Henzard Kruger"
+  description="Open-source repositories, pulled live from GitHub rather than described."
+>
+  <section class="shell" aria-labelledby="work-heading">
+    <p class="meta">github.com/henzard</p>
+    <h1 id="work-heading">Work you can inspect</h1>
+    <p class="prose">
+      Repositories, pulled directly from GitHub at build time rather than
+      curated by hand &mdash; newest activity first.
+    </p>
+  </section>
+
+  {products.length > 0 && (
+    <section class="shell" aria-labelledby="products-heading">
+      <h2 id="products-heading">Products</h2>
+      <ul class="curated-list">
+        {products.map((item) => (
+          <li>
+            <a href={item.url}>{item.name}</a>
+            <p class="prose">{item.what}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {awards.length > 0 && (
+    <section class="shell" aria-labelledby="awards-heading">
+      <h2 id="awards-heading">Awards</h2>
+      <ul class="curated-list">
+        {awards.map((item) => (
+          <li>
+            <a href={item.url}>{item.name}</a>
+            <p class="prose">{item.what}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="shell" aria-labelledby="repos-heading">
+    <h2 id="repos-heading">Repositories</h2>
+    <ul class="repo-list">
+      {repos.map((repo) => (
+        <li class="repo">
+          <div class="repo-head">
+            <a href={repo.url} class="repo-name">{repo.name}</a>
+            <span class="meta">{formatDate(repo.pushedAt)}</span>
+          </div>
+          {repo.description && <p class="prose repo-desc">{repo.description}</p>}
+          <p class="meta repo-meta">
+            {repo.language && <span>{repo.language}</span>}
+            {repo.stars > 0 && <span>&middot; {repo.stars} &#9733;</span>}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  section + section {
+    padding-block: var(--space-xl);
+    border-top: 1px solid color-mix(in srgb, var(--slate) 25%, transparent);
+  }
+
+  .curated-list,
+  .repo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+
+  .curated-list li {
+    padding-block: var(--space-sm);
+    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
+  }
+  .curated-list a {
+    font-size: var(--step-body-lg);
+  }
+  .curated-list p {
+    margin: var(--space-xs) 0 0;
+  }
+
+  .repo {
+    padding-block: var(--space-md);
+    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
+  }
+  .repo-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-md);
+  }
+  .repo-name {
+    font-family: var(--font-mono);
+    font-size: var(--step-body-lg);
+  }
+  .repo-desc {
+    margin: var(--space-xs) 0 0;
+  }
+  .repo-meta {
+    margin: var(--space-xs) 0 0;
+    display: flex;
+    gap: var(--space-sm);
+  }
+</style>

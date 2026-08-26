@@ -1,0 +1,443 @@
+[
+  {
+    "name": "TheArchimedesFund",
+    "description": "",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/TheArchimedesFund",
+    "pushedAt": "2026-08-26T18:17:39Z",
+    "fork": false
+  },
+  {
+    "name": "BibleStudy",
+    "description": "",
+    "language": "HTML",
+    "stars": 0,
+    "url": "https://github.com/henzard/BibleStudy",
+    "pushedAt": "2026-08-26T03:03:35Z",
+    "fork": false
+  },
+  {
+    "name": "AccountingV2",
+    "description": "",
+    "language": "TypeScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/AccountingV2",
+    "pushedAt": "2026-08-15T13:57:35Z",
+    "fork": false
+  },
+  {
+    "name": "ai-scientist",
+    "description": "",
+    "language": "TypeScript",
+    "stars": 1,
+    "url": "https://github.com/henzard/ai-scientist",
+    "pushedAt": "2026-04-26T17:57:07Z",
+    "fork": false
+  },
+  {
+    "name": "HackAiApr2026",
+    "description": "",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/HackAiApr2026",
+    "pushedAt": "2026-04-26T07:30:09Z",
+    "fork": false
+  },
+  {
+    "name": "mempalace",
+    "description": "The highest-scoring AI memory system ever benchmarked. And it's free.",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/mempalace",
+    "pushedAt": "2026-04-08T05:52:24Z",
+    "fork": true
+  },
+  {
+    "name": "Accounting",
+    "description": "",
+    "language": "TypeScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/Accounting",
+    "pushedAt": "2026-03-26T07:08:14Z",
+    "fork": false
+  },
+  {
+    "name": "base",
+    "description": "",
+    "language": "Shell",
+    "stars": 0,
+    "url": "https://github.com/henzard/base",
+    "pushedAt": "2026-03-19T19:56:44Z",
+    "fork": false
+  },
+  {
+    "name": "ha_easy_equities",
+    "description": "",
+    "language": "Python",
+    "stars": 0,
+    "url": "https://github.com/henzard/ha_easy_equities",
+    "pushedAt": "2026-01-09T12:32:02Z",
+    "fork": false
+  },
+  {
+    "name": "nasa_sky_hub",
+    "description": "",
+    "language": "Python",
+    "stars": 0,
+    "url": "https://github.com/henzard/nasa_sky_hub",
+    "pushedAt": "2026-01-09T08:01:30Z",
+    "fork": false
+  },
+  {
+    "name": "Website",
+    "description": "",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/Website",
+    "pushedAt": "2025-12-19T11:03:46Z",
+    "fork": false
+  },
+  {
+    "name": "Weighsoft-Body-Scanner",
+    "description": "Weighsoft Body Scanner",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/Weighsoft-Body-Scanner",
+    "pushedAt": "2025-11-30T18:33:46Z",
+    "fork": false
+  },
+  {
+    "name": "calJson",
+    "description": "",
+    "language": "C",
+    "stars": 0,
+    "url": "https://github.com/henzard/calJson",
+    "pushedAt": "2025-08-12T08:58:20Z",
+    "fork": false
+  },
+  {
+    "name": "weighsoft",
+    "description": "Weighsoft Website",
+    "language": "TypeScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/weighsoft",
+    "pushedAt": "2025-04-26T14:35:00Z",
+    "fork": false
+  },
+  {
+    "name": "TruthAISwarm",
+    "description": "",
+    "language": "Python",
+    "stars": 0,
+    "url": "https://github.com/henzard/TruthAISwarm",
+    "pushedAt": "2025-02-01T06:43:55Z",
+    "fork": false
+  },
+  {
+    "name": "ha_wp_publisher",
+    "description": "",
+    "language": "Python",
+    "stars": 0,
+    "url": "https://github.com/henzard/ha_wp_publisher",
+    "pushedAt": "2025-01-05T14:24:51Z",
+    "fork": false
+  },
+  {
+    "name": "weight_tracker",
+    "description": "",
+    "language": "HTML",
+    "stars": 0,
+    "url": "https://github.com/henzard/weight_tracker",
+    "pushedAt": "2025-01-04T00:26:03Z",
+    "fork": false
+  },
+  {
+    "name": "weight_tracker_old",
+    "description": "A secure and private weight tracking application built on the Internet Computer. Features include weight logging, history visualization, and data persistence through blockchain technology. Users can securely track their weight journey with authentication via Internet Identity.",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/weight_tracker_old",
+    "pushedAt": "2025-01-01T13:34:30Z",
+    "fork": false
+  },
+  {
+    "name": "HomeAssistantNewMoon",
+    "description": "Ever wondered when to celebrate the new moon, just like in the Bible? Well, you're in luck! The New Moon Notifier has got you covered!",
+    "language": "C#",
+    "stars": 0,
+    "url": "https://github.com/henzard/HomeAssistantNewMoon",
+    "pushedAt": "2024-12-29T12:27:20Z",
+    "fork": false
+  },
+  {
+    "name": "nullboard",
+    "description": "Nullboard is a minimalist kanban board, focused on compactness and readability.",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/nullboard",
+    "pushedAt": "2024-05-02T18:27:52Z",
+    "fork": true
+  },
+  {
+    "name": "SithasoGunDBPeer01",
+    "description": "Testing GunDB Relay",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/SithasoGunDBPeer01",
+    "pushedAt": "2024-02-05T04:46:32Z",
+    "fork": true
+  },
+  {
+    "name": "MauiPlanets",
+    "description": "Planets Mobile App UI built using .Net Maui",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/MauiPlanets",
+    "pushedAt": "2022-11-08T07:08:59Z",
+    "fork": true
+  },
+  {
+    "name": "JPProject.IdentityServer4.AdminUI",
+    "description": ":wrench: ASP.NET Core 3 & Angular 8 Administration Panel for :revolving_hearts:IdentityServer4 and ASP.NET Core Identity",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/JPProject.IdentityServer4.AdminUI",
+    "pushedAt": "2022-06-28T17:46:04Z",
+    "fork": true
+  },
+  {
+    "name": "IdentityServer4.Admin",
+    "description": "The administration for the IdentityServer4 and Asp.Net Core Identity",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/IdentityServer4.Admin",
+    "pushedAt": "2022-06-28T17:43:50Z",
+    "fork": true
+  },
+  {
+    "name": "Payspace.Test.Project",
+    "description": "",
+    "language": "C#",
+    "stars": 0,
+    "url": "https://github.com/henzard/Payspace.Test.Project",
+    "pushedAt": "2022-06-13T20:02:29Z",
+    "fork": false
+  },
+  {
+    "name": "borachi",
+    "description": "because hamachi is non-free | thanks @jkuri for making bore.network :D",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/borachi",
+    "pushedAt": "2022-06-13T10:29:36Z",
+    "fork": true
+  },
+  {
+    "name": "hamachi-pi",
+    "description": "Install hamachi on your raspberry pi",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/hamachi-pi",
+    "pushedAt": "2022-06-13T10:22:22Z",
+    "fork": true
+  },
+  {
+    "name": "hatuichi",
+    "description": "A simple hamachi tui written in bash",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/hatuichi",
+    "pushedAt": "2022-06-13T10:22:14Z",
+    "fork": false
+  },
+  {
+    "name": "MQTTBox",
+    "description": "MQTT Apps for Chrome, Linux, MAC, Web and Windows",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/MQTTBox",
+    "pushedAt": "2022-05-09T12:46:44Z",
+    "fork": true
+  },
+  {
+    "name": "flowercare-exporter",
+    "description": "Prometheus exporter for Xiaomi MiFlora / HHCC Flower Care devices.",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/flowercare-exporter",
+    "pushedAt": "2021-10-22T05:00:00Z",
+    "fork": true
+  },
+  {
+    "name": "Myflix",
+    "description": "Myflix, a Netflix clone!",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/Myflix",
+    "pushedAt": "2021-10-06T20:23:36Z",
+    "fork": true
+  },
+  {
+    "name": "homehost",
+    "description": "self-hosted, Netflix-like app made for streaming",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/homehost",
+    "pushedAt": "2021-10-06T01:17:37Z",
+    "fork": true
+  },
+  {
+    "name": "henzard-site",
+    "description": "",
+    "language": "HTML",
+    "stars": 0,
+    "url": "https://github.com/henzard/henzard-site",
+    "pushedAt": "2021-07-20T06:50:58Z",
+    "fork": false
+  },
+  {
+    "name": "NotesAndBlogging",
+    "description": "",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/NotesAndBlogging",
+    "pushedAt": "2020-10-21T06:52:21Z",
+    "fork": false
+  },
+  {
+    "name": "finance.js",
+    "description": "A JavaScript library for common financial calculations",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/finance.js",
+    "pushedAt": "2020-10-11T11:26:09Z",
+    "fork": true
+  },
+  {
+    "name": "validator-sa",
+    "description": "Javascript Validation and Normalization of Strings, specific to South Africa",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/validator-sa",
+    "pushedAt": "2020-10-11T11:26:01Z",
+    "fork": true
+  },
+  {
+    "name": "generate-sa-idnumbers",
+    "description": "Generate (fake) South African ID Numbers",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/generate-sa-idnumbers",
+    "pushedAt": "2020-10-11T11:25:53Z",
+    "fork": true
+  },
+  {
+    "name": "NPOI",
+    "description": "A .NET library for reading and writing Microsoft Office binary and OOXML file formats.",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/NPOI",
+    "pushedAt": "2020-10-11T11:25:43Z",
+    "fork": true
+  },
+  {
+    "name": "pibakery-blocks",
+    "description": "All the blocks for the Pi Bakery program",
+    "language": "Shell",
+    "stars": 0,
+    "url": "https://github.com/henzard/pibakery-blocks",
+    "pushedAt": "2020-10-11T11:25:31Z",
+    "fork": true
+  },
+  {
+    "name": "consoleframework",
+    "description": "Cross-platform toolkit for easy development of TUI applications.",
+    "language": "C#",
+    "stars": 0,
+    "url": "https://github.com/henzard/consoleframework",
+    "pushedAt": "2020-10-11T11:25:26Z",
+    "fork": true
+  },
+  {
+    "name": "edex-ui",
+    "description": "A cross-platform, customizable science fiction terminal emulator with advanced monitoring & touchscreen support.",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/edex-ui",
+    "pushedAt": "2020-10-11T11:25:20Z",
+    "fork": true
+  },
+  {
+    "name": "Xero-Net",
+    "description": "A skinny wrapper of the Xero API. Supports Payroll, Accounting & Files",
+    "language": "C#",
+    "stars": 0,
+    "url": "https://github.com/henzard/Xero-Net",
+    "pushedAt": "2020-10-11T11:25:14Z",
+    "fork": true
+  },
+  {
+    "name": "vorpal",
+    "description": "Node's framework for interactive CLIs",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/vorpal",
+    "pushedAt": "2020-10-11T11:25:08Z",
+    "fork": true
+  },
+  {
+    "name": "Business-Manager",
+    "description": "",
+    "language": "",
+    "stars": 0,
+    "url": "https://github.com/henzard/Business-Manager",
+    "pushedAt": "2020-10-11T11:25:03Z",
+    "fork": false
+  },
+  {
+    "name": "PIcahoo-Communicator",
+    "description": "Laravel Package to communicate with picahoo communicator",
+    "language": "PHP",
+    "stars": 0,
+    "url": "https://github.com/henzard/PIcahoo-Communicator",
+    "pushedAt": "2020-10-11T11:24:57Z",
+    "fork": false
+  },
+  {
+    "name": "SMS-DemoApp",
+    "description": "Demo App for the SMS plugin - tailored for Telerik AppBuilder",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/SMS-DemoApp",
+    "pushedAt": "2020-10-11T11:24:52Z",
+    "fork": true
+  },
+  {
+    "name": "Friday-Training-Project",
+    "description": "Teaching angular test project",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/Friday-Training-Project",
+    "pushedAt": "2020-10-11T11:24:46Z",
+    "fork": false
+  },
+  {
+    "name": "bootstrap-maxlength",
+    "description": "This plugin integrates by default with Twitter bootstrap using badges to display the maximum lenght of the field where the user is inserting text. Uses the HTML5 attribute \"maxlength\" to work.",
+    "language": "JavaScript",
+    "stars": 0,
+    "url": "https://github.com/henzard/bootstrap-maxlength",
+    "pushedAt": "2020-10-11T11:24:40Z",
+    "fork": true
+  },
+  {
+    "name": "XeroAPI.Net",
+    "description": ".Net (C#) wrapper library for Xero API",
+    "language": "C#",
+    "stars": 0,
+    "url": "https://github.com/henzard/XeroAPI.Net",
+    "pushedAt": "2020-10-11T11:24:34Z",
+    "fork": true
+  }
+]
