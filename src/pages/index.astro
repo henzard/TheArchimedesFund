@@ -1,8 +1,93 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../site.js';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE, SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../site.js';
+
+const essays = (await getCollection('essays', ({ data }) => !data.draft)).sort(sortByDateDesc);
+const latest = essays.slice(0, 3);
 ---
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <h1>{SITE_TITLE}</h1>
-  <p>Site under construction.</p>
+  <section class="hero shell">
+    <p class="meta">AI and agentic systems &middot; enterprise modernisation &middot; systems thinking</p>
+    <h1>Strategy that survives contact with reality.</h1>
+    <p class="lede prose">
+      I work on AI and agentic systems, enterprise modernisation, and the
+      systems thinking that keeps both honest &mdash; for the CTOs, CIOs and
+      executives who have to live with the result.
+    </p>
+  </section>
+
+  <section class="shell" aria-labelledby="useful">
+    <h2 id="useful">What I am useful for</h2>
+    <div class="prose">
+      <p>
+        Making a complicated technical decision legible to the people who
+        carry its consequences, and turning it into something a team can
+        actually build.
+      </p>
+    </div>
+  </section>
+
+  <section class="shell" aria-labelledby="proof">
+    <h2 id="proof">Work you can inspect</h2>
+    <p class="prose">Open-source repositories and systems, pulled live rather than described.</p>
+    <p><a href="/work/">See the work &rarr;</a></p>
+  </section>
+
+  <section class="shell" aria-labelledby="writing">
+    <h2 id="writing">Writing</h2>
+    {latest.length === 0 ? (
+      <p class="prose">The first essays are on their way.</p>
+    ) : (
+      <ul class="essay-list">
+        {latest.map((essay) => (
+          <li>
+            <a href={essayUrl(essay)}>{essay.data.title}</a>
+            <span class="meta"> {essay.data.date.toISOString().slice(0, 10)}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p><a href="/writing/">All writing &rarr;</a></p>
+  </section>
 </Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+  .hero .meta {
+    margin: 0 0 var(--space-md);
+  }
+  .hero h1 {
+    font-size: var(--step-display);
+    max-width: 14ch;
+  }
+  .hero .lede {
+    font-size: var(--step-body-lg);
+    color: var(--slate);
+  }
+
+  section + section {
+    padding-block: var(--space-xl);
+    border-top: 1px solid color-mix(in srgb, var(--slate) 25%, transparent);
+  }
+
+  .essay-list {
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+    max-width: var(--measure);
+  }
+  .essay-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
+  }
+  .essay-list a {
+    font-size: var(--step-body-lg);
+  }
+</style>
