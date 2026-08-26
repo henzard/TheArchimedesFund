@@ -1,6 +1,16 @@
+# Base is pinned explicitly. The Netlify project predates this rebuild and its
+# dashboard still carries `base = "archimedes-fund-app"` from the old SPA - a
+# directory this branch deletes, so the deploy dies before the build starts.
+# Setting it here overrides that stale UI value from source control, where it
+# is reviewable, rather than depending on someone remembering the dashboard.
 [build]
+  base = "/"
   command = "npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22.12.0"
+
+# No SPA catch-all. The old site sent every unmatched path to /index.html with
+# a 200, which on a static site would swallow real 404s and make the 404 page
+# unreachable. Netlify serves dist/404.html for misses on its own.
