@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [rebuild/astro-foundation]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci
+
+      # Build first: the feed and page tests assert against dist/, so
+      # running them before the build fails for the wrong reason.
+      - name: Build
+        run: npm run build
+
+      - name: Unit tests and prose lint
+        run: npm test
+
+      # Runs against the built output rather than the dev server, so it
+      # checks the same HTML Netlify will serve.
+      #
+      # `linkinator dist --recurse` alone is vacuous: dist/index.html (the
+      # placeholder home page) has no outgoing links, so recursion never
+      # reaches /writing/, the essay page, the feed, or 404.html - it
+      # reports "1 link" and exits 0 having checked almost nothing. Passing
+      # every built entry point explicitly, with --server-root pinned to
+      # dist so root-relative hrefs resolve against the site root instead
+      # of the filesystem, makes the crawl actually walk all five pages.
+      - name: Link check
+        run: |
+          npx --yes linkinator@8.0.4 \
+            . writing writing/hello-world 404.html rss.xml \
+            --recurse --server-root dist --silent \
+            --skip "^https://henzard\.co\.za"
