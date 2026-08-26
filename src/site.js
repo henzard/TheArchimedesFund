@@ -20,3 +20,11 @@ export function sortByDateDesc(a, b) {
 export function essayUrl(essay) {
   return `/writing/${essay.id}/`;
 }
+
+// Buttondown username for the email-capture form's embed-subscribe
+// endpoint. Null until Henzard confirms a Buttondown account exists under
+// this name — the host was unreachable to verify at build time, and
+// shipping a form that posts to a non-existent endpoint is worse than
+// shipping no form. Setting this to the confirmed username is the only
+// change needed to switch capture on; see src/components/EmailCapture.astro.
+export const BUTTONDOWN_USER = null;
