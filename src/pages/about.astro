@@ -1,8 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import { personJsonLd } from '../site.js';
+
+const jsonLd = [personJsonLd(Astro.site)];
 
 // Copy on this page was audited for sourcing: it describes capability,
 // method and intent only. No employer, metric, credential or history.
+// The technical-background areas (C#/.NET and APIs, JavaScript/Angular,
+// Laravel/PHP, XeroAPI integrations, apprenticeship mentoring) were
+// confirmed by the owner as true and current before being added.
 const pillars = [
   {
     name: 'AI that works in reality',
@@ -29,6 +35,7 @@ const pillars = [
 <Base
   title="About - Henzard Kruger"
   description="AI and agentic systems, enterprise transformation, and the systems thinking that keeps both honest."
+  jsonLd={jsonLd}
 >
   <section class="section intro" aria-labelledby="about-heading">
     <div class="shell intro-grid">
@@ -48,6 +55,28 @@ const pillars = [
           and turning the result into something a team can actually build and
           live with. That beats producing another slide that sounds
           impressive and changes nothing.
+        </p>
+        <p>
+          That perspective comes from building, not just advising. I have
+          worked in C#/.NET and API development, in JavaScript and Angular,
+          and in Laravel and PHP. I have built accounting integrations on
+          the Xero API, the kind of work where an unexamined assumption
+          shows up as somebody else's broken ledger. And I have mentored
+          developers through apprenticeships, which is where I learned that
+          explaining a system clearly is a test of whether you understand
+          it yourself.
+        </p>
+        <p>
+          That mentoring work is also where I part company with the current
+          consensus on AI. The prevailing view is that AI belongs with
+          senior engineers, because they can tell when it is wrong, and
+          that juniors should be kept away from it. My view: we should
+          enable seniors to use AI, and we should empower juniors with a
+          harness. Keeping the tool from juniors treats judgement as a
+          fixed personal trait rather than something a system can supply,
+          and it quietly concedes that the tool cannot be made safe.
+          Build the harness instead, and the people still forming their
+          own judgement are the ones with the most to gain.
         </p>
       </div>
     </div>

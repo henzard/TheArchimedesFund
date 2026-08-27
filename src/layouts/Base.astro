@@ -4,11 +4,36 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/base.css';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../site.js';
+import { SITE_TITLE, SITE_DESCRIPTION, absoluteUrl } from '../site.js';
 
-interface Props { title: string; description?: string; }
-const { title, description } = Astro.props;
+interface Props {
+  title: string;
+  description?: string;
+  // Absolute URL. Callers resolve their own hero (or the site default)
+  // through getImage() before reaching here, because that resolution
+  // needs astro:assets and differs per page - Base just renders what
+  // it's given, falling back to the site default so no page ships
+  // without an og:image.
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  // Zero or more JSON-LD objects (a `@type`, no `@context` needed - it's
+  // added here so every block is valid on its own). Rendered as separate
+  // <script type="application/ld+json"> tags, JSON.stringify'd so a
+  // malformed object fails the build rather than shipping broken markup.
+  jsonLd?: Record<string, unknown>[];
+}
+const { title, description, ogImage, ogType = 'website', jsonLd = [] } = Astro.props;
 const year = new Date().getFullYear();
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const resolvedOgImage = ogImage ?? absoluteUrl('/og-default.jpg', Astro.site);
+const metaDescription = description ?? SITE_DESCRIPTION;
+
+// Guards against a JSON-LD payload breaking out of its own <script> tag -
+// none of our data is user-submitted, but this is free and makes the
+// output correct-by-construction rather than correct-by-audit.
+const jsonLdBlocks = jsonLd.map((entry) =>
+  JSON.stringify({ '@context': 'https://schema.org', ...entry }).replace(/</g, '\\u003c')
+);
 
 // Wayfinding: the wordmark covers Home, so the nav lists the sections and
 // marks the one the reader is inside via aria-current + a visible treatment.
@@ -27,11 +52,26 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <meta name="description" content={metaDescription} />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f8f6" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12161d" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" set:html={block} />
+    ))}
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>

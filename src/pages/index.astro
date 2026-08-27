@@ -2,7 +2,12 @@
 import Base from '../layouts/Base.astro';
 import SystemsDiagram from '../components/SystemsDiagram.astro';
 import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../site.js';
+import { SITE_TITLE, SITE_DESCRIPTION, sortByDateDesc, essayUrl, absoluteUrl, personJsonLd } from '../site.js';
+
+const jsonLd = [
+  { '@type': 'WebSite', name: SITE_TITLE, url: absoluteUrl('/', Astro.site), description: SITE_DESCRIPTION },
+  personJsonLd(Astro.site),
+];
 
 const essays = (await getCollection('essays', ({ data }) => !data.draft)).sort(sortByDateDesc);
 const [featured, ...rest] = essays;
@@ -36,7 +41,7 @@ const pillars = [
   },
 ];
 ---
-<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION} jsonLd={jsonLd}>
   <section class="section hero">
     <div class="shell hero-grid">
       <div class="hero-main rise">
@@ -59,10 +64,15 @@ const pillars = [
       <div class="loop-copy reveal">
         <h2 id="useful">What I am useful for</h2>
         <p class="prose">
-          Making a complicated technical decision legible to the people who
-          carry its consequences, and turning it into something a team can
-          actually build. Most strategy work stops at the first arrow; the
-          interesting part is the loop back.
+          Most teams hand AI to their senior engineers and keep the juniors
+          away from it, on the theory that only experienced judgement can
+          catch a confident wrong answer. I think that gets it backwards:
+          enable the seniors, yes, but empower the juniors with a harness.
+          Tests that must pass, review gates, constrained scope, an
+          environment where a wrong answer is cheap to produce and quick to
+          catch. Restricting the tool to people who already have judgement
+          is the resigned answer; building the system that supplies
+          judgement is the engineering one.
         </p>
       </div>
       <div class="loop-visual reveal">

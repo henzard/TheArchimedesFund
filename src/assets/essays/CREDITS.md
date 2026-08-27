@@ -17,3 +17,9 @@ and shown visibly on each essay page).
 | voice-ai.jpg | voice-ai | Klim Musalimov | https://unsplash.com/photos/microphone-on-boom-arm-for-podcasting-fxHq67K11-E |
 | personal-assistant.jpg | personal-assistant | Andrei Slobtsov | https://unsplash.com/photos/jG-UlE7hi7I |
 | default-fallback.jpg | default-fallback | Ricardo Gomez Angel | https://unsplash.com/photos/9AdeEdYB2yk |
+
+`public/og-default.jpg` is a straight copy of `default-fallback.jpg` above,
+same credit. It lives outside `src/assets` because it needs a stable,
+unprocessed URL (`/og-default.jpg`) for `og:image`/`twitter:image` on pages
+that carry no hero of their own - it is never routed through the
+`astro:assets` image pipeline.

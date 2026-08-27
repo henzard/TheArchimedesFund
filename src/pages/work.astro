@@ -1,128 +1,183 @@
 ---
 import Base from '../layouts/Base.astro';
-import { loadRepos } from '../data/github.mjs';
-import curatedWork from '../data/curated-work.json';
+import projects from '../data/work.json';
+import { personJsonLd } from '../site.js';
 
-const { products, awards } = curatedWork;
+const jsonLd = [personJsonLd(Astro.site)];
 
-let repos = [];
-let loadError = null;
-try {
-  repos = await loadRepos();
-} catch (err) {
-  loadError = err;
+// Curated, static data: eight projects, described from their own READMEs.
+// Nothing on this page is fetched at build time or in the browser.
+const byName = new Map(projects.map((p) => [p.name, p]));
+function pick(name) {
+  const found = byName.get(name);
+  if (!found) throw new Error(`work.json has no project named "${name}"`);
+  return found;
 }
-if (loadError) throw loadError;
 
-// Grouped by recency, computed from the data rather than hand-picked:
-// anything pushed in the last twelve months is current work, the rest is
-// the archive. Grouping is presentation; the data itself is untouched.
-const cutoff = new Date();
-cutoff.setMonth(cutoff.getMonth() - 12);
-const active = repos.filter((r) => new Date(r.pushedAt) >= cutoff);
-const earlier = repos.filter((r) => new Date(r.pushedAt) < cutoff);
+// Grouping is presentation, decided here; the data itself stays flat.
+// The feature and its companion are the two entries from the same
+// hackathon: one placed second, one did not place. They read together.
+const groups = [
+  {
+    label: 'Agentic and AI systems',
+    feature: pick('The AI Scientist'),
+    companion: pick('AmplifyAI'),
+    rest: [
+      pick('AI-first engineering workspace'),
+      pick('BibleStudy'),
+      pick('TruthAISwarm'),
+    ],
+  },
+  {
+    label: 'Teaching and contribution',
+    feature: null,
+    companion: null,
+    rest: [pick('AITrainingGuide'), pick('OpenClaw')],
+  },
+  {
+    label: 'Home Assistant integrations',
+    feature: null,
+    companion: null,
+    rest: [pick('NASA Sky Hub'), pick('Easy Equities for Home Assistant')],
+  },
+  {
+    label: 'Practical tools',
+    feature: null,
+    companion: null,
+    rest: [pick('AccountingV2'), pick('Weight certificate converter')],
+  },
+];
 
-function formatDate(iso) {
-  return iso.slice(0, 10);
+const placed = groups.flatMap((g) => [
+  ...(g.feature ? [g.feature] : []),
+  ...(g.companion ? [g.companion] : []),
+  ...g.rest,
+]);
+if (placed.length !== projects.length) {
+  throw new Error('work.astro does not place every project in work.json');
 }
-function year(iso) {
-  return iso.slice(0, 4);
-}
+
+// Areas of work, taken from brand positioning rather than written fresh here.
+const areas = [
+  {
+    term: 'AI and agentic systems',
+    note: 'AI matters when it changes how real work gets done: architecture, operating models and engineering practice rather than spectacle.',
+  },
+  {
+    term: 'Developer productivity and AI-assisted engineering',
+    note: 'How AI-assisted development changes the day-to-day work of building software, with the workflow and quality gates to match.',
+  },
+  {
+    term: 'Enterprise modernisation',
+    note: 'Modernisation is not a technology swap. It is a system of constraints, incentives, legacy choices, people, architecture and execution.',
+  },
+  {
+    term: 'Systems thinking',
+    note: 'Making dependencies and trade-offs visible, preferring models that explain why something works and where it breaks.',
+  },
+  {
+    term: 'Mentoring',
+    note: 'Knowledge should compound through people: explaining difficult things without dumbing them down.',
+  },
+];
 ---
 <Base
   title="Work - Henzard Kruger"
-  description="Open-source repositories, pulled live from GitHub rather than described."
+  description="Eight selected projects, described by hand, with a note on the work that is not public."
+  jsonLd={jsonLd}
 >
   <section class="section intro">
     <div class="shell intro-grid">
       <div>
-        <h1>Work you can inspect</h1>
+        <h1>Selected work</h1>
         <p class="lede">
-          Repositories, pulled directly from GitHub at build time rather than
-          curated by hand. What is here is what exists.
+          Eleven entries, chosen and described by hand. Each description is
+          condensed from the project's own README, and public repositories
+          link straight to the source.
         </p>
       </div>
-      <p class="meta source-note">source: github.com/henzard</p>
+      <p class="meta source-note">11 entries, curated</p>
     </div>
   </section>
 
-  {products.length > 0 && (
-    <section class="section" aria-labelledby="products-heading">
-      <div class="shell">
-        <h2 id="products-heading">Products</h2>
-        <ul class="curated-list">
-          {products.map((item) => (
-            <li>
-              <a href={item.url}>{item.name}</a>
-              <p class="prose">{item.what}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
-  {awards.length > 0 && (
-    <section class="section" aria-labelledby="awards-heading">
-      <div class="shell">
-        <h2 id="awards-heading">Awards</h2>
-        <ul class="curated-list">
-          {awards.map((item) => (
-            <li>
-              <a href={item.url}>{item.name}</a>
-              <p class="prose">{item.what}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
-  {active.length > 0 && (
-    <section class="section active-section" aria-labelledby="active-heading">
-      <div class="shell">
-        <h2 id="active-heading">Active in the last year</h2>
-        <ul class="tile-grid">
-          {active.map((repo, i) => (
-            <li class={i === 0 ? 'tile tile-wide reveal' : 'tile reveal'}>
-              <h3 class="tile-name"><a href={repo.url}>{repo.name}</a></h3>
-              {repo.description && <p class="tile-desc">{repo.description}</p>}
-              <p class="meta tile-meta">
-                {repo.language && <span>{repo.language}</span>}
-                <time datetime={repo.pushedAt}>{formatDate(repo.pushedAt)}</time>
-                {repo.stars > 0 && <span>{repo.stars} &#9733;</span>}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
-  {earlier.length > 0 && (
-    <section class="section archive-section" aria-labelledby="earlier-heading">
-      <div class="shell archive-grid">
-        <div class="archive-head">
-          <h2 id="earlier-heading">Earlier</h2>
-          <p class="archive-note">
-            Older repositories, kept public. Some are experiments, some are
-            teaching material, all are part of the record.
-          </p>
+  <section class="section work-section" aria-labelledby="selected-heading">
+    <h2 id="selected-heading" class="visually-hidden">The projects</h2>
+    <div class="shell">
+      {groups.map((group) => (
+        <div class="group">
+          <p class="meta group-label">{group.label}</p>
+          <div class="group-body">
+            {group.feature && (
+              <div class="pair">
+                <article class="entry feature">
+                  <h3 class="feature-name">
+                    <a href={group.feature.url}>{group.feature.name}</a>
+                  </h3>
+                  <p class="feature-desc">{group.feature.what}</p>
+                  <p class="meta tags">{group.feature.tags.join(' / ')}</p>
+                </article>
+                {group.companion && (
+                  <article class="entry companion">
+                    <h3 class="entry-name">{group.companion.name}</h3>
+                    <p class="entry-desc">{group.companion.what}</p>
+                    <p class="meta tags">
+                      {group.companion.tags.join(' / ')}
+                      {!group.companion.url && <span class="badge">private repository</span>}
+                    </p>
+                  </article>
+                )}
+              </div>
+            )}
+            <div class={group.rest.length === 3 ? 'row row-3' : 'row row-2'}>
+              {group.rest.map((item) => (
+                <article class="entry">
+                  <h3 class="entry-name">
+                    {item.url ? <a href={item.url}>{item.name}</a> : item.name}
+                  </h3>
+                  <p class="entry-desc">{item.what}</p>
+                  <p class="meta tags">
+                    {item.tags.join(' / ')}
+                    {item.role === 'contributor' && <span class="badge">contribution</span>}
+                    {!item.url && <span class="badge">private repository</span>}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
-        <ul class="archive-list">
-          {earlier.map((repo) => (
-            <li>
-              <a href={repo.url} class="archive-name">{repo.name}</a>
-              <span class="meta">
-                {repo.language ? `${repo.language}, ${year(repo.pushedAt)}` : year(repo.pushedAt)}
-              </span>
-              {repo.description && <p class="archive-desc">{repo.description}</p>}
-            </li>
-          ))}
-        </ul>
+      ))}
+    </div>
+  </section>
+
+  <section class="section areas-section" aria-labelledby="areas-heading">
+    <div class="shell areas-grid">
+      <div class="areas-head">
+        <h2 id="areas-heading">What I work on</h2>
+        <p class="areas-lede">
+          Practical systems thinking for leaders and builders navigating
+          AI-driven change.
+        </p>
       </div>
-    </section>
-  )}
+      <dl class="areas-list">
+        {areas.map((area, i) => (
+          <div class={i === 0 ? 'area area-wide' : 'area'}>
+            <dt>{area.term}</dt>
+            <dd>{area.note}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section note-section" aria-labelledby="note-heading">
+    <div class="shell">
+      <h2 id="note-heading">What is not here</h2>
+      <p class="note-copy">
+        Most of my work lives in private repositories, so the public projects
+        above are a partial view. Client and commercial work is not shown.
+      </p>
+    </div>
+  </section>
 </Base>
 
 <style>
@@ -134,105 +189,110 @@ function year(iso) {
     align-items: end;
   }
   .intro h1 { margin-bottom: var(--space-md); }
-  .intro .lede { margin: 0; max-width: 48ch; }
+  .intro .lede { margin: 0; max-width: 52ch; }
   .source-note { margin: 0; text-align: right; }
 
-  .curated-list { list-style: none; margin: 0; padding: 0; max-width: var(--measure); }
-  .curated-list li { padding-block: var(--space-md); }
-  .curated-list a { font-size: var(--step-body-lg); font-weight: 600; }
-  .curated-list p { margin: var(--space-xs) 0 0; color: var(--text-2); }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
 
-  /* Current work: asymmetric tiles, the newest carries more weight */
-  .active-section { border-top: 1px solid var(--hairline-soft); }
-  .tile-grid {
-    list-style: none;
-    margin: var(--space-xl) 0 0;
-    padding: 0;
+  /* Selected work: side-labelled groups, one featured entry, no card soup */
+  .work-section { padding-block-start: 0; }
+  .group {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: var(--space-lg) var(--space-2xl);
+    align-items: start;
+    border-top: 1px solid var(--hairline);
+    padding-block: var(--space-xl) var(--space-2xl);
   }
-  .tile {
-    grid-column: span 2;
-    border: 1px solid var(--hairline-soft);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    background: var(--bg);
-    transition: border-color 140ms ease;
+  .group-label { margin: 0; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  .entry h3 { margin: 0 0 var(--space-sm); }
+  .entry a { color: var(--text); text-decoration: none; }
+  .entry a:hover { color: var(--link); text-decoration: underline; }
+
+  /* The two hackathon entries sit as one pair: the featured result and
+     the one that did not place, side by side, told the same way. */
+  .pair {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+    margin-bottom: var(--space-xl);
   }
-  .tile:hover { border-color: var(--link); }
-  .tile-wide {
-    grid-column: span 4;
-    background: var(--surface-accent);
-    border-color: transparent;
+  .companion {
+    border-inline-start: 2px solid var(--hairline);
+    padding-inline-start: var(--space-lg);
   }
-  .tile:nth-child(4n) { background: var(--surface); border-color: transparent; }
-  .tile-name {
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    font-weight: 400;
+
+  .badge {
+    display: inline-block;
+    margin-inline-start: var(--space-md);
+    color: var(--link);
+  }
+
+  .feature { max-width: var(--measure); }
+  .feature-name { font-size: var(--step-h2); letter-spacing: -0.015em; }
+  .feature-desc {
     margin: 0 0 var(--space-sm);
-    overflow-wrap: anywhere;
+    font-size: var(--step-body-lg);
+    line-height: 1.6;
+    color: var(--text-2);
   }
-  .tile-name a { color: var(--text); text-decoration: none; }
-  .tile-name a:hover { color: var(--link); text-decoration: underline; }
-  .tile-wide .tile-name { font-size: 1.25rem; }
-  .tile-desc { margin: 0 0 var(--space-sm); color: var(--text-2); }
-  .tile-meta { margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-md); }
 
-  /* Archive: compact multi-column index, no hairline soup */
-  .archive-section { background: var(--surface); }
-  .archive-grid {
+  .row { display: grid; gap: var(--space-xl); }
+  .row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .row-2 { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  .pair + .row-3 .entry {
+    border-top: 1px solid var(--hairline-soft);
+    padding-top: var(--space-lg);
+  }
+  .entry-name { font-size: var(--step-h3); }
+  .entry-desc { margin: 0 0 var(--space-sm); color: var(--text-2); line-height: 1.55; }
+  .tags { margin: 0; }
+
+  /* What I work on: surface band, one wide item breaking the pair grid */
+  .areas-section { background: var(--surface); }
+  .areas-grid {
     display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     gap: var(--space-2xl);
     align-items: start;
   }
-  .archive-head h2 { margin-bottom: var(--space-sm); }
-  .archive-note { margin: 0; color: var(--text-2); max-width: 30ch; }
-  .archive-list {
-    list-style: none;
+  .areas-head h2 { margin-bottom: var(--space-sm); }
+  .areas-lede { margin: 0; color: var(--text-2); max-width: 32ch; }
+  .areas-list {
     margin: 0;
-    padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-lg) var(--space-xl);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl) var(--space-2xl);
   }
-  .archive-name {
-    font-family: var(--font-mono);
-    font-size: var(--step-meta);
-    color: var(--text);
-    text-decoration: none;
-    display: block;
-    overflow-wrap: anywhere;
-  }
-  .archive-name:hover { color: var(--link); text-decoration: underline; }
-  .archive-list .meta { display: block; margin-top: 2px; }
-  .archive-desc {
-    margin: var(--space-xs) 0 0;
-    color: var(--text-2);
-    font-size: var(--step-meta);
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+  .area-wide { grid-column: 1 / -1; max-width: var(--measure); }
+  .area dt { font-weight: 600; margin-bottom: var(--space-xs); }
+  .area dd { margin: 0; color: var(--text-2); line-height: 1.55; }
+  .area-wide dd { font-size: var(--step-body-lg); line-height: 1.6; }
 
-  @media (max-width: 960px) {
-    .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .tile, .tile-wide { grid-column: span 1; }
-    .tile-wide { grid-column: span 2; }
-  }
-  @media (max-width: 860px) {
+  /* The honest note: short, plain, no decoration beyond a hairline */
+  .note-section { border-top: 1px solid var(--hairline-soft); }
+  .note-copy { margin: 0; max-width: var(--measure); color: var(--text-2); }
+
+  @media (max-width: 900px) {
     .intro-grid { grid-template-columns: 1fr; gap: var(--space-md); align-items: start; }
     .source-note { text-align: left; }
-    .archive-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
-    .archive-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .group { grid-template-columns: 1fr; gap: var(--space-md); }
+    .pair { grid-template-columns: 1fr; gap: var(--space-xl); }
+    .companion { border-inline-start: 0; padding-inline-start: 0; }
+    .row-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .areas-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
   }
   @media (max-width: 560px) {
-    .tile-grid { grid-template-columns: 1fr; }
-    .tile, .tile-wide { grid-column: auto; }
-    .archive-list { grid-template-columns: 1fr; }
+    .row-3, .row-2, .areas-list { grid-template-columns: 1fr; }
+    .area-wide { grid-column: auto; }
   }
 </style>

@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE_TITLE } from '../../site.js';
+---
+
+<Base
+  title={`You are on the list - ${SITE_TITLE}`}
+  description="Confirmation that your email address was added to the essay list."
+>
+  <section class="section outcome">
+    <div class="shell">
+      <h1 class="display">You are on the list</h1>
+      <p class="lede">
+        New essays will arrive by email, and nothing else will. No tracking,
+        no sharing, and one line of reply gets you removed.
+      </p>
+      <p class="back"><a href="/writing/">Back to the writing</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .outcome {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+  }
+  .lede {
+    max-width: 48ch;
+    margin: 0 0 var(--space-xl);
+  }
+  .back a {
+    font-weight: 600;
+  }
+</style>

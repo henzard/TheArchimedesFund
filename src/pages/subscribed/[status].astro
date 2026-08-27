@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE_TITLE } from '../../site.js';
+
+// One real page per outcome the subscribe endpoint can produce.
+//
+// The obvious approach is a single page reading ?status= from the query,
+// but this site ships zero client JavaScript, so nothing can read the query
+// at view time. A static page that guesses would tell a reader whose
+// address failed validation that they are subscribed, which is worse than
+// any styling problem: it is a confident lie about their data.
+//
+// So the server redirects to a distinct PATH, and each path is its own
+// honest page.
+export function getStaticPaths() {
+  return [
+    {
+      params: { status: 'invalid' },
+      props: {
+        heading: 'That address did not look right',
+        body: 'Nothing was saved. Go back and check it, or email directly and it will be added by hand.',
+        back: '/contact/',
+        backLabel: 'Get in touch',
+      },
+    },
+    {
+      params: { status: 'slow-down' },
+      props: {
+        heading: 'Too many attempts from here',
+        body: 'A rate limit stopped that one, which usually means a bot rather than you. Give it a minute and try once more.',
+        back: '/writing/',
+        backLabel: 'Back to the writing',
+      },
+    },
+    {
+      params: { status: 'error' },
+      props: {
+        heading: 'That failed on my side',
+        body: 'The address was not saved, and the fault is the server rather than anything you did. Trying again shortly usually works.',
+        back: '/writing/',
+        backLabel: 'Back to the writing',
+      },
+    },
+  ];
+}
+
+const { heading, body, back, backLabel } = Astro.props;
+---
+
+<Base title={`${heading} - ${SITE_TITLE}`} description={body}>
+  <section class="section outcome">
+    <div class="shell">
+      <h1 class="display">{heading}</h1>
+      <p class="lede">{body}</p>
+      <p class="back"><a href={back}>{backLabel}</a></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .outcome {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+  }
+  .lede {
+    max-width: 48ch;
+    margin: 0 0 var(--space-xl);
+  }
+  .back a {
+    font-weight: 600;
+  }
+</style>

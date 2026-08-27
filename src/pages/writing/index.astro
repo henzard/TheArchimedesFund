@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
-import { SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../../site.js';
+import { SITE_DESCRIPTION, sortByDateDesc, essayUrl, personJsonLd } from '../../site.js';
+
+const jsonLd = [personJsonLd(Astro.site)];
 
 // import.meta.env.PROD is true for `astro build`, false for `astro dev`,
 // so drafts are readable locally and never published.
@@ -17,7 +19,7 @@ function readingMinutes(body) {
   return Math.max(1, Math.round(words / 200));
 }
 ---
-<Base title="Writing - Henzard Kruger" description={SITE_DESCRIPTION}>
+<Base title="Writing - Henzard Kruger" description={SITE_DESCRIPTION} jsonLd={jsonLd}>
   <section class="section intro">
     <div class="shell">
       <h1>Writing</h1>

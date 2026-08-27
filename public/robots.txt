@@ -1,0 +1,56 @@
+# robots.txt for https://henzard.co.za
+#
+# Default: allow every crawler.
+User-agent: *
+Allow: /
+
+# --------------------------------------------------------------------------
+# AI crawlers: deliberate opt-in.
+#
+# The site's brand goal is building public authority and being cited by
+# answer engines, so the bots below are named explicitly and allowed on
+# purpose, not left to fall through the "*" rule above. This is a decision,
+# not an oversight: reversing it for any one bot later is a one-line change
+# (swap its "Allow: /" for "Disallow: /").
+# --------------------------------------------------------------------------
+
+# OpenAI - crawls content to train future ChatGPT models
+User-agent: GPTBot
+Allow: /
+
+# OpenAI - fetches pages to power ChatGPT's search/browsing feature
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic - crawls content for Claude
+User-agent: ClaudeBot
+Allow: /
+
+# Perplexity - crawls content for Perplexity's answer engine
+User-agent: PerplexityBot
+Allow: /
+
+# Google - controls use of content by Gemini apps and the Vertex AI API;
+# separate from Googlebot (the regular search crawler, already allowed
+# above via the "*" rule)
+User-agent: Google-Extended
+Allow: /
+
+# Apple - controls use of content for Apple Intelligence / Apple's
+# foundation models
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl - open web dataset that many labs train on
+User-agent: CCBot
+Allow: /
+
+# Meta - crawls content for Meta's AI models
+User-agent: meta-externalagent
+Allow: /
+
+# ByteDance - crawls content for ByteDance/TikTok's AI models
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://henzard.co.za/sitemap-index.xml
