@@ -2,9 +2,42 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base
-  title="Not found — Henzard Kruger"
+  title="Not found - Henzard Kruger"
   description="That page does not exist. Find the writing index, work and contact details here instead."
 >
-  <h1>Not found</h1>
-  <p>That page doesn't exist. Try <a href="/writing/">the writing index</a>.</p>
+  <section class="section notfound">
+    <div class="shell">
+      <p class="meta code">404</p>
+      <h1 class="display">Not found</h1>
+      <p class="lede">
+        That page does not exist, or it moved. The routes below cover
+        everything this site has.
+      </p>
+      <ul class="routes">
+        <li><a href="/">Home</a><span class="route-note">the short version of what this site is</span></li>
+        <li><a href="/writing/">Writing</a><span class="route-note">all essays, newest first</span></li>
+        <li><a href="/work/">Work</a><span class="route-note">open-source repositories you can inspect</span></li>
+        <li><a href="/about/">About</a><span class="route-note">what I think about and how I work</span></li>
+        <li><a href="/contact/">Contact</a><span class="route-note">email and speaking invitations</span></li>
+      </ul>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .notfound { padding-block: clamp(3rem, 2rem + 5vw, 6rem); }
+  .code { margin: 0 0 var(--space-md); }
+  .notfound h1 { margin-bottom: var(--space-md); }
+  .notfound .lede { margin: 0 0 var(--space-xl); max-width: 40ch; }
+  .routes { list-style: none; margin: 0; padding: 0; max-width: 34rem; }
+  .routes li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    padding-block: var(--space-sm);
+  }
+  .routes li + li { border-top: 1px solid var(--hairline-soft); }
+  .routes a { font-weight: 600; text-decoration: none; min-width: 5.5rem; }
+  .routes a:hover { text-decoration: underline; }
+  .route-note { color: var(--text-2); font-size: var(--step-meta); }
+</style>

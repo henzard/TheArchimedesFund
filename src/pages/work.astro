@@ -14,116 +14,221 @@ try {
 }
 if (loadError) throw loadError;
 
+// Grouped by recency, computed from the data rather than hand-picked:
+// anything pushed in the last twelve months is current work, the rest is
+// the archive. Grouping is presentation; the data itself is untouched.
+const cutoff = new Date();
+cutoff.setMonth(cutoff.getMonth() - 12);
+const active = repos.filter((r) => new Date(r.pushedAt) >= cutoff);
+const earlier = repos.filter((r) => new Date(r.pushedAt) < cutoff);
+
 function formatDate(iso) {
   return iso.slice(0, 10);
 }
+function year(iso) {
+  return iso.slice(0, 4);
+}
 ---
 <Base
-  title="Work — Henzard Kruger"
+  title="Work - Henzard Kruger"
   description="Open-source repositories, pulled live from GitHub rather than described."
 >
-  <section class="shell" aria-labelledby="work-heading">
-    <p class="meta">github.com/henzard</p>
-    <h1 id="work-heading">Work you can inspect</h1>
-    <p class="prose">
-      Repositories, pulled directly from GitHub at build time rather than
-      curated by hand &mdash; newest activity first.
-    </p>
+  <section class="section intro">
+    <div class="shell intro-grid">
+      <div>
+        <h1>Work you can inspect</h1>
+        <p class="lede">
+          Repositories, pulled directly from GitHub at build time rather than
+          curated by hand. What is here is what exists.
+        </p>
+      </div>
+      <p class="meta source-note">source: github.com/henzard</p>
+    </div>
   </section>
 
   {products.length > 0 && (
-    <section class="shell" aria-labelledby="products-heading">
-      <h2 id="products-heading">Products</h2>
-      <ul class="curated-list">
-        {products.map((item) => (
-          <li>
-            <a href={item.url}>{item.name}</a>
-            <p class="prose">{item.what}</p>
-          </li>
-        ))}
-      </ul>
+    <section class="section" aria-labelledby="products-heading">
+      <div class="shell">
+        <h2 id="products-heading">Products</h2>
+        <ul class="curated-list">
+          {products.map((item) => (
+            <li>
+              <a href={item.url}>{item.name}</a>
+              <p class="prose">{item.what}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )}
 
   {awards.length > 0 && (
-    <section class="shell" aria-labelledby="awards-heading">
-      <h2 id="awards-heading">Awards</h2>
-      <ul class="curated-list">
-        {awards.map((item) => (
-          <li>
-            <a href={item.url}>{item.name}</a>
-            <p class="prose">{item.what}</p>
-          </li>
-        ))}
-      </ul>
+    <section class="section" aria-labelledby="awards-heading">
+      <div class="shell">
+        <h2 id="awards-heading">Awards</h2>
+        <ul class="curated-list">
+          {awards.map((item) => (
+            <li>
+              <a href={item.url}>{item.name}</a>
+              <p class="prose">{item.what}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )}
 
-  <section class="shell" aria-labelledby="repos-heading">
-    <h2 id="repos-heading">Repositories</h2>
-    <ul class="repo-list">
-      {repos.map((repo) => (
-        <li class="repo">
-          <div class="repo-head">
-            <a href={repo.url} class="repo-name">{repo.name}</a>
-            <span class="meta">{formatDate(repo.pushedAt)}</span>
-          </div>
-          {repo.description && <p class="prose repo-desc">{repo.description}</p>}
-          <p class="meta repo-meta">
-            {repo.language && <span>{repo.language}</span>}
-            {repo.stars > 0 && <span>&middot; {repo.stars} &#9733;</span>}
+  {active.length > 0 && (
+    <section class="section active-section" aria-labelledby="active-heading">
+      <div class="shell">
+        <h2 id="active-heading">Active in the last year</h2>
+        <ul class="tile-grid">
+          {active.map((repo, i) => (
+            <li class={i === 0 ? 'tile tile-wide reveal' : 'tile reveal'}>
+              <h3 class="tile-name"><a href={repo.url}>{repo.name}</a></h3>
+              {repo.description && <p class="tile-desc">{repo.description}</p>}
+              <p class="meta tile-meta">
+                {repo.language && <span>{repo.language}</span>}
+                <time datetime={repo.pushedAt}>{formatDate(repo.pushedAt)}</time>
+                {repo.stars > 0 && <span>{repo.stars} &#9733;</span>}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {earlier.length > 0 && (
+    <section class="section archive-section" aria-labelledby="earlier-heading">
+      <div class="shell archive-grid">
+        <div class="archive-head">
+          <h2 id="earlier-heading">Earlier</h2>
+          <p class="archive-note">
+            Older repositories, kept public. Some are experiments, some are
+            teaching material, all are part of the record.
           </p>
-        </li>
-      ))}
-    </ul>
-  </section>
+        </div>
+        <ul class="archive-list">
+          {earlier.map((repo) => (
+            <li>
+              <a href={repo.url} class="archive-name">{repo.name}</a>
+              <span class="meta">
+                {repo.language ? `${repo.language}, ${year(repo.pushedAt)}` : year(repo.pushedAt)}
+              </span>
+              {repo.description && <p class="archive-desc">{repo.description}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 </Base>
 
 <style>
-  section + section {
-    padding-block: var(--space-xl);
-    border-top: 1px solid color-mix(in srgb, var(--slate) 25%, transparent);
+  .intro { padding-block: clamp(3rem, 2rem + 4vw, 5rem) var(--space-xl); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
+    gap: var(--space-xl);
+    align-items: end;
   }
+  .intro h1 { margin-bottom: var(--space-md); }
+  .intro .lede { margin: 0; max-width: 48ch; }
+  .source-note { margin: 0; text-align: right; }
 
-  .curated-list,
-  .repo-list {
+  .curated-list { list-style: none; margin: 0; padding: 0; max-width: var(--measure); }
+  .curated-list li { padding-block: var(--space-md); }
+  .curated-list a { font-size: var(--step-body-lg); font-weight: 600; }
+  .curated-list p { margin: var(--space-xs) 0 0; color: var(--text-2); }
+
+  /* Current work: asymmetric tiles, the newest carries more weight */
+  .active-section { border-top: 1px solid var(--hairline-soft); }
+  .tile-grid {
+    list-style: none;
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+  .tile {
+    grid-column: span 2;
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    background: var(--bg);
+    transition: border-color 140ms ease;
+  }
+  .tile:hover { border-color: var(--link); }
+  .tile-wide {
+    grid-column: span 4;
+    background: var(--surface-accent);
+    border-color: transparent;
+  }
+  .tile:nth-child(4n) { background: var(--surface); border-color: transparent; }
+  .tile-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 0 var(--space-sm);
+    overflow-wrap: anywhere;
+  }
+  .tile-name a { color: var(--text); text-decoration: none; }
+  .tile-name a:hover { color: var(--link); text-decoration: underline; }
+  .tile-wide .tile-name { font-size: 1.25rem; }
+  .tile-desc { margin: 0 0 var(--space-sm); color: var(--text-2); }
+  .tile-meta { margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-md); }
+
+  /* Archive: compact multi-column index, no hairline soup */
+  .archive-section { background: var(--surface); }
+  .archive-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .archive-head h2 { margin-bottom: var(--space-sm); }
+  .archive-note { margin: 0; color: var(--text-2); max-width: 30ch; }
+  .archive-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    max-width: var(--measure);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-xl);
   }
-
-  .curated-list li {
-    padding-block: var(--space-sm);
-    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
-  }
-  .curated-list a {
-    font-size: var(--step-body-lg);
-  }
-  .curated-list p {
-    margin: var(--space-xs) 0 0;
-  }
-
-  .repo {
-    padding-block: var(--space-md);
-    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
-  }
-  .repo-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--space-md);
-  }
-  .repo-name {
+  .archive-name {
     font-family: var(--font-mono);
-    font-size: var(--step-body-lg);
+    font-size: var(--step-meta);
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    overflow-wrap: anywhere;
   }
-  .repo-desc {
+  .archive-name:hover { color: var(--link); text-decoration: underline; }
+  .archive-list .meta { display: block; margin-top: 2px; }
+  .archive-desc {
     margin: var(--space-xs) 0 0;
+    color: var(--text-2);
+    font-size: var(--step-meta);
+    line-height: 1.5;
   }
-  .repo-meta {
-    margin: var(--space-xs) 0 0;
-    display: flex;
-    gap: var(--space-sm);
+
+  @media (max-width: 960px) {
+    .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile, .tile-wide { grid-column: span 1; }
+    .tile-wide { grid-column: span 2; }
+  }
+  @media (max-width: 860px) {
+    .intro-grid { grid-template-columns: 1fr; gap: var(--space-md); align-items: start; }
+    .source-note { text-align: left; }
+    .archive-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+    .archive-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .tile-grid { grid-template-columns: 1fr; }
+    .tile, .tile-wide { grid-column: auto; }
+    .archive-list { grid-template-columns: 1fr; }
   }
 </style>
