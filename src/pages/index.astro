@@ -1,93 +1,235 @@
 ---
 import Base from '../layouts/Base.astro';
+import SystemsDiagram from '../components/SystemsDiagram.astro';
 import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../site.js';
 
 const essays = (await getCollection('essays', ({ data }) => !data.draft)).sort(sortByDateDesc);
-const latest = essays.slice(0, 3);
+const [featured, ...rest] = essays;
+const more = rest.slice(0, 3);
+
+const pillars = [
+  {
+    name: 'AI that works in reality',
+    line: 'Architecture, operating models and engineering practice, not the demo.',
+    lead: true,
+  },
+  {
+    name: 'Enterprise transformation',
+    line: 'A system of constraints, incentives, legacy and people, never a technology swap.',
+    lead: false,
+  },
+  {
+    name: 'Systems thinking',
+    line: 'Models that explain why something works, where it breaks, and what moves when one variable does.',
+    lead: false,
+  },
+  {
+    name: 'Execution over theatre',
+    line: 'Ideas earn credibility through implementation: the decisions, the constraints, the lessons.',
+    lead: false,
+  },
+  {
+    name: 'Mentoring through complexity',
+    line: 'Explaining difficult things clearly, without dumbing them down, so judgment compounds.',
+    lead: false,
+  },
+];
 ---
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <section class="hero shell">
-    <p class="meta">AI and agentic systems &middot; enterprise modernisation &middot; systems thinking</p>
-    <h1>Strategy that survives contact with reality.</h1>
-    <p class="lede prose">
-      I work on AI and agentic systems, enterprise modernisation, and the
-      systems thinking that keeps both honest &mdash; for the CTOs, CIOs and
-      executives who have to live with the result.
-    </p>
-  </section>
-
-  <section class="shell" aria-labelledby="useful">
-    <h2 id="useful">What I am useful for</h2>
-    <div class="prose">
-      <p>
-        Making a complicated technical decision legible to the people who
-        carry its consequences, and turning it into something a team can
-        actually build.
-      </p>
+  <section class="section hero">
+    <div class="shell hero-grid">
+      <div class="hero-main rise">
+        <p class="meta hero-topics">AI and agentic systems, enterprise modernisation, systems thinking</p>
+        <h1 class="display">Strategy that survives contact with reality.</h1>
+      </div>
+      <div class="hero-side rise-2">
+        <p class="lede">
+          I write for the CTOs, CIOs and executives who have to live with the
+          result: how AI and modernisation decisions hold up once they meet a
+          real organisation.
+        </p>
+        <p><a class="btn" href="/writing/">Read the writing</a></p>
+      </div>
     </div>
   </section>
 
-  <section class="shell" aria-labelledby="proof">
-    <h2 id="proof">Work you can inspect</h2>
-    <p class="prose">Open-source repositories and systems, pulled live rather than described.</p>
-    <p><a href="/work/">See the work &rarr;</a></p>
+  <section class="section loop-section" aria-labelledby="useful">
+    <div class="shell loop-grid">
+      <div class="loop-copy reveal">
+        <h2 id="useful">What I am useful for</h2>
+        <p class="prose">
+          Making a complicated technical decision legible to the people who
+          carry its consequences, and turning it into something a team can
+          actually build. Most strategy work stops at the first arrow; the
+          interesting part is the loop back.
+        </p>
+      </div>
+      <div class="loop-visual reveal">
+        <SystemsDiagram />
+      </div>
+    </div>
   </section>
 
-  <section class="shell" aria-labelledby="writing">
-    <h2 id="writing">Writing</h2>
-    {latest.length === 0 ? (
-      <p class="prose">The first essays are on their way.</p>
-    ) : (
-      <ul class="essay-list">
-        {latest.map((essay) => (
-          <li>
-            <a href={essayUrl(essay)}>{essay.data.title}</a>
-            <span class="meta"> {essay.data.date.toISOString().slice(0, 10)}</span>
-          </li>
+  <section class="section pillars" aria-labelledby="thinking">
+    <div class="shell">
+      <h2 id="thinking">What I think about</h2>
+      <dl class="pillar-grid">
+        {pillars.map((p) => (
+          <div class={p.lead ? 'pillar pillar-lead reveal' : 'pillar reveal'}>
+            <dt>{p.name}</dt>
+            <dd>{p.line}</dd>
+          </div>
         ))}
-      </ul>
-    )}
-    <p><a href="/writing/">All writing &rarr;</a></p>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section writing" aria-labelledby="writing-h">
+    <div class="shell writing-grid">
+      <div class="writing-head">
+        <h2 id="writing-h">Writing</h2>
+        <p><a href="/writing/">All writing</a></p>
+      </div>
+      <div class="writing-body">
+        {featured ? (
+          <article class="featured reveal">
+            <p class="meta">
+              <time datetime={featured.data.date.toISOString()}>
+                {featured.data.date.toISOString().slice(0, 10)}
+              </time>
+            </p>
+            <h3><a href={essayUrl(featured)}>{featured.data.title}</a></h3>
+            <p class="lede">{featured.data.description}</p>
+          </article>
+        ) : (
+          <p class="prose">The first essays are on their way.</p>
+        )}
+        {more.length > 0 && (
+          <ul class="more-list">
+            {more.map((essay) => (
+              <li>
+                <a href={essayUrl(essay)}>{essay.data.title}</a>
+                <span class="meta">{essay.data.date.toISOString().slice(0, 10)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="work-band" aria-labelledby="proof">
+    <div class="shell work-band-inner reveal">
+      <div>
+        <h2 id="proof">Work you can inspect</h2>
+        <p class="prose">
+          Open-source repositories and systems, pulled live from GitHub at
+          build time rather than described.
+        </p>
+      </div>
+      <p><a class="btn-quiet" href="/work/">See the work</a></p>
+    </div>
   </section>
 </Base>
 
 <style>
-  .hero {
-    padding-block: var(--space-2xl) var(--space-xl);
+  /* Hero: asymmetric split, headline carries the page */
+  .hero { padding-block: clamp(3.5rem, 2rem + 6vw, 7rem) var(--section-pad); }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: var(--space-2xl);
+    align-items: end;
   }
-  .hero .meta {
-    margin: 0 0 var(--space-md);
-  }
-  .hero h1 {
-    font-size: var(--step-display);
-    max-width: 14ch;
-  }
-  .hero .lede {
-    font-size: var(--step-body-lg);
-    color: var(--slate);
-  }
+  .hero-topics { margin: 0 0 var(--space-lg); }
+  .hero-main h1 { margin: 0; max-width: 15ch; }
+  .hero-side p:first-child { margin-top: 0; }
+  .hero-side .lede { margin-block: 0 var(--space-lg); }
+  .hero-side p:last-child { margin: 0; }
 
-  section + section {
-    padding-block: var(--space-xl);
-    border-top: 1px solid color-mix(in srgb, var(--slate) 25%, transparent);
+  /* Loop: prose beside the systems diagram */
+  .loop-section { border-top: 1px solid var(--hairline-soft); }
+  .loop-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-2xl);
+    align-items: center;
   }
+  .loop-copy h2 { margin-top: 0; }
+  .loop-copy p { margin-bottom: 0; }
 
-  .essay-list {
+  /* Pillars: offset editorial grid, no cards */
+  .pillars { background: var(--surface); }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--space-xl) var(--space-2xl);
+    margin: var(--space-xl) 0 0;
+  }
+  .pillar { grid-column: span 2; }
+  .pillar-lead {
+    grid-column: span 4;
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .pillar-lead + .pillar {
+    grid-column: 5 / span 2;
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .pillar dt { font-weight: 600; font-size: var(--step-h3); letter-spacing: -0.005em; }
+  .pillar dd { margin: var(--space-sm) 0 0; color: var(--text-2); max-width: 38ch; }
+  .pillar-lead dd { max-width: 52ch; font-size: var(--step-body-lg); }
+
+  /* Writing: index-style, heading rail + featured essay */
+  .writing-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .writing-head h2 { margin-bottom: var(--space-sm); }
+  .writing-head p { margin: 0; }
+  .featured h3 { font-size: var(--step-h2); margin: var(--space-sm) 0; }
+  .featured h3 a { color: var(--text); text-decoration: none; }
+  .featured h3 a:hover { color: var(--link); text-decoration: underline; }
+  .featured .lede { margin: 0; max-width: 52ch; }
+  .featured .meta { margin: 0; }
+  .more-list {
     list-style: none;
-    margin: 0 0 var(--space-lg);
-    padding: 0;
-    max-width: var(--measure);
+    margin: var(--space-xl) 0 0;
+    padding: var(--space-lg) 0 0;
+    border-top: 1px solid var(--hairline-soft);
   }
-  .essay-list li {
+  .more-list li {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: var(--space-md);
     padding-block: var(--space-sm);
-    border-bottom: 1px solid color-mix(in srgb, var(--slate) 15%, transparent);
   }
-  .essay-list a {
-    font-size: var(--step-body-lg);
+
+  /* Work: full-width accent-washed band */
+  .work-band {
+    background: var(--surface-accent);
+    border-block: 1px solid var(--hairline-soft);
+    padding-block: var(--space-2xl);
+  }
+  .work-band-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+  }
+  .work-band h2 { margin: 0 0 var(--space-sm); }
+  .work-band .prose { margin: 0; }
+  .work-band-inner > p { margin: 0; }
+
+  @media (max-width: 860px) {
+    .hero-grid, .loop-grid, .writing-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+    .pillar-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .pillar, .pillar-lead, .pillar-lead + .pillar { grid-column: auto; border: none; padding-bottom: 0; }
   }
 </style>

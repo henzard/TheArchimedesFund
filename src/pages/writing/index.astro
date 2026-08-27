@@ -8,20 +8,83 @@ import { SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../../site.js';
 // so drafts are readable locally and never published.
 const essays = (await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true))
   .sort(sortByDateDesc);
+
+// Honest reading time: computed from the essay's actual word count at a
+// steady 200 words per minute, never estimated or hand-written.
+function readingMinutes(body) {
+  const words = String(body ?? '').trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
 ---
-<Base title="Writing — Henzard Kruger" description={SITE_DESCRIPTION}>
-  <h1>Writing</h1>
-  {essays.length === 0 && <p>No essays published yet.</p>}
-  <ul>
-    {essays.map((essay) => (
-      <li>
-        <a href={essayUrl(essay)}>{essay.data.title}</a>
-        <time datetime={essay.data.date.toISOString()}>
-          {essay.data.date.toISOString().slice(0, 10)}
-        </time>
-        <p>{essay.data.description}</p>
-      </li>
-    ))}
-  </ul>
-  <EmailCapture />
+<Base title="Writing - Henzard Kruger" description={SITE_DESCRIPTION}>
+  <section class="section intro">
+    <div class="shell">
+      <h1>Writing</h1>
+      <p class="lede">
+        Essays on AI, agentic systems, enterprise transformation and systems
+        thinking. Arguments, not announcements.
+      </p>
+    </div>
+  </section>
+
+  <section class="index-section" aria-label="All essays">
+    <div class="shell">
+      {essays.length === 0 && <p class="prose">No essays published yet.</p>}
+      <ul class="essay-index">
+        {essays.map((essay) => (
+          <li class="entry reveal">
+            <div class="entry-rail meta">
+              <time datetime={essay.data.date.toISOString()}>
+                {essay.data.date.toISOString().slice(0, 10)}
+              </time>
+              <span>{readingMinutes(essay.body)} min read</span>
+            </div>
+            <div class="entry-main">
+              <h2 class="entry-title"><a href={essayUrl(essay)}>{essay.data.title}</a></h2>
+              <p class="entry-desc">{essay.data.description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="subscribe-section" aria-labelledby="stay-heading">
+    <div class="shell">
+      <h2 id="stay-heading">Stay in touch</h2>
+      <EmailCapture />
+    </div>
+  </section>
 </Base>
+
+<style>
+  .intro { padding-block: clamp(3rem, 2rem + 4vw, 5rem) var(--space-xl); }
+  .intro h1 { margin-bottom: var(--space-md); }
+  .intro .lede { margin: 0; max-width: 44ch; }
+
+  .index-section { padding-block: var(--space-xl) var(--section-pad); }
+  .essay-index { list-style: none; margin: 0; padding: 0; }
+  .entry {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--space-md) var(--space-2xl);
+    padding-block: var(--space-xl);
+  }
+  .entry + .entry { border-top: 1px solid var(--hairline-soft); }
+  .entry-rail { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .entry-title { font-size: var(--step-h2); margin: 0 0 var(--space-sm); }
+  .entry-title a { color: var(--text); text-decoration: none; }
+  .entry-title a:hover { color: var(--link); text-decoration: underline; }
+  .entry-desc { margin: 0; color: var(--text-2); max-width: 56ch; font-size: var(--step-body-lg); }
+
+  .subscribe-section {
+    border-top: 1px solid var(--hairline-soft);
+    padding-block: var(--space-2xl);
+  }
+  .subscribe-section h2 { font-size: var(--step-h3); margin-bottom: var(--space-md); }
+
+  @media (max-width: 720px) {
+    .entry { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .entry-rail { flex-direction: row; gap: var(--space-md); }
+  }
+</style>

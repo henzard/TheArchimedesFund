@@ -1,0 +1,109 @@
+---
+// The one systems visual BRAND.md asks for: a real idea from the brand's
+// territory (the tagline as a feedback loop). Node labels are real HTML
+// text so their contrast is computable and the diagram reflows on small
+// screens; the connecting arrows are presentational inline SVG hidden
+// from assistive tech. Themes with the page in both colour schemes.
+// Content, not decoration.
+---
+<figure class="diagram">
+  <div class="d-flow">
+    <div class="d-node">
+      <strong>Strategy</strong>
+      <span class="d-sub">intent and bets</span>
+    </div>
+    <svg class="d-arrow" viewBox="0 0 40 16" aria-hidden="true" focusable="false">
+      <line x1="2" y1="8" x2="30" y2="8" />
+      <path d="M 28 3 L 36 8 L 28 13" fill="none" />
+    </svg>
+    <div class="d-node">
+      <strong>Execution</strong>
+      <span class="d-sub">teams and systems</span>
+    </div>
+    <svg class="d-arrow" viewBox="0 0 40 16" aria-hidden="true" focusable="false">
+      <line x1="2" y1="8" x2="30" y2="8" />
+      <path d="M 28 3 L 36 8 L 28 13" fill="none" />
+    </svg>
+    <div class="d-node d-heavy">
+      <strong>Reality</strong>
+      <span class="d-sub">constraints, incentives, legacy, people</span>
+    </div>
+  </div>
+  <div class="d-loop" aria-hidden="true">
+    <span class="d-loop-arrow"></span>
+  </div>
+  <p class="d-loop-label">what reality teaches revises the strategy</p>
+  <figcaption class="meta">The loop this site keeps coming back to.</figcaption>
+</figure>
+
+<style>
+  .diagram { margin: 0; }
+
+  .d-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.2fr);
+    align-items: stretch;
+    gap: var(--space-xs);
+  }
+  .d-node {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md) var(--space-sm);
+  }
+  .d-heavy { border-color: var(--text-2); }
+  .d-node strong { font-weight: 600; letter-spacing: -0.005em; }
+  .d-sub {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-2);
+  }
+
+  .d-arrow { width: 34px; align-self: center; flex-shrink: 0; }
+  .d-arrow line, .d-arrow path {
+    stroke: var(--text-2);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Feedback path: a dashed accent U from Reality back to Strategy */
+  .d-loop {
+    height: 30px;
+    margin-inline: 15% 9%;
+    border: 1.5px dashed var(--link);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    position: relative;
+  }
+  .d-loop-arrow {
+    position: absolute;
+    top: -3px;
+    left: -5px;
+    width: 8px;
+    height: 8px;
+    border-left: 1.5px solid var(--link);
+    border-top: 1.5px solid var(--link);
+    transform: rotate(45deg);
+  }
+  .d-loop-label {
+    margin: var(--space-sm) 0 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: var(--step-meta);
+    color: var(--link);
+  }
+  .diagram figcaption { margin-top: var(--space-lg); }
+
+  @media (max-width: 480px) {
+    .d-flow { grid-template-columns: 1fr; }
+    .d-arrow { transform: rotate(90deg); margin-inline: auto; }
+    .d-loop { margin-inline: 25%; }
+  }
+</style>

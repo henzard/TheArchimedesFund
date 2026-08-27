@@ -2,23 +2,94 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Prose from '../../components/Prose.astro';
+import { sortByDateDesc, essayUrl } from '../../site.js';
 
 export async function getStaticPaths() {
-  const essays = await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true);
-  return essays.map((essay) => ({ params: { slug: essay.id }, props: { essay } }));
+  const essays = (await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true))
+    .sort(sortByDateDesc);
+  // Newest-first, so "newer" is the previous element and "older" the next.
+  // With a single essay both are undefined and the pager simply disappears.
+  return essays.map((essay, i) => ({
+    params: { slug: essay.id },
+    props: { essay, newer: essays[i - 1], older: essays[i + 1] },
+  }));
 }
 
-const { essay } = Astro.props;
+const { essay, newer, older } = Astro.props;
 const { Content } = await render(essay);
+
+// Honest reading time: computed from the essay's actual word count at a
+// steady 200 words per minute, never estimated or hand-written.
+const words = String(essay.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(1, Math.round(words / 200));
 ---
-<Base title={`${essay.data.title} — Henzard Kruger`} description={essay.data.description}>
-  <article>
-    <h1>{essay.data.title}</h1>
-    <time datetime={essay.data.date.toISOString()}>
-      {essay.data.date.toISOString().slice(0, 10)}
-    </time>
-    <Prose>
-      <Content />
-    </Prose>
+<Base title={`${essay.data.title} - Henzard Kruger`} description={essay.data.description}>
+  <article class="essay">
+    <header class="section essay-header">
+      <div class="shell essay-shell">
+        <p class="crumb"><a href="/writing/">All writing</a></p>
+        <h1>{essay.data.title}</h1>
+        <p class="meta essay-meta">
+          <time datetime={essay.data.date.toISOString()}>
+            {essay.data.date.toISOString().slice(0, 10)}
+          </time>
+          <span>{minutes} min read</span>
+          {essay.data.tags.length > 0 && (
+            <span class="tags">
+              {essay.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+            </span>
+          )}
+        </p>
+      </div>
+    </header>
+    <div class="shell essay-shell essay-body">
+      <Prose>
+        <Content />
+      </Prose>
+    </div>
+    {(newer || older) && (
+      <nav class="shell essay-shell pager" aria-label="More essays">
+        {older && (
+          <p class="pager-item">
+            <span class="meta">Older</span>
+            <a href={essayUrl(older)}>{older.data.title}</a>
+          </p>
+        )}
+        {newer && (
+          <p class="pager-item pager-newer">
+            <span class="meta">Newer</span>
+            <a href={essayUrl(newer)}>{newer.data.title}</a>
+          </p>
+        )}
+      </nav>
+    )}
   </article>
 </Base>
+
+<style>
+  .essay-shell { max-width: 46rem; }
+  .essay-header { padding-block: clamp(3rem, 2rem + 4vw, 5rem) var(--space-lg); }
+  .crumb { margin: 0 0 var(--space-lg); }
+  .crumb a {
+    font-family: var(--font-mono);
+    font-size: var(--step-meta);
+    text-decoration: none;
+  }
+  .crumb a:hover { text-decoration: underline; }
+  .essay-header h1 { margin-bottom: var(--space-md); }
+  .essay-meta { display: flex; flex-wrap: wrap; gap: var(--space-md); margin: 0; }
+  .tags { display: inline-flex; gap: var(--space-sm); }
+
+  .essay-body { padding-block: var(--space-lg) var(--section-pad); }
+  .essay-body :global(.prose) { font-size: var(--step-body-lg); }
+
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding-block: var(--space-lg) var(--space-2xl);
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .pager-item { margin: 0; display: grid; gap: var(--space-xs); }
+  .pager-newer { margin-left: auto; text-align: right; }
+</style>

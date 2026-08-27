@@ -1,82 +1,134 @@
 ---
 import Base from '../layouts/Base.astro';
+
+// Copy on this page was audited for sourcing: it describes capability,
+// method and intent only. No employer, metric, credential or history.
+const pillars = [
+  {
+    name: 'AI that works in reality',
+    body: 'AI matters when it changes how real work gets done. That means paying attention to architecture, operating models, and engineering practice, not just the demo.',
+  },
+  {
+    name: 'Enterprise transformation',
+    body: 'Modernisation is not a technology swap. It is a system of constraints, incentives, legacy choices, people, and execution, and treating it as anything simpler is how transformation programmes stall.',
+  },
+  {
+    name: 'Systems thinking',
+    body: 'I try to make dependencies and trade-offs visible rather than hidden behind reassurance: the kind of model that explains why something works, where it breaks, and what changes when one variable moves.',
+  },
+  {
+    name: 'Execution over theatre',
+    body: 'A compelling idea earns credibility through implementation. I would rather show the decisions, the constraints, and what was learned than the pitch.',
+  },
+  {
+    name: 'Mentoring through complexity',
+    body: 'Knowledge compounds through people. Explaining a difficult thing clearly, without dumbing it down, is part of the work, not a separate activity from it.',
+  },
+];
 ---
 <Base
-  title="About — Henzard Kruger"
+  title="About - Henzard Kruger"
   description="AI and agentic systems, enterprise transformation, and the systems thinking that keeps both honest."
 >
-  <section class="shell" aria-labelledby="about-heading">
-    <p class="meta">About</p>
-    <h1 id="about-heading">Strategy that survives contact with reality</h1>
-    <div class="prose">
-      <p>
-        I work in the space between technology strategy and making things
-        actually happen. My territory is AI and agentic systems, enterprise
-        transformation, systems thinking, developer productivity, and the
-        work of helping people grow through complex technical change.
-      </p>
-      <p>
-        Most of that space is messy. The technology moves quickly, the
-        incentives inside a real organisation rarely line up neatly, and a
-        confident one-line answer is usually dishonest. I am more useful
-        exposing the trade-offs, testing the assumptions underneath a plan,
-        and turning the result into something a team can actually build and
-        live with &mdash; than I am producing another slide that sounds
-        impressive and changes nothing.
-      </p>
+  <section class="section intro" aria-labelledby="about-heading">
+    <div class="shell intro-grid">
+      <h1 id="about-heading">Strategy that survives contact with reality</h1>
+      <div class="prose intro-copy">
+        <p>
+          I work in the space between technology strategy and making things
+          actually happen. My territory is AI and agentic systems, enterprise
+          transformation, systems thinking, developer productivity, and the
+          work of helping people grow through complex technical change.
+        </p>
+        <p>
+          Most of that space is messy. The technology moves quickly, the
+          incentives inside a real organisation rarely line up neatly, and a
+          confident one-line answer is usually dishonest. I am more useful
+          exposing the trade-offs, testing the assumptions underneath a plan,
+          and turning the result into something a team can actually build and
+          live with. That beats producing another slide that sounds
+          impressive and changes nothing.
+        </p>
+      </div>
     </div>
   </section>
 
-  <section class="shell" aria-labelledby="territory-heading">
-    <h2 id="territory-heading">What I think about</h2>
-    <div class="prose">
-      <p>
-        <strong>AI that works in reality.</strong> AI matters when it changes
-        how real work gets done. That means paying attention to
-        architecture, operating models, and engineering practice, not just
-        the demo.
-      </p>
-      <p>
-        <strong>Enterprise transformation.</strong> Modernisation is not a
-        technology swap. It is a system of constraints, incentives, legacy
-        choices, people, and execution, and treating it as anything simpler
-        is how transformation programmes stall.
-      </p>
-      <p>
-        <strong>Systems thinking.</strong> I try to make dependencies and
-        trade-offs visible rather than hidden behind reassurance &mdash; the
-        kind of model that explains why something works, where it breaks,
-        and what changes when one variable moves.
-      </p>
-      <p>
-        <strong>Execution over theatre.</strong> A compelling idea earns
-        credibility through implementation. I would rather show the
-        decisions, the constraints, and what was learned than the pitch.
-      </p>
-      <p>
-        <strong>Mentoring through complexity.</strong> Knowledge compounds
-        through people. Explaining a difficult thing clearly, without
-        dumbing it down, is part of the work &mdash; not a separate
-        activity from it.
-      </p>
+  <section class="section territory" aria-labelledby="territory-heading">
+    <div class="shell territory-grid">
+      <h2 id="territory-heading">What I think about</h2>
+      <div class="territory-list">
+        {pillars.map((p) => (
+          <div class="territory-item reveal">
+            <h3>{p.name}</h3>
+            <p>{p.body}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="shell" aria-labelledby="how-heading">
-    <h2 id="how-heading">How I work</h2>
-    <div class="prose">
-      <p>
-        I try to separate what I know from what I am assuming, and I say
-        which is which. I would rather frame a trade-off honestly than hand
-        over a false certainty that feels better in the room. If an idea
-        sounds impressive but does not help a serious reader think or act
-        more clearly, I treat that as a sign the idea is not finished yet.
-      </p>
-      <p>
-        The writing on this site and the code linked from
-        {' '}<a href="/work/">Work</a> are the actual record of that &mdash;
-        read them rather than take my word for how I think.
-      </p>
+  <section class="section how" aria-labelledby="how-heading">
+    <div class="shell how-inner">
+      <h2 id="how-heading">How I work</h2>
+      <div class="prose how-copy">
+        <p>
+          I try to separate what I know from what I am assuming, and I say
+          which is which. I would rather frame a trade-off honestly than hand
+          over a false certainty that feels better in the room. If an idea
+          sounds impressive but does not help a serious reader think or act
+          more clearly, I treat that as a sign the idea is not finished yet.
+        </p>
+        <p>
+          The writing on this site and the code linked from
+          {' '}<a href="/work/">Work</a> are the actual record of that.
+          Read them rather than take my word for how I think.
+        </p>
+      </div>
     </div>
   </section>
 </Base>
+
+<style>
+  .intro { padding-block: clamp(3rem, 2rem + 4vw, 5.5rem) var(--section-pad); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  .intro h1 { margin: 0; max-width: 14ch; }
+  .intro-copy p:first-child { margin-top: 0; }
+  .intro-copy p:last-child { margin-bottom: 0; }
+  .intro-copy { font-size: var(--step-body-lg); }
+
+  .territory { background: var(--surface); }
+  .territory-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--space-xl) var(--space-2xl);
+    align-items: start;
+  }
+  .territory h2 { margin: 0; position: sticky; top: var(--space-lg); }
+  .territory-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xl) var(--space-2xl);
+  }
+  .territory-item:first-child { grid-column: 1 / -1; max-width: 60ch; }
+  .territory-item h3 { margin-bottom: var(--space-sm); }
+  .territory-item p { margin: 0; color: var(--text-2); }
+
+  .how-inner { max-width: 46rem; }
+  .how-copy {
+    border-inline-start: 3px solid var(--link);
+    padding-inline-start: var(--space-lg);
+  }
+  .how-copy p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 860px) {
+    .intro-grid, .territory-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .territory h2 { position: static; }
+    .territory-list { grid-template-columns: 1fr; gap: var(--space-lg); }
+    .territory-item:first-child { grid-column: auto; }
+  }
+</style>
