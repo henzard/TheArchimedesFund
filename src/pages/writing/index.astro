@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import { SITE_DESCRIPTION, sortByDateDesc, essayUrl } from '../../site.js';
@@ -40,6 +41,19 @@ function readingMinutes(body) {
               <span>{readingMinutes(essay.body)} min read</span>
             </div>
             <div class="entry-main">
+              {essay.data.hero && (
+                <a href={essayUrl(essay)} class="entry-thumb" tabindex="-1" aria-hidden="true">
+                  <Image
+                    src={essay.data.hero}
+                    alt=""
+                    width={480}
+                    height={270}
+                    sizes="(min-width: 720px) 20rem, 100vw"
+                    loading="lazy"
+                    format="avif"
+                  />
+                </a>
+              )}
               <h2 class="entry-title"><a href={essayUrl(essay)}>{essay.data.title}</a></h2>
               <p class="entry-desc">{essay.data.description}</p>
             </div>
@@ -72,6 +86,8 @@ function readingMinutes(body) {
   }
   .entry + .entry { border-top: 1px solid var(--hairline-soft); }
   .entry-rail { display: flex; flex-direction: column; gap: var(--space-xs); }
+  .entry-thumb { display: block; margin: 0 0 var(--space-md); }
+  .entry-thumb img { display: block; width: 100%; max-width: 20rem; height: auto; }
   .entry-title { font-size: var(--step-h2); margin: 0 0 var(--space-sm); }
   .entry-title a { color: var(--text); text-decoration: none; }
   .entry-title a:hover { color: var(--link); text-decoration: underline; }
