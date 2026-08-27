@@ -46,3 +46,18 @@ jobs:
             . writing 404.html rss.xml \
             --recurse --server-root dist --silent \
             --skip "^https://henzard\.co\.za"
+
+      # WCAG 2.1 AA over every built page (see .pa11yci.json), served
+      # locally from dist/ so it checks the same HTML Netlify will serve.
+      # timeout-minutes matters here: a headless-browser gate that hangs
+      # would otherwise sit until the job-level limit, and a hung gate must
+      # FAIL rather than look like it is still working.
+      - name: Accessibility gate (pa11y)
+        timeout-minutes: 10
+        run: npm run gate:a11y
+
+      # Performance/accessibility/best-practices/SEO budgets (see
+      # .lighthouserc.json), asserted as errors so a regression fails CI.
+      - name: Performance gate (Lighthouse CI)
+        timeout-minutes: 12
+        run: npm run gate:perf
