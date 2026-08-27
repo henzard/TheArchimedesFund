@@ -12,7 +12,6 @@
     "test": "node --test tests/*.test.mjs && npm run lint:prose",
     "new": "node scripts/new-essay.mjs",
     "lint:prose": "node scripts/lint-prose.mjs",
-    "refresh:github": "node scripts/refresh-github.mjs",
     "gate:a11y": "node scripts/gate-a11y.mjs",
     "gate:perf": "node scripts/gate-perf.mjs"
   },

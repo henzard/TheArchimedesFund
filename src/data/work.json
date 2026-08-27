@@ -1,0 +1,69 @@
+[
+  {
+    "name": "The AI Scientist",
+    "what": "Turns a scientific hypothesis into a structured, operationally grounded experiment plan. Took second place at the MIT Club of Northern California and MIT Club of Germany hackathon, Challenge 04.",
+    "tags": ["AI", "TypeScript"],
+    "url": "https://github.com/henzard/ai-scientist"
+  },
+  {
+    "name": "AmplifyAI",
+    "what": "An AI-powered social media content agent, entered in the same hackathon; it did not place.",
+    "tags": ["AI", "Agents"],
+    "url": null
+  },
+  {
+    "name": "AccountingV2",
+    "what": "An offline-first Android budgeting app built around envelope budgeting and debt snowball methods, with cloud sync.",
+    "tags": ["Android", "TypeScript"],
+    "url": "https://github.com/henzard/AccountingV2"
+  },
+  {
+    "name": "NASA Sky Hub",
+    "what": "A Home Assistant integration combining NASA public APIs, satellite tracking and sky visibility calculations into a glanceable view of what is overhead.",
+    "tags": ["Home Assistant", "Python"],
+    "url": "https://github.com/henzard/nasa_sky_hub"
+  },
+  {
+    "name": "Easy Equities for Home Assistant",
+    "what": "A Home Assistant integration that surfaces an Easy Equities and Satrix portfolio on a personal dashboard.",
+    "tags": ["Home Assistant", "Python"],
+    "url": "https://github.com/henzard/ha_easy_equities"
+  },
+  {
+    "name": "AI-first engineering workspace",
+    "what": "A Cursor ruleset and workspace scaffolding for spec-driven, AI-assisted development: one workflow from constitution and PRD through tasks to verification, with quality gates.",
+    "tags": ["Tooling", "AI-assisted development"],
+    "url": "https://github.com/henzard/base"
+  },
+  {
+    "name": "BibleStudy",
+    "what": "A project with two goals held together: studying scripture systematically, and learning to build agentic AI systems through real work rather than tutorials.",
+    "tags": ["Agentic AI", "Faith"],
+    "url": "https://github.com/henzard/BibleStudy"
+  },
+  {
+    "name": "AITrainingGuide",
+    "what": "A hands-on AI training course for business professionals with no coding background, covering agents and retrieval-augmented generation. Built on TypeScript, React and Firebase.",
+    "tags": ["Teaching", "TypeScript"],
+    "url": "https://github.com/Kruger-Web-Solutions/AITrainingGuide"
+  },
+  {
+    "name": "OpenClaw",
+    "what": "An open-source personal AI assistant. Not my project: I contributed 55 commits to it between March and April 2026.",
+    "tags": ["Agentic AI", "Open source"],
+    "role": "contributor",
+    "url": "https://github.com/Kruger-Web-Solutions/openclaw"
+  },
+  {
+    "name": "Weight certificate converter",
+    "what": "A Streamlit application that converts scanned weight certificate PDFs into structured JSON using OCR, with optional schema validation.",
+    "tags": ["Python", "OCR"],
+    "url": "https://github.com/henzard/calJson"
+  },
+  {
+    "name": "TruthAISwarm",
+    "what": "An exploration of a decentralised, AI-assisted approach to identifying misinformation.",
+    "tags": ["AI", "Python"],
+    "url": "https://github.com/henzard/TruthAISwarm"
+  }
+]
