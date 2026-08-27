@@ -47,3 +47,16 @@ test('contact invites speaking without implying a speaking history', () => {
   assert.match(doc, /speak/i, 'contact should invite speaking');
   assert.doesNotMatch(doc, /previous talks|past talks|speaking history/i);
 });
+
+// The bare company name is now absent from every built page: the one
+// repository carrying it is excluded from the Work page by editorial
+// decision (src/data/excluded-repos.json). That makes the strong,
+// simple check true again - so assert it, and let it fail loudly if a
+// future repository reintroduces the name while employment is still
+// unstated.
+test('the unconfirmed employer name appears nowhere on the site', () => {
+  for (const path of PAGES) {
+    const doc = readFileSync(path, 'utf8').toLowerCase();
+    assert.ok(!doc.includes('picahoo'), `${path} mentions an unconfirmed employer`);
+  }
+});
