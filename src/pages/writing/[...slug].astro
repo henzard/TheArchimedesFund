@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Prose from '../../components/Prose.astro';
 import { sortByDateDesc, essayUrl } from '../../site.js';
@@ -42,6 +43,21 @@ const minutes = Math.max(1, Math.round(words / 200));
         </p>
       </div>
     </header>
+    {essay.data.hero && (
+      <div class="shell essay-shell essay-hero">
+        <Image
+          src={essay.data.hero}
+          alt={essay.data.heroAlt}
+          width={1200}
+          height={675}
+          sizes="(min-width: 46rem) 46rem, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          format="avif"
+        />
+        <p class="meta hero-credit">{essay.data.heroCredit}</p>
+      </div>
+    )}
     <div class="shell essay-shell essay-body">
       <Prose>
         <Content />
@@ -79,6 +95,10 @@ const minutes = Math.max(1, Math.round(words / 200));
   .essay-header h1 { margin-bottom: var(--space-md); }
   .essay-meta { display: flex; flex-wrap: wrap; gap: var(--space-md); margin: 0; }
   .tags { display: inline-flex; gap: var(--space-sm); }
+
+  .essay-hero { padding-block: 0 var(--space-lg); }
+  .essay-hero img { display: block; width: 100%; height: auto; }
+  .hero-credit { margin: var(--space-sm) 0 0; }
 
   .essay-body { padding-block: var(--space-lg) var(--section-pad); }
   .essay-body :global(.prose) { font-size: var(--step-body-lg); }

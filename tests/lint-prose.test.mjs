@@ -90,3 +90,45 @@ test('the CLI linter catches banned phrasing in a nested subdirectory, matching 
     fs.rmSync(nestedDir, { recursive: true, force: true });
   }
 });
+
+// A code block containing a blank line used to split into several chunks that
+// each held no sentence, so the paragraph-spam counter mistook real technical
+// writing for LinkedIn cadence. It fired on a genuine C++ example. The fix
+// must hold in BOTH directions, so both are asserted here.
+test('a code block with blank lines is not mistaken for paragraph spam', () => {
+  const text = [
+    'Here is the shape of that loop, compressed to its essentials:',
+    '',
+    '```cpp',
+    'void loop() {',
+    '  read_sensor_window(buffer, WINDOW_SIZE);',
+    '',
+    '  float score = model_infer(buffer);',
+    '',
+    '  if (score > THRESHOLD) {',
+    '    wake_radio();',
+    '  }',
+    '}',
+    '```',
+    '',
+    'The radio is the expensive part, so it stays asleep.',
+  ].join('\n');
+  const issues = lintText(text).filter((i) => i.term === 'paragraph-spam');
+  assert.equal(issues.length, 0, 'code block was counted as prose paragraphs');
+});
+
+test('genuine one-sentence paragraph spam is still caught', () => {
+  const text = [
+    'This opening paragraph has two sentences. That resets the run.',
+    '',
+    'Growth is a mindset.',
+    '',
+    'Most people never try.',
+    '',
+    'The ones who do, win.',
+    '',
+    'That is the whole secret.',
+  ].join('\n');
+  const issues = lintText(text).filter((i) => i.term === 'paragraph-spam');
+  assert.equal(issues.length, 1, 'paragraph spam is no longer detected');
+});
