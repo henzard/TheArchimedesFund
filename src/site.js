@@ -8,6 +8,38 @@ export const SITE_TITLE = 'Henzard Kruger';
 export const SITE_DESCRIPTION =
   'Essays on AI, agentic systems, enterprise transformation and systems thinking.';
 
+// Matches astro.config.mjs `site`. Kept here too so non-Astro-page code
+// (structured data, feeds) that needs an absolute origin has one source of
+// truth instead of a second hard-coded string.
+export const SITE_URL = 'https://henzard.co.za';
+
+// Henzard's real, sourced identity links. Used in Person JSON-LD - never
+// extend this with an employer, job title or credential that isn't sourced.
+export const AUTHOR_NAME = 'Henzard Kruger';
+export const AUTHOR_SAME_AS = ['https://github.com/henzard'];
+
+// Resolves a site-relative path (or an already-absolute URL) against
+// SITE_URL, for places that need a fully-qualified URL: og:image,
+// JSON-LD, llms.txt. `site` is accepted as a param (rather than always
+// reading SITE_URL) so callers can pass Astro.site and stay consistent
+// with whatever origin Astro itself resolved canonical URLs against.
+export function absoluteUrl(pathOrUrl, site = SITE_URL) {
+  return new URL(pathOrUrl, site).href;
+}
+
+// A Person JSON-LD fragment for Henzard, reused wherever a page needs an
+// `author`. Deliberately minimal: name, url, sameAs only - see the "never
+// invent proof" rule in CLAUDE.md. No jobTitle, worksFor, award or
+// alumniOf, and no knowsAbout beyond what's asserted per-page.
+export function personJsonLd(site = SITE_URL) {
+  return {
+    '@type': 'Person',
+    name: AUTHOR_NAME,
+    url: absoluteUrl('/', site),
+    sameAs: AUTHOR_SAME_AS,
+  };
+}
+
 // Newest-first, matching how both the writing index and the RSS feed
 // present essays.
 export function sortByDateDesc(a, b) {

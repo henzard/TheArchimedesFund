@@ -1,9 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Prose from '../../components/Prose.astro';
-import { sortByDateDesc, essayUrl } from '../../site.js';
+import { sortByDateDesc, essayUrl, absoluteUrl, personJsonLd } from '../../site.js';
 
 export async function getStaticPaths() {
   const essays = (await getCollection('essays', ({ data }) => import.meta.env.PROD ? !data.draft : true))
@@ -23,8 +23,45 @@ const { Content } = await render(essay);
 // steady 200 words per minute, never estimated or hand-written.
 const words = String(essay.body ?? '').trim().split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(1, Math.round(words / 200));
+
+// og:image needs a plain absolute URL, not a Content-Collection image
+// reference, so run the hero through getImage() directly here (jpg: wider
+// social-platform support than avif for link-preview crawlers) rather than
+// reusing the <Image> the page renders below. Essays without a hero (only
+// hello-world, currently) fall back to the site default.
+const ogImageAsset = essay.data.hero
+  ? await getImage({ src: essay.data.hero, width: 1200, height: 630, format: 'jpg' })
+  : null;
+const ogImage = ogImageAsset ? absoluteUrl(ogImageAsset.src, Astro.site) : absoluteUrl('/og-default.jpg', Astro.site);
+
+const canonicalHref = absoluteUrl(essayUrl(essay), Astro.site);
+const jsonLd = [
+  {
+    '@type': 'BlogPosting',
+    headline: essay.data.title,
+    description: essay.data.description,
+    datePublished: essay.data.date.toISOString(),
+    author: personJsonLd(Astro.site),
+    image: ogImage,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalHref },
+    keywords: essay.data.tags.join(', '),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Writing', item: absoluteUrl('/writing/', Astro.site) },
+      { '@type': 'ListItem', position: 2, name: essay.data.title, item: canonicalHref },
+    ],
+  },
+];
 ---
-<Base title={`${essay.data.title} - Henzard Kruger`} description={essay.data.description}>
+<Base
+  title={`${essay.data.title} - Henzard Kruger`}
+  description={essay.data.description}
+  ogImage={ogImage}
+  ogType="article"
+  jsonLd={jsonLd}
+>
   <article class="essay">
     <header class="section essay-header">
       <div class="shell essay-shell">

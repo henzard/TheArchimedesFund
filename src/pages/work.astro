@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import projects from '../data/work.json';
+import { personJsonLd } from '../site.js';
+
+const jsonLd = [personJsonLd(Astro.site)];
 
 // Curated, static data: eight projects, described from their own READMEs.
 // Nothing on this page is fetched at build time or in the browser.
@@ -81,6 +84,7 @@ const areas = [
 <Base
   title="Work - Henzard Kruger"
   description="Eight selected projects, described by hand, with a note on the work that is not public."
+  jsonLd={jsonLd}
 >
   <section class="section intro">
     <div class="shell intro-grid">

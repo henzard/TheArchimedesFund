@@ -1,10 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import EmailCapture from '../components/EmailCapture.astro';
+import { personJsonLd } from '../site.js';
+
+const jsonLd = [personJsonLd(Astro.site)];
 ---
 <Base
   title="Contact - Henzard Kruger"
   description="Get in touch, or invite Henzard Kruger to speak on AI, agentic systems and enterprise transformation."
+  jsonLd={jsonLd}
 >
   <section class="section intro" aria-labelledby="contact-heading">
     <div class="shell contact-grid">

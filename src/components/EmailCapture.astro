@@ -8,11 +8,28 @@ import { BUTTONDOWN_USER } from '../site.js';
 const endpoint = BUTTONDOWN_USER
   ? `https://buttondown.email/api/emails/embed-subscribe/${BUTTONDOWN_USER}`
   : null;
+
+// Which page rendered the form, for the server's own throttle/analysis -
+// not user-facing.
+const source = Astro.url.pathname;
 ---
 {endpoint ? (
   <form action={endpoint} method="post" target="_blank" class="subscribe">
     <label for="bd-email">Get new essays by email</label>
     <input id="bd-email" type="email" name="email" required autocomplete="email" />
+    {/*
+      Honeypot: a field named "website" that a human never sees or reaches,
+      but a naive bot filling every field will. Hidden with CSS (not
+      type="hidden", which unsophisticated bots skip) and pulled out of
+      both the visual layout and the tab order and accessibility tree, so
+      it is invisible and unreachable for sighted users, screen-reader
+      users and keyboard users alike - not just visually hidden.
+    */}
+    <div class="hp-field" aria-hidden="true">
+      <label for="bd-website">Website</label>
+      <input id="bd-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="source" value={source} />
     <button type="submit">Subscribe</button>
     <p class="meta">No spam. Unsubscribe in one click.</p>
   </form>
@@ -61,5 +78,18 @@ const endpoint = BUTTONDOWN_USER
   }
   .subscribe .meta {
     margin: 0;
+  }
+
+  /* Honeypot: hidden with CSS, not type="hidden" - a naive bot script that
+     only skips type="hidden" inputs still fills this one in, which is the
+     point. Combined with aria-hidden + tabindex="-1" in the markup, no
+     real visitor (sighted, screen-reader or keyboard) can reach or see it. */
+  .hp-field {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 </style>
