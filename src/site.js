@@ -59,4 +59,11 @@ export function essayUrl(essay) {
 // shipping a form that posts to a non-existent endpoint is worse than
 // shipping no form. Setting this to the confirmed username is the only
 // change needed to switch capture on; see src/components/EmailCapture.astro.
-export const BUTTONDOWN_USER = null;
+// Newsletter capture posts to Henzard's own personal-os server rather than
+// a third-party newsletter provider, so the list lives on infrastructure he
+// controls. A plain form post is a navigation, not a fetch, so this needs no
+// JavaScript and no CORS. The server replies with a 303 back to /subscribed/.
+//
+// Swapping to a hosted provider later is a one-line change here.
+export const SUBSCRIBE_ENDPOINT =
+  'https://personal-os-production-b126.up.railway.app/subscribe';
