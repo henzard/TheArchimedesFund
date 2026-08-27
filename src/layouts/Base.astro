@@ -1,13 +1,25 @@
 ---
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/base.css';
-import { SITE_TITLE } from '../site.js';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../site.js';
 
 interface Props { title: string; description?: string; }
 const { title, description } = Astro.props;
 const year = new Date().getFullYear();
+
+// Wayfinding: the wordmark covers Home, so the nav lists the sections and
+// marks the one the reader is inside via aria-current + a visible treatment.
+const nav = [
+  { href: '/writing/', label: 'Writing' },
+  { href: '/work/', label: 'Work' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
 ---
 <!doctype html>
 <html lang="en">
@@ -16,24 +28,52 @@ const year = new Date().getFullYear();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f8f6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#12161d" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <header class="shell">
-      <nav aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/writing/">Writing</a>
-        <a href="/work/">Work</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
+    <header class="site-header">
+      <div class="shell header-row">
+        <a class="wordmark" href="/" aria-label={`${SITE_TITLE}, home`}>{SITE_TITLE}</a>
+        <nav aria-label="Primary" class="site-nav">
+          {nav.map((item) => (
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </div>
     </header>
-    <main id="main" class="shell"><slot /></main>
-    <footer class="shell meta">
-      <p>&copy; {year} {SITE_TITLE}</p>
-      <p><a href="/rss.xml">RSS</a></p>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <p class="footer-name">{SITE_TITLE}</p>
+          <p class="footer-line">{SITE_DESCRIPTION}</p>
+        </div>
+        <nav aria-label="Footer">
+          <p class="footer-heading">explore</p>
+          <ul class="footer-list">
+            {nav.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <div>
+          <p class="footer-heading">follow</p>
+          <ul class="footer-list">
+            <li><a href="/rss.xml">RSS feed</a></li>
+            <li><a href="https://github.com/henzard">GitHub</a></li>
+            <li><a href="mailto:henzardkruger@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="shell footer-bottom">
+        <p class="meta">&copy; {year} {SITE_TITLE}</p>
+      </div>
     </footer>
   </body>
 </html>

@@ -1,0 +1,86 @@
+---
+// The one systems visual BRAND.md asks for: a real idea from the brand's
+// territory (the tagline as a feedback loop), drawn as an inline SVG so it
+// themes with the page in both colour schemes. Content, not decoration.
+---
+<figure class="diagram">
+  <svg
+    viewBox="0 0 640 250"
+    role="img"
+    aria-labelledby="sd-title sd-desc"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <title id="sd-title">Strategy as a feedback loop</title>
+    <desc id="sd-desc">
+      Three connected stages: strategy leads to execution, execution meets
+      reality, and what reality teaches feeds back to revise the strategy.
+    </desc>
+    <defs>
+      <marker id="sd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1 L 9 5 L 0 9" fill="none" class="edge-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </marker>
+      <marker id="sd-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 1 L 9 5 L 0 9" fill="none" class="loop-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </marker>
+    </defs>
+
+    <!-- Strategy -->
+    <rect x="14" y="52" width="164" height="72" rx="4" class="node" />
+    <text x="96" y="83" text-anchor="middle" class="label">Strategy</text>
+    <text x="96" y="104" text-anchor="middle" class="sub">intent and bets</text>
+
+    <!-- Execution -->
+    <rect x="238" y="52" width="164" height="72" rx="4" class="node" />
+    <text x="320" y="83" text-anchor="middle" class="label">Execution</text>
+    <text x="320" y="104" text-anchor="middle" class="sub">teams and systems</text>
+
+    <!-- Reality -->
+    <rect x="462" y="40" width="164" height="96" rx="4" class="node node-heavy" />
+    <text x="544" y="72" text-anchor="middle" class="label">Reality</text>
+    <text x="544" y="93" text-anchor="middle" class="sub">constraints, incentives</text>
+    <text x="544" y="110" text-anchor="middle" class="sub">legacy, people</text>
+
+    <!-- Forward edges -->
+    <line x1="178" y1="88" x2="230" y2="88" class="edge-stroke edge" marker-end="url(#sd-arrow)" />
+    <line x1="402" y1="88" x2="454" y2="88" class="edge-stroke edge" marker-end="url(#sd-arrow)" />
+
+    <!-- Feedback loop: the part most strategies skip -->
+    <path
+      d="M 544 136 L 544 196 L 96 196 L 96 132"
+      fill="none"
+      class="loop-stroke loop"
+      marker-end="url(#sd-arrow-accent)"
+    />
+    <text x="320" y="216" text-anchor="middle" class="sub loop-label">what reality teaches revises the strategy</text>
+  </svg>
+  <figcaption class="meta">The loop this site keeps coming back to.</figcaption>
+</figure>
+
+<style>
+  .diagram { margin: 0; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram figcaption { margin-top: var(--space-sm); }
+
+  .node {
+    fill: var(--surface);
+    stroke: var(--hairline);
+    stroke-width: 1;
+  }
+  .node-heavy { stroke: var(--text-2); }
+  .label {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 17px;
+    fill: var(--text);
+  }
+  .sub {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    fill: var(--text-2);
+  }
+  .edge, .edge-stroke { stroke: var(--text-2); }
+  .edge { stroke-width: 1.4; }
+  .loop, .loop-stroke { stroke: var(--link); }
+  .loop { stroke-width: 1.6; stroke-dasharray: 5 5; }
+  .loop-label { fill: var(--link); }
+</style>

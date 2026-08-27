@@ -1,18 +1,34 @@
 /* Approved identity primitives - brand/BRAND.md, approved 2026-08-26.
    Changing a colour or family here is a brand decision, not a tweak. */
 :root {
+  color-scheme: light dark;
+
+  /* Brand primitives (mode-independent names) */
   --ink: #111827;
   --slate: #52606d;
   --accent: #0e7490;
   --ground: #f7f8f6;
   --on-accent: #ffffff;
 
+  /* Semantic roles, light mode */
+  --bg: var(--ground);
+  --text: var(--ink);
+  --text-2: var(--slate);
+  --link: var(--accent);
+  --focus: var(--accent);
+  --surface: #eef0ec;                 /* one step below ground, same warm family */
+  --surface-accent: #e2ecee;          /* faint wash of the accent family */
+  --hairline: color-mix(in srgb, var(--slate) 24%, transparent);
+  --hairline-soft: color-mix(in srgb, var(--slate) 14%, transparent);
+  --code-bg: #edefeb;
+
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
 
-  --step-display: clamp(2.75rem, 6vw, 5rem);
-  --step-h1: clamp(2rem, 4vw, 3.5rem);
-  --step-h2: clamp(1.5rem, 2.5vw, 2.25rem);
+  --step-display: clamp(2.625rem, 1rem + 5.5vw, 5rem);
+  --step-h1: clamp(2.125rem, 1.25rem + 3vw, 3.5rem);
+  --step-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  --step-h3: 1.25rem;
   --step-body-lg: 1.125rem;
   --step-body: 1rem;
   --step-meta: 0.8125rem;
@@ -20,7 +36,33 @@
   --space-xs: 4px;  --space-sm: 8px;  --space-md: 16px;
   --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px;
 
+  /* Section rhythm: airy, editorial (VISUAL_DENSITY 3) */
+  --section-pad: clamp(3.5rem, 2rem + 6vw, 6.5rem);
+
   --radius-sm: 4px; --radius-md: 10px; --radius-lg: 18px;
 
-  --measure: 68ch;
+  --shell: 1160px;
+  --measure: 66ch;
+}
+
+/* Dark mode. The brand teal #0e7490 measures roughly 2.8:1 against a dark
+   ground, which fails WCAG AA for text, so links and focus use a LIGHTENED
+   TINT OF THE SAME HUE: #0e7490 is hsl(193 82% 31%); raising lightness to
+   62% and easing saturation to 62% gives #62c0da (about 8.5:1 on --bg).
+   This is a documented usage adjustment of the approved accent, not a new
+   brand colour. Filled accent surfaces (buttons) keep #0e7490 with white
+   text, which passes on its own background in either mode. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161d;                    /* near-black from the ink family, never pure black */
+    --text: #e9ebe7;                  /* warm near-white mirroring the light ground */
+    --text-2: #9aa6b0;                /* slate, lightened for contrast */
+    --link: #62c0da;                  /* accent tint, same hue as #0e7490 - see note above */
+    --focus: #62c0da;
+    --surface: #181d26;
+    --surface-accent: #14222a;        /* faint wash of the accent family, dark variant */
+    --hairline: color-mix(in srgb, #9aa6b0 26%, transparent);
+    --hairline-soft: color-mix(in srgb, #9aa6b0 15%, transparent);
+    --code-bg: #1a1f28;
+  }
 }
