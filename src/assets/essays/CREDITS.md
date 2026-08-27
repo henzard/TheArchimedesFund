@@ -1,7 +1,7 @@
 # Hero image credits
 
 All images from Unsplash, used under the Unsplash License (free for commercial
-use, no attribution legally required — attribution given anyway as a courtesy
+use, no attribution legally required - attribution given anyway as a courtesy
 and shown visibly on each essay page).
 
 | File | Topic | Photographer | Source |
