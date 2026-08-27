@@ -64,9 +64,22 @@ export function lintText(text) {
 
   // Four or more consecutive single-sentence paragraphs reads as LinkedIn
   // cadence rather than an argument.
-  const paragraphs = String(text).split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  //
+  // Only PROSE counts. Fenced code blocks are stripped first: a code block
+  // containing a blank line splits into several chunks that each hold no
+  // sentence, and the run counter cannot tell those from staccato writing.
+  // Left unfixed this fires on any technical essay that shows real code -
+  // exactly the writing this site exists for. It did: a C++ example tripped
+  // it while the prose around it was fine.
+  //
+  // Headings, list items, tables and quotes are skipped for the same reason:
+  // they are structure, not paragraphs, and legitimately carry one sentence.
+  const withoutCode = String(text).replace(/^```[\s\S]*?^```/gm, '');
+  const isProse = (p) => !/^(#{1,6}\s|[-*+]\s|\d+\.\s|>|\||```)/.test(p);
+  const paragraphs = withoutCode.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   let run = 0;
   for (const p of paragraphs) {
+    if (!isProse(p)) { run = 0; continue; }
     const sentences = p.split(/[.!?](\s|$)/).filter((s) => s && s.trim().length > 1);
     run = sentences.length <= 1 ? run + 1 : 0;
     if (run >= 4) {
