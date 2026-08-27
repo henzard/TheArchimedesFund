@@ -1,0 +1,65 @@
+---
+// Renders the real Buttondown embed-subscribe form only once BUTTONDOWN_USER
+// is confirmed and set (see src/site.js). Until then it renders an honest
+// fallback pointing at the RSS feed — a broken subscribe button on launch
+// day is worse than no subscribe button at all.
+import { BUTTONDOWN_USER } from '../site.js';
+
+const endpoint = BUTTONDOWN_USER
+  ? `https://buttondown.email/api/emails/embed-subscribe/${BUTTONDOWN_USER}`
+  : null;
+---
+{endpoint ? (
+  <form action={endpoint} method="post" target="_blank" class="subscribe">
+    <label for="bd-email">Get new essays by email</label>
+    <input id="bd-email" type="email" name="email" required autocomplete="email" />
+    <button type="submit">Subscribe</button>
+    <p class="meta">No spam. Unsubscribe in one click.</p>
+  </form>
+) : (
+  <p class="prose subscribe-fallback">
+    Email capture isn&rsquo;t wired up yet. In the meantime,
+    {' '}<a href="/rss.xml">follow new essays over RSS</a>.
+  </p>
+)}
+
+<style>
+  .subscribe {
+    display: grid;
+    gap: var(--space-sm);
+    max-width: var(--measure);
+  }
+  .subscribe label {
+    font-family: var(--font-mono);
+    font-size: var(--step-meta);
+    color: var(--slate);
+  }
+  .subscribe input {
+    font: inherit;
+    padding: var(--space-sm);
+    border: 1px solid color-mix(in srgb, var(--slate) 40%, transparent);
+    border-radius: var(--radius-sm);
+    background: var(--ground);
+    color: var(--ink);
+  }
+  .subscribe input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .subscribe button {
+    justify-self: start;
+    font: inherit;
+    padding: var(--space-sm) var(--space-lg);
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--on-accent);
+    cursor: pointer;
+  }
+  .subscribe button:hover {
+    text-decoration: underline;
+  }
+  .subscribe .meta {
+    margin: 0;
+  }
+</style>

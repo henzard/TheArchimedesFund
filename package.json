@@ -1,11 +1,31 @@
 {
-  "name": "archimedes-fund-backend",
-  "version": "1.0.0",
-  "description": "Backend functions for The Archimedes Fund",
+  "name": "henzard-co-za",
   "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/*.test.mjs && npm run lint:prose",
+    "new": "node scripts/new-essay.mjs",
+    "lint:prose": "node scripts/lint-prose.mjs",
+    "refresh:github": "node scripts/refresh-github.mjs",
+    "gate:a11y": "node scripts/gate-a11y.mjs",
+    "gate:perf": "node scripts/gate-perf.mjs"
+  },
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2"
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "astro": "7.2.6"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "http-server": "^14.1.1",
+    "pa11y-ci": "^4.1.1"
   }
 }
