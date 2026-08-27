@@ -19,7 +19,7 @@ import EmailCapture from '../components/EmailCapture.astro';
           <span class="meta">henzardkruger@gmail.com</span>
         </p>
       </div>
-      <div class="speaking" aria-labelledby="speaking-heading">
+      <section class="speaking" aria-labelledby="speaking-heading">
         <h2 id="speaking-heading">Speaking</h2>
         <p>
           I would speak on any of the topics I write about here: AI and
@@ -30,11 +30,11 @@ import EmailCapture from '../components/EmailCapture.astro';
           change. If one of those fits your event, email me and we can talk
           about the specifics.
         </p>
-      </div>
+      </section>
     </div>
   </section>
 
-  <section class="section subscribe" aria-labelledby="subscribe-heading">
+  <section class="subscribe" aria-labelledby="subscribe-heading">
     <div class="shell">
       <h2 id="subscribe-heading">Stay in touch</h2>
       <EmailCapture />
@@ -61,8 +61,8 @@ import EmailCapture from '../components/EmailCapture.astro';
   .speaking h2 { font-size: var(--step-h3); margin-bottom: var(--space-sm); }
   .speaking p { margin: 0; color: var(--text-2); max-width: 48ch; }
 
-  .subscribe { background: var(--surface); }
-  .subscribe h2 { margin-bottom: var(--space-lg); }
+  .subscribe { background: var(--surface); padding-block: var(--space-2xl); }
+  .subscribe h2 { font-size: var(--step-h2); margin-bottom: var(--space-md); }
 
   @media (max-width: 860px) {
     .contact-grid { grid-template-columns: 1fr; gap: var(--space-xl); }

@@ -213,6 +213,10 @@ function year(iso) {
     color: var(--text-2);
     font-size: var(--step-meta);
     line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   @media (max-width: 960px) {

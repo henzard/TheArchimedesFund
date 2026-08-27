@@ -49,8 +49,9 @@ function readingMinutes(body) {
     </div>
   </section>
 
-  <section class="section subscribe-section" aria-label="Stay in touch">
+  <section class="subscribe-section" aria-labelledby="stay-heading">
     <div class="shell">
+      <h2 id="stay-heading">Stay in touch</h2>
       <EmailCapture />
     </div>
   </section>
@@ -76,7 +77,11 @@ function readingMinutes(body) {
   .entry-title a:hover { color: var(--link); text-decoration: underline; }
   .entry-desc { margin: 0; color: var(--text-2); max-width: 56ch; font-size: var(--step-body-lg); }
 
-  .subscribe-section { border-top: 1px solid var(--hairline-soft); }
+  .subscribe-section {
+    border-top: 1px solid var(--hairline-soft);
+    padding-block: var(--space-2xl);
+  }
+  .subscribe-section h2 { font-size: var(--step-h3); margin-bottom: var(--space-md); }
 
   @media (max-width: 720px) {
     .entry { grid-template-columns: 1fr; gap: var(--space-sm); }
